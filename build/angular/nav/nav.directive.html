@@ -1,0 +1,33 @@
+<header class="toolbar toolbar-header">
+  <h1 class="title">Header with actions</h1>
+
+  <div class="toolbar-actions">
+    <div class="btn-group nav-button">
+      <button ng-click="loginClick()" ng-class="active === 'Login' ? 'active btn btn-detail' : 'btn btn-default'">
+        <span class="icon icon-home icon-text"></span>
+        Logins
+      </button>
+      <button ng-click="creditCardClick()" ng-class="active === 'Credit Card' ? 'active btn btn-detail' : 'btn btn-default'">
+        <span class="icon icon-folder icon-text"></span>
+        Credit Cards
+      </button>
+      <button ng-click="identityClick()" ng-class="active === 'Identity' ? 'active btn btn-detail' : 'btn btn-default'">
+        <span class="icon icon-cloud icon-text"></span>
+        Identity
+      </button>
+      <button ng-click="notesClick()" ng-class="active === 'Notes' ? 'active btn btn-detail' : 'btn btn-default'">
+        <span class="icon icon-popup icon-text"></span>
+        Notes
+      </button>
+    </div>
+
+    <button class="btn btn-default">
+      <span class="icon icon-home icon-text"></span>
+      Filters
+    </button>
+
+    <button class="btn btn-default btn-dropdown pull-right">
+      <span class="icon icon-megaphone"></span>
+    </button>
+  </div>
+</header>
