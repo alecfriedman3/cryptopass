@@ -46,7 +46,7 @@ describe('Encrypting and Decrypting Files', function (){
   				}
   			}
   		}
-  		fileName = 'test.txt';
+  		fileName = 'data.txt';
   		masterPswd = "helloMyNameIsDoge"
   		secret = fs.readFileSync(__dirname + '/secret1.txt').toString()
       fs.writeFileSync(__dirname + '/secret2.txt', encrypt(secret, masterPswd));
@@ -58,15 +58,21 @@ describe('Encrypting and Decrypting Files', function (){
     })
 
   	it('should write to the filesystem', function (){
-  		encryptFile(data, fileName, masterPswd)
+  		encryptFile(data, masterPswd)
   		expect(fs.readFileSync(__dirname + '/' + fileName)).to.be.ok
   	})
 
   	it('should encrypt the information', function (){
-  		encryptFile(data, fileName, masterPswd);
+  		encryptFile(data, masterPswd);
   		var enData = fs.readFileSync(__dirname + '/' + fileName).toString()
   		var decrypted = decrypt(enData, masterPswd);
   		var newData = JSON.parse(decrypted);
+  		expect(newData).to.deep.equal(data)
+  	})
+
+  	it('should decrypt encrypted information', function (){
+  		encryptFile(data, masterPswd);
+  		var newData = decryptFile(masterPswd)
   		expect(newData).to.deep.equal(data)
   	})
 

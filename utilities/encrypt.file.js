@@ -19,12 +19,18 @@ fileWriter.validate = function (masterPw) {
   return check === secret;
 }
 
-fileWriter.encryptFile = function (data, fileName, masterPswd) {
-
-	if (!fileWriter.validate(masterPswd)) throw new Error('Incorrect Master Password');
+fileWriter.encryptFile = function (data, masterPswd) {
+	// upon exiting application, encrypt data and write to file
 	var encrypted = encrypt(JSON.stringify(data), masterPswd)
-	fs.writeFileSync(__dirname + '/' + fileName, encrypted)
+	fs.writeFileSync(__dirname + '/data.txt', encrypted)
 
 }
 
-fileWriter.decryptFile = function () {}
+fileWriter.decryptFile = function (masterPswd) {
+
+	if (!fileWriter.validate(masterPswd)) throw new Error('Incorrect Master Password');
+	var encrypted = fs.readFileSync(__dirname + '/data.txt').toString()
+	var decrypted = decrypt(encrypted, masterPswd)
+	return JSON.parse(decrypted)
+
+}
