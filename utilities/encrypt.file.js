@@ -13,7 +13,6 @@ fileWriter.validate = function (masterPw) {
   try {
     var check = decrypt(enSecret, masterPw);
   } catch (error) {
-  	// console.error(error)
     return false;
   }
   return check === secret;
@@ -33,4 +32,10 @@ fileWriter.decryptFile = function (masterPswd) {
 	var decrypted = decrypt(encrypted, masterPswd)
 	return JSON.parse(decrypted)
 
+}
+
+fileWriter.generateSecret = function (masterPswd) {
+  var secret = fs.readFileSync(__dirname + '/secret1.txt').toString();
+  var encrypted = encrypt(secret, masterPswd);
+  fs.writeFileSync(__dirname+"/secret2.txt", encrypted);
 }

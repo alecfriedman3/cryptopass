@@ -4,6 +4,7 @@ let fileWriter = require('./encrypt.file.js');
 let validate = fileWriter.validate;
 let encryptFile = fileWriter.encryptFile;
 let decryptFile = fileWriter.decryptFile;
+let generateSecret = fileWriter.generateSecret;
 let utils = require('./encrypt.utility.js');
 let encrypt = utils.encrypt
 let decrypt = utils.decrypt
@@ -75,6 +76,27 @@ describe('Encrypting and Decrypting Files', function (){
   		var newData = decryptFile(masterPswd)
   		expect(newData).to.deep.equal(data)
   	})
+
+  })
+
+  describe('Secret Generator', function () {
+
+    var masterPassword = "WhateverWeWant"
+
+    afterEach('delete encrypted secret', function () {
+      fs.unlinkSync(__dirname + '/secret2.txt');
+    })
+
+    it('should write to the filesystem', function () {
+      generateSecret(masterPassword);
+      expect(fs.readFileSync(__dirname+'/secret2.txt')).to.be.ok;
+    })
+
+    it('should encrypt the secret', function () {
+      generateSecret(masterPassword);
+      var encrypted = fs.readFileSync(__dirname + "/secret2.txt").toString();
+      expect(decrypt(encrypted, masterPassword)).to.be.equal(fs.readFileSync(__dirname+'/secret1.txt').toString());
+    })
 
   })
 
