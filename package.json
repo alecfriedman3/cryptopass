@@ -17,9 +17,7 @@
   "scripts": {
     "test": "mocha ./**/*.test.js",
     "build": "export NODE_ENV='production'; electron-packager . $npm_package_productName --out=dist --ignore='^/dist$' --prune --asar --all --version=$npm_package_electronVersion",
-    "build-sass": "node-sass --include-path src/styles --source-map index.map src/styles/index.scss index.css",
-    "watch-sass": "nodemon -e scss -x \"npm run build-sass\"",
-    "start": "export NODE_ENV='dev'; electron . & webpack --watch --progress --colors --output-source-map-file & npm run watch-sass"
+    "start": "export NODE_ENV='dev'; electron ."
   },
   "files": [
     "index.js",
@@ -33,10 +31,10 @@
     "angular": "^1.5.8",
     "angular-ui-router": "^0.3.1",
     "babel-preset-es2015": "^6.13.2",
-    "electron-debug": "^0.2.1",
-    "gulp": "^3.9.1",
     "chalk": "^1.1.3",
-    "electron-debug": "^0.2.1"
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.3.2"
   },
   "devDependencies": {
     "babel-core": "^5.8.25",
@@ -45,7 +43,7 @@
     "browser-sync-webpack-plugin": "^1.0.0",
     "css-loader": "^0.19.0",
     "electron-packager": "^5.0.0",
-    "electron-prebuilt": "^0.34.0",
+    "electron-prebuilt": "^1.2.0",
     "gulp-babel": "^6.1.2",
     "gulp-concat": "^2.6.0",
     "gulp-eslint": "^3.0.1",
@@ -56,12 +54,7 @@
     "nodemon": "^1.7.0",
     "run-sequence": "^1.2.2",
     "chai": "^3.5.0",
-    "css-loader": "^0.19.0",
-    "electron-packager": "^5.0.0",
-    "electron-prebuilt": "^0.34.0",
     "mocha": "^3.0.2",
-    "node-sass": "^3.3.3",
-    "nodemon": "^1.7.0",
     "sass-loader": "^2.0.1",
     "style-loader": "^0.12.4",
     "webpack": "^1.12.2",
