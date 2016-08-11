@@ -14,22 +14,82 @@
       <!-- Your app's content goes inside .window-content -->
       <div class="window-content">
 
-        <div class="pane-group">
-          <div class="pane pane-sm sidebar" ng-show="shown" ng-controller="sidebarController">
-            <nav class="nav-group">
-              <h5 class="nav-group-title">Categories</h5>
-								<sidebar-item model="item" ng-repeat="item in items"></sidebar-item>
-
-            </nav>
-          </div>
-
-          <div class="pane">
-            <ui-view></ui-view>
-          </div>
-        </div>
+				<ui-view></ui-view>
       </div>
     </div>
-
+    <script>var masterObj = {
+  login: [
+    {
+      name: 'Facebook',
+      username: 'elliottmcnary@gmail.com',
+      password: 'test1234',
+      id: 1
+    },{
+      name: 'Twitter',
+      username: 'elliottmcnary@gmail.com',
+      password: 'twitterPass',
+      id: 2
+    },{
+      name: 'Quora',
+      username: 'elliottmcnary@gmail.com',
+      password: 'testingPass',
+      id: 3
+    },{
+      name: 'Chase',
+      username: 'elliottmcnary@gmail.com',
+      password: '3203242Elliott',
+      id: 4
+    },{
+      name: 'Wells Fargo',
+      username: 'elliottmcnary@gmail.com',
+      password: 'blah5302',
+      id: 5
+    },
+  ],
+  creditCard: [
+    {
+      name: 'Chase Saphire Preferred',
+      cardNumber: '4444 3839 3020 2010',
+      ccv: '439',
+      expiration: '12/2019',
+      firstName: 'Elliott',
+      lastName: 'McNary',
+      type: 'Visa',
+      id: 1
+    },{
+      name: 'Capital One Venture',
+      cardNumber: '4444 3239 3020 2010',
+      ccv: '342',
+      expiration: '12/2018',
+      firstName: 'Elliott',
+      lastName: 'McNary',
+      type: 'Visa',
+      id: 2
+    }
+  ],
+  identity: [
+    {
+      name: 'Social Security',
+      data: 'Number: 548 29 3039',
+      id: 1
+    },{
+      name: 'NSA Access Card',
+      data: 'Badge Number: 3402349342',
+      id: 2
+    }
+  ],
+  note: [
+    {
+      name: 'Sensitive Note',
+      data: 'Today I did something very bad and I don\'t want people to know about it.',
+      id: 1
+    },{
+      name: 'Dear Diary - 1/31',
+      data: 'I kissed a girl and I liked it',
+      id: 2
+    }
+  ]
+};</script>
 		<script type="text/javascript" src="node_modules/angular/angular.js"></script>
 		<script type="text/javascript" src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
 		<script type="text/javascript" src="build/public/main.js"></script>
