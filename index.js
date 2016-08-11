@@ -9,9 +9,9 @@ require('crash-reporter').start();
 require('electron-debug')();
 var indexFile = `${__dirname}/index.html`;
 
-if (process.env['NODE_ENV'] == 'dev') {
-	indexFile = "http://localhost:9999";
-}
+// if (process.env['NODE_ENV'] == 'dev') {
+// 	indexFile = "http://localhost:9999";
+// }
 
 
 // prevent window being garbage collected
@@ -25,17 +25,18 @@ function onClosed() {
 
 function createMainWindow() {
 	const win = new BrowserWindow({
-		width: 600,
-		height: 400,
-		'title-bar-style': 'hidden'	
+		width: 1000,
+		height: 600,
+		'title-bar-style': 'hidden'
 	});
 
 	if (process.env['NODE_ENV'] == 'dev') {
-		// we need to wait until browsersync is ready
-		setTimeout(function() {
-			win.loadUrl(indexFile);
-		}, 5000);
-	} else {
+	//TURNED OFF BROWSERSYNC DUE TO SECURITY ISSUE RE ACCESSING APP IN LOCALHOST
+	// we need to wait until browsersync is ready
+	// 	setTimeout(function() {
+	// 		win.loadUrl(indexFile);
+	// 	}, 5000);
+	// } else {
 		win.loadUrl(`file:${indexFile}`);
 	}
 
