@@ -7,23 +7,28 @@ var dataObj = {
     {
       name: 'Facebook',
       username: 'elliottmcnary@gmail.com',
-      password: 'test1234'
+      password: 'test1234',
+      id: 1
     },{
       name: 'Twitter',
       username: 'elliottmcnary@gmail.com',
-      password: 'twitterPass'
+      password: 'twitterPass',
+      id: 2
     },{
       name: 'Quora',
       username: 'elliottmcnary@gmail.com',
-      password: 'testingPass'
+      password: 'testingPass',
+      id: 3
     },{
       name: 'Chase',
       username: 'elliottmcnary@gmail.com',
-      password: '3203242Elliott'
+      password: '3203242Elliott',
+      id: 4
     },{
       name: 'Wells Fargo',
       username: 'elliottmcnary@gmail.com',
-      password: 'blah5302'
+      password: 'blah5302',
+      id: 5
     },
   ],
   creditCard: [
@@ -34,7 +39,8 @@ var dataObj = {
       expiration: '12/2019',
       firstName: 'Elliott',
       lastName: 'McNary',
-      type: 'Visa'
+      type: 'Visa',
+      id: 1
     },{
       name: 'Capital One Venture',
       cardNumber: '4444 3239 3020 2010',
@@ -42,25 +48,30 @@ var dataObj = {
       expiration: '12/2018',
       firstName: 'Elliott',
       lastName: 'McNary',
-      type: 'Visa'
+      type: 'Visa',
+      id: 2
     }
   ],
   identity: [
     {
       name: 'Social Security',
-      data: 'Number: 548 29 3039'
+      data: 'Number: 548 29 3039',
+      id: 1
     },{
       name: 'NSA Access Card',
-      data: 'Badge Number: 3402349342'
+      data: 'Badge Number: 3402349342',
+      id: 2
     }
   ],
   note: [
     {
       name: 'Sensitive Note',
-      data: 'Today I did something very bad and I don\'t want people to know about it.'
+      data: 'Today I did something very bad and I don\'t want people to know about it.',
+      id: 1
     },{
       name: 'Dear Diary - 1/31',
-      data: 'I kissed a girl and I liked it'
+      data: 'I kissed a girl and I liked it',
+      id: 2
     }
   ]
 };
