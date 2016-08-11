@@ -9,13 +9,14 @@
 		<div class="window">
 
       <!-- .toolbar-header sits at the top of your app -->
-			<nav-bar></nav-bar>
-
+			<header class="toolbar toolbar-header">
+  			<h1 class="title">CryptoPass</h1>
+  			<nav-bar ng-show="validated"></nav-bar>
+			</header>
       <!-- Your app's content goes inside .window-content -->
       <div class="window-content">
-
 				<ui-view></ui-view>
-      </div>
+			</div>
     </div>
 		<script>
 			var utils = require('./utilities/encrypt.file.js');

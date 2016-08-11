@@ -1,3 +1,3 @@
 app.controller('noteController', function ($scope) {
-  $scope.masterObj = masterObj;
+  $scope.notes = masterObj.note;
 })

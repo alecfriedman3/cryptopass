@@ -5,7 +5,6 @@ app.directive('navBar', function($state){
     scope: {},
     templateUrl: 'build/angular/nav/nav.directive.html',
     link: function(scope){
-
       scope.active = null;
       scope.navClick = function(str){
         scope.active = str;
