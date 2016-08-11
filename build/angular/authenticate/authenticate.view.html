@@ -1,5 +1,63 @@
-<form ng-submit="authenticatePassword(master)">
-	<div class="form-group">
-		<input class="form-control" type="password" ng-model="master">
+<div id="lock">
+  <div id="lock_inset">
+    <div id="lines"></div>
+    <div id="number_wrapper">
+      <div class="number">
+        <div class="number_select" onSelectStart="return false">
+          <span class="top_number numSpinner">9</span>
+          <span class="numSpinner">0</span>
+          <span class="bottom_number numSpinner">1</span>
+          <span class="bottom_number numSpinner">2</span>
+          <span class="numSpinner">3</span>
+          <span class="numSpinner">4</span>
+          <span class="numSpinner">5</span>
+          <span class="numSpinner">6</span>
+          <span class="numSpinner">7</span>
+          <span class="numSpinner">8</span>
+          <span class="numSpinner">9</span>
+          <span class="numSpinner">0</span>
+        </div>
+      </div>
+      <div class="number">
+        <div class="number_select" onSelectStart="return false">
+          <span class="top_number numSpinner">9</span>
+          <span class="numSpinner">0</span>
+          <span class="bottom_number numSpinner">1</span>
+          <span class="bottom_number numSpinner">2</span>
+          <span class="numSpinner">3</span>
+          <span class="numSpinner">4</span>
+          <span class="numSpinner">5</span>
+          <span class="numSpinner">6</span>
+          <span class="numSpinner">7</span>
+          <span class="numSpinner">8</span>
+          <span class="numSpinner">9</span>
+          <span class="numSpinner">0</span>
+        </div>
+      </div>
+      <div class="number">
+        <div class="number_select" onSelectStart="return false">
+          <span class="top_number numSpinner">9</span>
+          <span class="numSpinner">0</span>
+          <span class="bottom_number numSpinner">1</span>
+          <span class="bottom_number numSpinner">2</span>
+          <span class="numSpinner">3</span>
+          <span class="numSpinner">4</span>
+          <span class="numSpinner">5</span>
+          <span class="numSpinner">6</span>
+          <span class="numSpinner">7</span>
+          <span class="numSpinner">8</span>
+          <span class="numSpinner">9</span>
+          <span class="numSpinner">0</span>
+        </div>
+      </div>
+      <div id="shadow"></div>
+    </div>
+  </div>
+	<div class="auth-input">
+		<form ng-submit="authenticatePassword(master)">
+			<div class="form-group">
+				<input class="form-control auth-form-input" type="password" placeholder="Master Password" ng-model="master">
+			</div>
+		</form>
 	</div>
-</form>
+</div>
