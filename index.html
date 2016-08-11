@@ -2,17 +2,37 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Electron boilerplate</title>
+		<link rel="stylesheet" href="photon/dist/css/photon.min.css">
 		<link rel="stylesheet" href="index.css">
 	</head>
-	<body>
-		<div class="container">
-			<header>
-				<h1>Electron boilerplate</h1>
-			</header>
-			<section class="main"></section>
-			<footer></footer>
-		</div>
+	<body ng-app="cryptoPass">
+		<div class="window">
+
+      <!-- .toolbar-header sits at the top of your app -->
+			<nav-bar></nav-bar>
+
+      <!-- Your app's content goes inside .window-content -->
+      <div class="window-content">
+
+        <div class="pane-group">
+          <div class="pane pane-sm sidebar" ng-show="shown" ng-controller="sidebarController">
+            <nav class="nav-group">
+              <h5 class="nav-group-title">Categories</h5>
+								<sidebar-item model="item" ng-repeat="item in items"></sidebar-item>
+
+            </nav>
+          </div>
+
+          <div class="pane">
+            <ui-view></ui-view>
+          </div>
+        </div>
+      </div>
+    </div>
+
+		<script type="text/javascript" src="node_modules/angular/angular.js"></script>
+		<script type="text/javascript" src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
+		<script type="text/javascript" src="build/public/main.js"></script>
 		<script type="text/javascript" src="build/main.js"></script>
 	</body>
 </html>

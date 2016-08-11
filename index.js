@@ -26,9 +26,10 @@ function onClosed() {
 function createMainWindow() {
 	const win = new BrowserWindow({
 		width: 600,
-		height: 400
+		height: 400,
+		'title-bar-style': 'hidden'	
 	});
-	
+
 	if (process.env['NODE_ENV'] == 'dev') {
 		// we need to wait until browsersync is ready
 		setTimeout(function() {
@@ -37,8 +38,8 @@ function createMainWindow() {
 	} else {
 		win.loadUrl(`file:${indexFile}`);
 	}
-	
-	
+
+
 	win.on('closed', onClosed);
 
 	return win;
