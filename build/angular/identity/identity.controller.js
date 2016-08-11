@@ -1,3 +1,3 @@
 app.controller('identityController', function ($scope) {
-  $scope.masterObj = masterObj;
+  $scope.identity = masterObj.identity;
 })
