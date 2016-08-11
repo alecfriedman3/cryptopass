@@ -18,6 +18,7 @@ app.controller('authController', function($scope, $state){
 			return
 		} else if (isValid){
 			masterObj = decryptFile(master);
+			masterPass = master;
 			$state.go('home')
 		}
 	}
