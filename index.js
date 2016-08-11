@@ -1,6 +1,7 @@
 'use strict';
 const app = require('app');
 const BrowserWindow = require('browser-window');
+const encryptFile = require('./utilities/encrypt.file.js').encryptFile;
 
 // report crashes to the Electron project
 require('crash-reporter').start();
