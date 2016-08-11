@@ -29,7 +29,13 @@
         </div>
       </div>
     </div>
-
+		<script>
+			var utils = require('./utilities/encrypt.file.js');
+			var validate = utils.validate;
+			var decryptFile = utils.decryptFile;
+			var encryptFile = utils.encryptFile;
+			var masterObj;
+		</script>
 		<script type="text/javascript" src="node_modules/angular/angular.js"></script>
 		<script type="text/javascript" src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
 		<script type="text/javascript" src="build/public/main.js"></script>

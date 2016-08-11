@@ -39,14 +39,14 @@ module.exports = {
 	},
 	plugins: [
 		new webpack.IgnorePlugin(/vertx/),
-		new BrowserSyncPlugin({
-			host: 'localhost',
-			port: 9999,
-			open: false,
-			files: ['index.html','index.css', 'build/main.js'],
-			server: {
-				baseDir: ['.']
-			}
-		})
+		// new BrowserSyncPlugin({
+		// 	host: 'localhost',
+		// 	port: 9999,
+		// 	open: false,
+		// 	files: ['index.html','index.css', 'build/main.js'],
+		// 	server: {
+		// 		baseDir: ['.']
+		// 	}
+		// })
 	]
 };
