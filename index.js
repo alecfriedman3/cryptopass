@@ -20,8 +20,8 @@ function onClosed() {
 
 function createMainWindow() {
 	const win = new BrowserWindow({
-		width: 600,
-		height: 400,
+		width: 800,
+		height: 500,
 		titleBarStyle: 'hidden'
 	});
 
