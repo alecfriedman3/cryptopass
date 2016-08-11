@@ -39,7 +39,9 @@ module.exports = {
 	},
 	plugins: [
 		new webpack.IgnorePlugin(/vertx/),
+
 		//DISABLED BROWSERSYNC SO YOU CANT ACCESS VIA BROWSER
+
 		// new BrowserSyncPlugin({
 		// 	host: 'localhost',
 		// 	port: 9999,
