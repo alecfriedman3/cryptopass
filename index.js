@@ -1,17 +1,10 @@
 'use strict';
-const app = require('app');
-const BrowserWindow = require('browser-window');
-
-// report crashes to the Electron project
-require('crash-reporter').start();
+const electron = require('electron')
+const app = electron.app
+const BrowserWindow = electron.BrowserWindow
 
 // adds debug features like hotkeys for triggering dev tools and reload
-require('electron-debug')();
 var indexFile = `${__dirname}/index.html`;
-
-if (process.env['NODE_ENV'] == 'dev') {
-	indexFile = "http://localhost:9999";
-}
 
 
 // prevent window being garbage collected
@@ -27,16 +20,12 @@ function createMainWindow() {
 	const win = new BrowserWindow({
 		width: 600,
 		height: 400,
-		'title-bar-style': 'hidden'	
+		titleBarStyle: 'hidden'
 	});
 
 	if (process.env['NODE_ENV'] == 'dev') {
 		// we need to wait until browsersync is ready
-		setTimeout(function() {
-			win.loadUrl(indexFile);
-		}, 5000);
-	} else {
-		win.loadUrl(`file:${indexFile}`);
+		win.loadURL(`file:${indexFile}`);
 	}
 
 

@@ -6,6 +6,8 @@ var sourcemaps = require('gulp-sourcemaps');
 var runSeq = require('run-sequence');
 var notify = require('gulp-notify');
 var eslint = require('gulp-eslint');
+var sass = require('gulp-sass');
+var rename = require('gulp-rename');
 
 gulp.task('lintJS', function () {
 
@@ -31,8 +33,24 @@ gulp.task('buildJS', ['lintJS'], function () {
         .pipe(gulp.dest('./build/public'));
 });
 
+gulp.task('buildCSS', function () {
+
+    var sassCompilation = sass();
+    sassCompilation.on('error', console.error.bind(console));
+
+    return gulp.src('./src/styles/index.scss')
+        .pipe(plumber({
+            errorHandler: notify.onError('SASS processing failed! Check your gulp process.')
+        }))
+        .pipe(sourcemaps.init())
+        .pipe(sassCompilation)
+        .pipe(sourcemaps.write())
+        .pipe(rename('index.css'))
+        .pipe(gulp.dest('./'));
+});
+
 gulp.task('build', function () {
-    runSeq(['buildJS']);
+    runSeq(['buildJS', 'buildCSS']);
 });
 
 gulp.task('default', function(){
@@ -40,6 +58,9 @@ gulp.task('default', function(){
 
   gulp.watch('build/angular/**', function () {
     runSeq('buildJS');
+  });
+  gulp.watch('src/styles/**', function () {
+      runSeq('buildCSS');
   });
 
 })
