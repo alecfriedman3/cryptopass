@@ -32,7 +32,12 @@ function createMainWindow() {
 	});
 
 	if (process.env['NODE_ENV'] == 'dev') {
+
 		// we need to wait until browsersync is ready
+
+	//TURNED OFF BROWSERSYNC DUE TO SECURITY ISSUE RE ACCESSING APP IN LOCALHOST
+	// we need to wait until browsersync is ready
+
 	// 	setTimeout(function() {
 	// 		win.loadUrl(indexFile);
 	// 	}, 5000);
