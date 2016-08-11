@@ -2,6 +2,6 @@
   <nav class="nav-group">
     <h5 class="nav-group-title">Categories</h5>
       <!-- <sidebar-item model="item" ng-repeat="item in items"></sidebar-item> -->
-      <sidebar-item ng-repeat="category in navItem" item="category" secondary-prop=""></sidebar-item>
+      <sidebar-item ng-repeat="info in navItem" item="info" ng-click="singleView(info.id)"></sidebar-item>
   </nav>
 </div>

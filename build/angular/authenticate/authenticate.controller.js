@@ -6,7 +6,7 @@
 // var encryptFile = utils.encryptFile
 // var masterObj;
 
-app.controller('authController', function($scope, $state){
+app.controller('authController', function($scope, $state, $rootScope){
 
 	$scope.master = null;
 
@@ -19,6 +19,8 @@ app.controller('authController', function($scope, $state){
 		} else if (isValid){
 			masterObj = decryptFile(master);
 			masterPass = master;
+			$rootScope.validated = true;
+			$rootScope.$evalAsync()
 			$state.go('home')
 		}
 	}

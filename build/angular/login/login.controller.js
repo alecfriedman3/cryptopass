@@ -1,4 +1,9 @@
 app.controller('loginController', function($scope){
   console.log('in logins controller');
-  $scope.masterObj = masterObj;
+  $scope.accounts = masterObj.login;
+})
+
+app.controller('singleLoginController', function($scope, $stateParams){
+  $scope.account = masterObj.login.filter(info => info.id == $stateParams.id)[0]
+  console.log($scope.account)
 })

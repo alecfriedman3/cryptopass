@@ -1,3 +1,3 @@
 app.controller('creditCardController', function ($scope) {
-  $scope.masterObj = masterObj;
+  $scope.accounts = masterObj.creditCard;
 })
