@@ -1,23 +1,4 @@
-<!doctype html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<link rel="stylesheet" href="photon/dist/css/photon.min.css">
-		<link rel="stylesheet" href="index.css">
-	</head>
-	<body ng-app="cryptoPass">
-		<div class="window">
-
-      <!-- .toolbar-header sits at the top of your app -->
-			<nav-bar></nav-bar>
-
-      <!-- Your app's content goes inside .window-content -->
-      <div class="window-content">
-
-				<ui-view></ui-view>
-      </div>
-    </div>
-    <script>var masterObj = {
+var dataObj = {
   login: [
     {
       name: 'Facebook',
@@ -89,10 +70,4 @@
       id: 2
     }
   ]
-};</script>
-		<script type="text/javascript" src="node_modules/angular/angular.js"></script>
-		<script type="text/javascript" src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
-		<script type="text/javascript" src="build/public/main.js"></script>
-		<script type="text/javascript" src="build/main.js"></script>
-	</body>
-</html>
+};
