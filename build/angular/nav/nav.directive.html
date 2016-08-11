@@ -3,19 +3,19 @@
 
   <div class="toolbar-actions">
     <div class="btn-group nav-button">
-      <button ng-click="loginClick()" ng-class="active === 'Login' ? 'active btn btn-detail' : 'btn btn-default'">
+      <button ng-click="navClick('login')" ng-class="active === 'login' ? 'active btn btn-detail' : 'btn btn-default'">
         <span class="icon icon-home icon-text"></span>
         Logins
       </button>
-      <button ng-click="creditCardClick()" ng-class="active === 'Credit Card' ? 'active btn btn-detail' : 'btn btn-default'">
+      <button ng-click="navClick('creditCard')" ng-class="active === 'creditCard' ? 'active btn btn-detail' : 'btn btn-default'">
         <span class="icon icon-folder icon-text"></span>
         Credit Cards
       </button>
-      <button ng-click="identityClick()" ng-class="active === 'Identity' ? 'active btn btn-detail' : 'btn btn-default'">
+      <button ng-click="navClick('identity')" ng-class="active === 'identity' ? 'active btn btn-detail' : 'btn btn-default'">
         <span class="icon icon-cloud icon-text"></span>
         Identity
       </button>
-      <button ng-click="notesClick()" ng-class="active === 'Notes' ? 'active btn btn-detail' : 'btn btn-default'">
+      <button ng-click="navClick('note')" ng-class="active === 'note' ? 'active btn btn-detail' : 'btn btn-default'">
         <span class="icon icon-popup icon-text"></span>
         Notes
       </button>

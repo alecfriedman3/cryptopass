@@ -1,7 +1,9 @@
 'use strict';
 const electron = require('electron')
 const app = electron.app
-const BrowserWindow = electron.BrowserWindow
+const BrowserWindow = electron.BrowserWindow;
+const encryptFile = require('./utilities/encrypt.file.js').encryptFile;
+
 
 // adds debug features like hotkeys for triggering dev tools and reload
 var indexFile = `${__dirname}/index.html`;
@@ -24,7 +26,6 @@ function createMainWindow() {
 	});
 
 	if (process.env['NODE_ENV'] == 'dev') {
-		// we need to wait until browsersync is ready
 		win.loadURL(`file:${indexFile}`);
 	}
 
