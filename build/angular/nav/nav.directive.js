@@ -7,6 +7,11 @@ app.directive('navBar', function($rootScope){
     link: function(scope){
       
       scope.active = null;
+      // we could accomplish this with one function taking an input string from our html and setting scope.active to the string
+      // scope.showSidebar = function(class){
+      // 	$rootScope.$broadcast('showSidebar');
+      // 	scope.active = class
+      // }
       scope.loginClick = function(){
         $rootScope.$broadcast('showSidebar');
         scope.active = "Login"
