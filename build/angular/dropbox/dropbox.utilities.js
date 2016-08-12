@@ -5,24 +5,26 @@ var electron = window.require('electron');
 var remote = electron.remote;
 var BrowserWindow = remote.BrowserWindow;
 
+//Check if user is logged in and set AccessToken for all reqs if so
+window.localStorage.dropboxAuthToken ? dbx.setAccessToken(window.localStorage.dropboxAuthToken) : null
+
 module.exports = {
   getFileData: function(){
     return new Promise(function(resolve, reject){
       dbx.filesGetTemporaryLink({path:'/itWorks!.txt'})
       .then(linkObj => {
-        var oRequest = new XMLHttpRequest();
-        oRequest.open("GET", linkObj, false);
-        oRequest.onreadystatechange = function(oEvent) {
-          if (oRequest.readyState === 4 && oRequest.status === 200){
-            console.log(oRequest.responseText)
-            resolve(oRequest.responseText)
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", linkObj.link, false);
+        xhr.onreadystatechange = function(e) {
+          if (xhr.readyState === 4 && xhr.status === 200){
+            resolve(xhr.responseText)
           } else {
-            console.error(oRequest.statusText);
-            reject(oRequest.statusText)
+            reject(xhr.statusText)
           }
         }
-        oRequest.send(null)
+        xhr.send(null)
       })
+      .catch(err => reject(err))
     })
   },
   authenticateUser: function(){
@@ -39,12 +41,12 @@ module.exports = {
       authWindow.loadURL(authUrl);
       function handleCallback (url) {
         var accessToken = url.match(/access_token=([^&]*)/)[0].replace(/access_token=/, '')
-          if(dbx.getAccessToken) {
-            window.localStorage.setItem('dropboxAuthToken', dbx.getAccessToken())
-            resolve(window.localStorage.dropboxAuthToken)
-          } else {
-            reject('There was an error authenticating')
-          }
+        window.localStorage.setItem('dropboxAuthToken', accessToken)
+        if(dbx.getAccessToken) {
+          resolve(window.localStorage.dropboxAuthToken)
+        } else {
+          reject('There was an error authenticating')
+        }
       }
       authWindow.webContents.on('will-navigate', function (event, url) {
         handleCallback(url);
@@ -53,14 +55,19 @@ module.exports = {
   },
   fileUpload: function(){
     return new Promise(function(resolve, reject){
-      dbx.setAccessToken(window.localStorage.dropboxAuthToken)
       encryptFile(masterObj, 'master')
       .then(getDataEncrypted)
       .then(dataEnc => {
         return dbx.filesUpload({path: '/itWorks!.txt', contents: JSON.stringify(dataEnc), mode: 'overwrite'})
       })
-      .then(res => console.log(res))
-      .catch(err => console.error(err))
+      .then(res => resolve(res))
+      .catch(err => reject(err))
+    })
+  },
+  checkForAuthenticatedUser: function(){
+    return new Promise(function(resolve, reject){
+      if(window.localStorage.dropboxAuthToken) resolve(window.localStorage.dropboxAuthToken)
+      else reject('Not logged in')
     })
   }
 }
