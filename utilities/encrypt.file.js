@@ -1,7 +1,8 @@
 var utils = require('./encrypt.utility.js')
 var encrypt = utils.encrypt;
 var decrypt = utils.decrypt;
-var fs = require('fs')
+var Promise = require('bluebird')
+var fs = Promise.promisifyAll(require('fs'))
 var fileWriter = {}
 module.exports = fileWriter;
 
@@ -21,7 +22,7 @@ fileWriter.validate = function (masterPw) {
 fileWriter.encryptFile = function (data, masterPswd) {
 	// upon exiting application, encrypt data and write to file
 	var encrypted = encrypt(JSON.stringify(data), masterPswd)
-	fs.writeFileSync(__dirname + '/data.txt', encrypted)
+	return fs.writeFileAsync(__dirname + '/data.txt', encrypted)
 
 }
 
@@ -38,4 +39,11 @@ fileWriter.generateSecret = function (masterPswd) {
   var secret = fs.readFileSync(__dirname + '/secret1.txt').toString();
   var encrypted = encrypt(secret, masterPswd);
   fs.writeFileSync(__dirname+"/secret2.txt", encrypted);
+}
+
+fileWriter.getDataEncrypted = function (){
+	return fs.readFileAsync(__dirname + '/data.txt')
+	.then(function (buffer){
+		return buffer.toString()
+	})
 }
