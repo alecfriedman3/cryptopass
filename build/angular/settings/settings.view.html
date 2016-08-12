@@ -1,10 +1,36 @@
 <div class="pane-group">
   <sidebar nav-item="sidebar"></sidebar>
-  <div class="pane">
-    <h1>settings</h1>
+  <div class="pane ui-view-wrapper">
+    <h1 class="view-title">Settings</h1>
     <h3>Connect Accounts</h3>
     <button ng-click="dropboxAuth()" ng-controller="dropboxController" class="btn btn-primary dropbox-connect-button"><span class="icon icon-dropbox"></span>{{dropboxAuthenticated}}</button>
-    
-    <button class="btn btn-default"><h3>Change Master Password</h3></button>
+    <div class="change-master-pass-div">
+      <h3>Change Master Password</h3>
+      <div ng-show="error" class="error">
+        {{error}}
+      </div>
+      <div ng-show="success" class="success">
+        {{success}}
+      </div>
+      <form ng-show="changingMasterPass" class="change-master-pass">
+        <div class="form-group">
+          <input type="password" class="form-control change-master-pass-input" ng-model="currentPassword" placeholder="Current Master Password">
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control change-master-pass-input" ng-model="newPassword1" placeholder="New Password">
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control change-master-pass-input" ng-model="newPassword2" placeholder="Confirm New Password">
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control change-master-pass-input" ng-model="newPassword3" placeholder="Super Confirm New Password">
+        </div>
+      </form>
+      <div>
+        <button ng-show="!changingMasterPass" ng-click="showForm()" class="btn btn-negative">Change Master Password</button>
+        <button ng-show="changingMasterPass" ng-click="changeMasterPassword(currentPassword, newPassword1, newPassword2, newPassword3)" class="btn btn-negative">Change It!</button>
+      </div>
+    </div>
+
   </div>
 </div>

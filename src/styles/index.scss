@@ -1,15 +1,56 @@
+@font-face {
+	font-family: entypo;
+	src:url(photon-entypo.woff);
+}
 html,
 body {
 	padding: 0;
 	margin: 0;
+	font-family: 'BlinkMacSystemFont';
+	font-weight: 100;
 }
 h1, h2, h3, h4, h5, h6{
 	margin-top: 0px;
 	margin-bottom: 0px;
+	font-weight: 100;
 }
 
 header{
 	-webkit-app-region: drag;
+}
+textarea:focus, input:focus{
+  outline: none;
+}
+.ui-view-wrapper{
+	padding: 20px 50px 20px 50px;
+	display: inline;
+	align-content: center;
+	margin: 0 auto;
+
+}
+.view-title{
+	text-align: center;
+}
+
+.error{
+	background-color: rgba(255,0,0,0.4);
+	color: black;
+	height: 40px;
+	font-weight: 300;
+	font-size: 20px;
+	border-radius: 5px;
+	text-align: center;
+	padding-top: 	5px;
+}
+.success{
+	background-color: rgba(0,255,0,0.4);
+	color: black;
+	height: 40px;
+	font-weight: 300;
+	font-size: 20px;
+	border-radius: 5px;
+	text-align: center;
+	padding-top: 	5px;
 }
 // Lock Stuff
 .auth-input{
@@ -179,6 +220,20 @@ header{
 .icon-dropbox{
 	margin-right: 5px;
 	color: white !important;
+}
+.change-master-pass{
+	width: 50%;
+}
+.change-master-pass-input{
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid black;
+	border-radius: 0;
+}
+
+.change-master-pass-div{
+	margin-top: 20px;
 }
 
 .toolbar-actions{
