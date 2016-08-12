@@ -15,7 +15,7 @@
   },
   "electronVersion": "0.34.0",
   "scripts": {
-    "test": "mocha ./**/*.test.js",
+    "test": "mocha ./**/tests/*.test.js",
     "build": "export NODE_ENV='production'; electron-packager . $npm_package_productName --out=dist --ignore='^/dist$' --prune --asar --all --version=$npm_package_electronVersion",
     "start": "export NODE_ENV='dev'; electron ."
   },
@@ -35,7 +35,8 @@
     "dropbox": "^2.1.0",
     "gulp": "^3.9.1",
     "gulp-rename": "^1.2.2",
-    "gulp-sass": "^2.3.2"
+    "gulp-sass": "^2.3.2",
+    "random-js": "^1.0.8"
   },
   "devDependencies": {
     "babel-core": "^5.8.25",

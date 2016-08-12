@@ -1,6 +1,6 @@
 let chai = require('chai')
 let expect = chai.expect;
-let utils = require('./encrypt.utility.js');
+let utils = require('../encrypt.utility.js');
 let encrypt = utils.encrypt
 let decrypt = utils.decrypt
 let crypto = require('crypto');
