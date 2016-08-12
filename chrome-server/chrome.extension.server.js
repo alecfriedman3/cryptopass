@@ -21,10 +21,10 @@ io.on('connection', function (socket){
 
   socket.on('addFromElectron', function (data){
   	// get the encrypted data from electron app and write it to the fs
-  	fs.writeFileAync(__dirname + '/../utilities/data.txt', data.data)
+  	fs.writeFileAsync(__dirname + '/../utilities/data.txt', data.data)
   	.then(function (){
   		// read the newly encrypted file
-  		return fs.readFileSync(__dirname + '/../utilities/data.txt')
+  		return fs.readFileAsync(__dirname + '/../utilities/data.txt')
   	})
   	.then(function (file){
   		// send the newly encrypted file back to chrome extension
