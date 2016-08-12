@@ -1,5 +1,5 @@
 
-app.directive('navBar', function($state){
+app.directive('navBar', function($state, $stateParams){
   return {
     restrict: 'E',
     scope: {},
@@ -7,6 +7,16 @@ app.directive('navBar', function($state){
     link: function(scope){
       scope.active = null;
       scope.navClick = function(str){
+      	if (str == scope.active) return
+      	var storedState = JSON.stringify({name: $state.current.name, id: $stateParams.id})
+        window.sessionStorage.setItem(scope.active, storedState)
+      	if (window.sessionStorage[str]){
+      		scope.active = str
+      		var stateStr = window.sessionStorage[str]
+      		var stateObj = JSON.parse(stateStr)
+      		$state.go(stateObj.name, {id: stateObj.id})
+      		return
+      	}
         scope.active = str;
         $state.go(str)
       }
