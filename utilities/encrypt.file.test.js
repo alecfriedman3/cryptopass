@@ -4,6 +4,7 @@ let fileWriter = require('./encrypt.file.js');
 let validate = fileWriter.validate;
 let encryptFile = fileWriter.encryptFile;
 let decryptFile = fileWriter.decryptFile;
+let getDataEncrypted = fileWriter.getDataEncrypted;
 let generateSecret = fileWriter.generateSecret;
 let utils = require('./encrypt.utility.js');
 let encrypt = utils.encrypt
@@ -36,7 +37,7 @@ describe('Encrypting and Decrypting Files', function (){
 
   })
 
-  describe('File Generation', function(){
+  describe('File Generation and Retrieval', function(){
   	var data, fileName, masterPswd;
   	beforeEach('write a file', function (){
   		data = {
@@ -58,23 +59,41 @@ describe('Encrypting and Decrypting Files', function (){
   		fs.unlinkSync(__dirname + '/' + fileName)
     })
 
-  	it('should write to the filesystem', function (){
+  	it('should write to the filesystem', function (done){
   		encryptFile(data, masterPswd)
-  		expect(fs.readFileSync(__dirname + '/' + fileName)).to.be.ok
+  		.then(function (){
+  			expect(fs.readFileSync(__dirname + '/' + fileName)).to.be.ok
+  			done()
+  		}).catch(done)
   	})
 
-  	it('should encrypt the information', function (){
-  		encryptFile(data, masterPswd);
-  		var enData = fs.readFileSync(__dirname + '/' + fileName).toString()
-  		var decrypted = decrypt(enData, masterPswd);
-  		var newData = JSON.parse(decrypted);
-  		expect(newData).to.deep.equal(data)
+  	it('should encrypt the information', function (done){
+  		encryptFile(data, masterPswd)
+  		.then(function (){
+	  		var enData = fs.readFileSync(__dirname + '/' + fileName).toString()
+	  		var decrypted = decrypt(enData, masterPswd);
+	  		var newData = JSON.parse(decrypted);
+	  		expect(newData).to.deep.equal(data)
+	  		done()
+  		}).catch(done)
   	})
 
-  	it('should decrypt encrypted information', function (){
-  		encryptFile(data, masterPswd);
-  		var newData = decryptFile(masterPswd)
-  		expect(newData).to.deep.equal(data)
+  	it('should decrypt encrypted information', function (done){
+  		encryptFile(data, masterPswd)
+  		.then(function (){
+	  		var newData = decryptFile(masterPswd)
+	  		expect(newData).to.deep.equal(data)
+	  		done()
+  		}).catch(done)
+  	})
+
+  	it('should get encrypted data', function (done){
+  		encryptFile(data, masterPswd)
+  		.then(getDataEncrypted)
+  		.then(function (retreivedData){
+  			expect(retreivedData).to.be.equal(fs.readFileSync(__dirname + '/' + fileName).toString())
+  			done()
+  		}).catch(done)
   	})
 
   })
