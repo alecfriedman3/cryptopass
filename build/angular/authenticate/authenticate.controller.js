@@ -18,6 +18,7 @@ app.controller('authController', function($scope, $state, $rootScope){
 			return
 		} else if (isValid){
 			masterObj = decryptFile(master);
+			console.log(masterObj);
 			masterPass = master;
 			$rootScope.validated = true;
 			$rootScope.$evalAsync()
