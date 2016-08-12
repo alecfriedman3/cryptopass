@@ -20,7 +20,6 @@ app.controller('authController', function($scope, $state, $rootScope){
 			decryptFile(master)
 			.then(function (obj){
 				masterObj = obj
-				console.log(masterObj);
 				masterPass = master;
 				$rootScope.validated = true;
 				$rootScope.$evalAsync()

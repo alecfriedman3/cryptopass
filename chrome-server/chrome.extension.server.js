@@ -4,10 +4,17 @@ var app = require('express')();
 var chalk = require('chalk');
 
 var server = http.createServer(app)
+var io = require('socket.io')(server)
 
-app.get('/', function (req, res, next){
-	console.log(chalk.green('hello'))
-	res.send('hello')
+io.on('connection', function (socket){
+
+	socket.emit('news', { hello: 'world' });
+  socket.on('my other event', function (data) {
+    console.log(data);
+  });
+
 })
+
+
 
 server.listen(9999, 'localhost')

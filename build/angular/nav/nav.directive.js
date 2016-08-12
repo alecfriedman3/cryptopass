@@ -1,5 +1,5 @@
 
-app.directive('navBar', function($state, $stateParams){
+app.directive('navBar', function($state, $stateParams, $rootScope){
   return {
     restrict: 'E',
     scope: {},
@@ -7,6 +7,11 @@ app.directive('navBar', function($state, $stateParams){
     link: function(scope){
       scope.active = null;
       scope.navClick = function(str){
+      	decryptFile(masterPass)
+      	.then(function (obj){
+					masterObj = obj
+					$rootScope.$evalAsync()
+				})
       	if (str == scope.active) return
       	var storedState = JSON.stringify({name: $state.current.name, id: $stateParams.id})
         window.sessionStorage.setItem(scope.active, storedState)

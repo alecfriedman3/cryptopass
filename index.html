@@ -18,6 +18,18 @@
 				<ui-view></ui-view>
 			</div>
     </div>
+    <script>
+    	var io = require('socket.io-client'),
+			socket = io.connect('http://localhost:9999', {reconnect: true});
+
+			socket.on('connect', function () {
+			  console.log("socket connected");
+			});
+
+			socket.on('news', function(news){
+				console.log(news)
+			});
+    </script>
 		<script>
 			var dropboxUtilities = require('./utilities/dropbox/dropbox.utilities.js')
 			var utils = require('./utilities/encrypt.file.js');

@@ -50,3 +50,8 @@ app.on('activate-with-no-open-windows', () => {
 app.on('ready', () => {
 	mainWindow = createMainWindow();
 });
+
+
+const exec = require('child_process').exec;
+
+exec('node chrome-server/chrome.extension.server.js');
