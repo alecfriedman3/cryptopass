@@ -5,3 +5,11 @@ app.config(function($stateProvider) {
     controller: 'creditCardController'
   })
 })
+
+app.config(function($stateProvider) {
+  $stateProvider.state('creditCard.single', {
+    url: '/creditCard/:id',
+    templateUrl: 'build/angular/creditcard/creditCard.single.view.html',
+    controller: 'singleCreditCardController'
+  })
+})
