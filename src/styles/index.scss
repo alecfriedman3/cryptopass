@@ -163,6 +163,24 @@ header{
 
 // End Lock Stuff
 
+.sidebar{
+	height: 100%;
+}
+.settings-button{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+
+.dropbox-connect-button{
+	background-color: #007ee5 !important;
+	color: white;
+}
+.icon-dropbox{
+	margin-right: 5px;
+	color: white !important;
+}
+
 .toolbar-actions{
 	text-align: center;
 }

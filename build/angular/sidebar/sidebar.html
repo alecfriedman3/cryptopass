@@ -3,6 +3,11 @@
     <h5 class="nav-group-title">Categories</h5>
       <!-- <sidebar-item model="item" ng-repeat="item in items"></sidebar-item> -->
       <sidebar-item ng-repeat="info in navItem" item="info" ng-click="singleView(info.id)"></sidebar-item>
+
   </nav>
-  <button ng-click="dropboxAuth()" ng-controller="dropboxController" class="btn btn-primary">{{dropboxAuthenticated}}</button>
+  <div class="btn-group settings-button">
+    <button ng-click="settingsView(navItem, secondaryProp)" class="btn btn-default">
+      <span class="icon icon-cog"></span>
+    </button>
+  </div>
 </div>
