@@ -40,7 +40,7 @@ module.exports = {
       var authUrl = dbx.getAuthenticationUrl('http://localhost:9999/dropboxAuth');
       authWindow.loadURL(authUrl);
       function handleCallback (url) {
-        var accessToken = url.match(/access_token=([^&]*)/)[0].replace(/access_token=/, '')
+        var accessToken = url ? url.match(/access_token=([^&]*)/)[0].replace(/access_token=/, '') : null
         window.localStorage.setItem('dropboxAuthToken', accessToken)
         if(dbx.getAccessToken) {
           resolve(window.localStorage.dropboxAuthToken)
@@ -53,16 +53,13 @@ module.exports = {
       });
     })
   },
-  fileUpload: function(){
-    return new Promise(function(resolve, reject){
-      encryptFile(masterObj, 'master')
+  fileUpload: function(masterObj, masterPass){
+      return encryptFile(masterObj, masterPass)
       .then(getDataEncrypted)
       .then(dataEnc => {
         return dbx.filesUpload({path: '/itWorks!.txt', contents: JSON.stringify(dataEnc), mode: 'overwrite'})
       })
-      .then(res => resolve(res))
-      .catch(err => reject(err))
-    })
+
   },
   checkForAuthenticatedUser: function(){
     return new Promise(function(resolve, reject){
