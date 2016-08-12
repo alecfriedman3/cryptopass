@@ -29,9 +29,11 @@ fileWriter.encryptFile = function (data, masterPswd) {
 fileWriter.decryptFile = function (masterPswd) {
 	// validate password, then decrypt data and return an object that we can use in our application
 	if (!fileWriter.validate(masterPswd)) throw new Error('Incorrect Master Password');
-	var encrypted = fs.readFileSync(__dirname + '/data.txt').toString()
-	var decrypted = decrypt(encrypted, masterPswd)
-	return JSON.parse(decrypted)
+	return fs.readFileAsync(__dirname + '/data.txt')
+	.then(function (encrypted){
+		var decrypted = decrypt(encrypted.toString(), masterPswd)
+		return JSON.parse(decrypted)
+	})
 
 }
 

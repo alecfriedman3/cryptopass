@@ -17,12 +17,15 @@ app.controller('authController', function($scope, $state, $rootScope){
 			$scope.master = null
 			return
 		} else if (isValid){
-			masterObj = decryptFile(master);
-			console.log(masterObj);
-			masterPass = master;
-			$rootScope.validated = true;
-			$rootScope.$evalAsync()
-			$state.go('home')
+			decryptFile(master)
+			.then(function (obj){
+				masterObj = obj
+				console.log(masterObj);
+				masterPass = master;
+				$rootScope.validated = true;
+				$rootScope.$evalAsync()
+				$state.go('home')
+			})
 		}
 	}
 });
