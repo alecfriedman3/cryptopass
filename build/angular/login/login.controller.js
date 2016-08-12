@@ -5,5 +5,8 @@ app.controller('loginController', function($scope){
 
 app.controller('singleLoginController', function($scope, $stateParams){
   $scope.account = masterObj.login.filter(info => info.id == $stateParams.id)[0]
-  console.log($scope.account)
+  $scope.updateInfo = false;
+  $scope.showForm = function () {
+    $scope.updateInfo = !$scope.updateInfo;
+  }
 })

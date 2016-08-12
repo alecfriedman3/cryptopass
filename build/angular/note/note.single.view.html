@@ -1,1 +1,20 @@
-<h1>single note {{note.name}}</h1>
+<div>
+  <h1>{{note.name}}</h1>
+  <h3>Details:</h3>
+  <h5>{{note.data}}</h5>
+  <button class="btn btn-large btn-default" ng-click="showForm()">Update Info</button>
+
+
+  <div ng-show="updateInfo">
+    <form>
+      <div class="form-group">
+        <label>Information to Update:</label>
+        <input type="text" class="form-control" placeholder="Input the data you wish to encrypt here">
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-form btn-default" ng-click="showForm()">Cancel</button>
+        <button type="submit" class="btn btn-form btn-primary" ng-click="showForm()">OK</button>
+      </div>
+    </form>
+  </div>
+</div>
