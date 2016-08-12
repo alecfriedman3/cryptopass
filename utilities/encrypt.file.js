@@ -22,7 +22,7 @@ fileWriter.encryptFile = function (data, masterPswd) {
 	// upon exiting application, encrypt data and write to file
 	var encrypted = encrypt(JSON.stringify(data), masterPswd)
 	fs.writeFileSync(__dirname + '/data.txt', encrypted)
-	return encrypted
+
 }
 
 fileWriter.decryptFile = function (masterPswd) {
