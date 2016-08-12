@@ -6,9 +6,6 @@ app.controller('dropboxController', function($scope){
   .then(token => $scope.dropboxAuthenticated = "Disconnect From Dropbox")
   .catch(err => $scope.dropboxAuthenticated = "Connect To Dropbox")
 
-  dropboxUtilities.getFileData()
-  .then(res => console.log(res))
-  .catch(err => console.error(err))
 
   $scope.dropboxAuth = function(){
     if($scope.dropboxAuthenticated === "Disconnect From Dropbox"){
