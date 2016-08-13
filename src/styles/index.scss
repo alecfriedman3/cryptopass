@@ -1,7 +1,4 @@
-@font-face {
-	font-family: entypo;
-	src:url(photon-entypo.woff);
-}
+
 html,
 body {
 	padding: 0;
@@ -26,6 +23,7 @@ textarea:focus, input:focus{
 	display: inline;
 	align-content: center;
 	margin: 0 auto;
+	background-color: rgba(224, 79, 95, 0.8)
 
 }
 .view-title{
@@ -206,6 +204,28 @@ textarea:focus, input:focus{
 
 .sidebar{
 	height: 100%;
+	width: 200px;
+	box-shadow: 7px 0px 24px -8px rgba(0,0,0,0.75);
+	background-color: rgba(224, 79, 95, 0.9)
+}
+
+.toolbar-header{
+	box-shadow: 0px 7px 24px -7px rgba(0,0,0,0.75);
+	border: none;
+}
+
+.nav-group-title{
+	color: white;
+}
+.list-group-item{
+	.media-body{
+		color: white;
+		text-shadow: 1px 1px 1px rgba(150, 150, 150, 0.53);
+	}
+}
+
+.pane{
+	border: none
 }
 .settings-button{
 	position: absolute;
@@ -228,7 +248,7 @@ textarea:focus, input:focus{
 	border-top: none;
 	border-left: none;
 	border-right: none;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid rgb(52, 148, 132);
 	border-radius: 0;
 }
 
