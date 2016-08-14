@@ -55,9 +55,9 @@ describe('Encrypting and Decrypting Files', function (){
   		}
   		fileName = 'data.txt';
   		masterPswd = "helloMyNameIsDoge"
-  		secret = fs.readFileSync(__dirname + '/secret1.txt').toString()
+  		secret = fs.readFileSync(__dirname + '/secret1.txt').toString();
       fs.writeFileSync(__dirname + '/secret2.txt', encrypt(secret, masterPswd));
-      fs.mkdirSync(__dirname + '/Apps')
+      fs.mkdirSync(__dirname + '/Apps');
       settings.set('dropboxPath', __dirname)
       .then(() => {
         return settings.get('dropboxPath');
@@ -73,8 +73,8 @@ describe('Encrypting and Decrypting Files', function (){
   		fs.unlinkSync(__dirname + '/' + fileName)
       rimraf(__dirname + '/Apps', function(err, data){
         console.log(err, data);
-        done()
-      })
+        done();
+      });
     })
 
   	it('should write to the filesystem', function (done){
