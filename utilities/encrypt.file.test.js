@@ -84,6 +84,14 @@ describe('Encrypting and Decrypting Files', function (){
   			done()
   		}).catch(done)
   	})
+    it('should write the information into a separate dropbox folder', function(done){
+      encryptFile(data, masterPswd)
+      .then(function(){
+        let data = fs.readFileSync(__dirname + '/Apps/CryptoPass/' + fileName);
+        expect(data).to.be.ok
+        done()
+      }).catch(done)
+    })
 
   	it('should encrypt the information', function (done){
   		encryptFile(data, masterPswd)
@@ -95,14 +103,16 @@ describe('Encrypting and Decrypting Files', function (){
 	  		done()
   		}).catch(done)
   	})
-    it('should encrypt the information into a separate dropbox folder', function(done){
+    it('should encrypt and decrypt the information in separate dropbox folder', function(done){
       encryptFile(data, masterPswd)
       .then(function(){
-        let enData = fs.readFileSync(__dirname + '/Apps/' + fileName).toString();
+        let enData = fs.readFileSync(__dirname + '/Apps/CryptoPass/' + fileName).toString();
         let decrypted = decrypt(enData, masterPswd);
-        console.log(decrypted);
+        decrypted = JSON.parse(decrypted);
+        expect(enData).to.equal(fs.readFileSync(__dirname + '/' + fileName).toString())
+        expect(decrypted).to.deep.equal(data)
         done()
-      })
+      }).catch(done)
     })
 
   	it('should decrypt encrypted information', function (done){
