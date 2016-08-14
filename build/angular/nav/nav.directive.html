@@ -1,32 +1,61 @@
-
-
-  <div class="toolbar-actions">
-    <div class="btn-group nav-button">
-      <button ng-click="navClick('login')" ng-class="active === 'login' ? 'active btn btn-detail' : 'btn btn-default'">
-        <span class="icon icon-home icon-text"></span>
-        Logins
-      </button>
-      <button ng-click="navClick('creditCard')" ng-class="active === 'creditCard' ? 'active btn btn-detail' : 'btn btn-default'">
-        <span class="icon icon-folder icon-text"></span>
-        Credit Cards
-      </button>
-      <button ng-click="navClick('identity')" ng-class="active === 'identity' ? 'active btn btn-detail' : 'btn btn-default'">
-        <span class="icon icon-cloud icon-text"></span>
-        Identity
-      </button>
-      <button ng-click="navClick('note')" ng-class="active === 'note' ? 'active btn btn-detail' : 'btn btn-default'">
-        <span class="icon icon-popup icon-text"></span>
-        Notes
-      </button>
-    </div>
-
-    <button class="btn btn-default">
-      <span class="icon icon-home icon-text"></span>
-      Filters
-    </button>
-
-    <button class="btn btn-default btn-dropdown pull-right">
-      <span class="icon icon-megaphone"></span>
-    </button>
+  <div class="nav-wrapper">
+    <span ng-click="showHideDropdown()" class="categories-dropdown-button icon icon-down-open-big"></span>
+    <div ng-show="show" class="animate-show toolbar-right toolbar-actions">
+    <ul class="list-group">
+      <li ng-click="navClick('login')" class="list-group-item">
+        <!-- <img class="img-circle media-object pull-left" ng-src="{{getImg(item.name)}}" width="32" height="32" /> -->
+        <div class="media-body">
+          <h3>Login</h3>
+        </div>
+      </li>
+      <li ng-click="navClick('creditCard')" class="list-group-item">
+        <!-- <img class="img-circle media-object pull-left" ng-src="{{getImg(item.name)}}" width="32" height="32" /> -->
+        <div class="media-body">
+          <h3>Credit Cards</h3>
+        </div>
+      </li>
+      <li ng-click="navClick('identity')" class="list-group-item">
+        <!-- <img class="img-circle media-object pull-left" ng-src="{{getImg(item.name)}}" width="32" height="32" /> -->
+        <div class="media-body">
+          <h3>Identity</h3>
+        </div>
+      </li>
+      <li ng-click="navClick('note')" class="list-group-item">
+        <!-- <img class="img-circle media-object pull-left" ng-src="{{getImg(item.name)}}" width="32" height="32" /> -->
+        <div class="media-body">
+          <h3>Notes</h3>
+        </div>
+      </li>
+    </ul>
   </div>
 
+      <!-- <div class="btn-group nav-button">
+        <button ng-click="navClick('login')" ng-class="active === 'login' ? 'active btn btn-detail' : 'btn btn-default'">
+          <span class="icon icon-home icon-text"></span>
+          Logins
+        </button>
+        <button ng-click="navClick('creditCard')" ng-class="active === 'creditCard' ? 'active btn btn-detail' : 'btn btn-default'">
+          <span class="icon icon-folder icon-text"></span>
+          Credit Cards
+        </button>
+        <button ng-click="navClick('identity')" ng-class="active === 'identity' ? 'active btn btn-detail' : 'btn btn-default'">
+          <span class="icon icon-cloud icon-text"></span>
+          Identity
+        </button>
+        <button ng-class="active === 'note' ? 'active btn btn-detail' : 'btn btn-default'">
+          <span class="icon icon-popup icon-text"></span>
+          Notes
+        </button>
+      </div>
+
+      <button class="btn btn-default">
+        <span class="icon icon-home icon-text"></span>
+        Filters
+      </button>
+
+      <button class="btn btn-default btn-dropdown pull-right">
+        <span class="icon icon-megaphone"></span>
+      </button>
+    </div> -->
+
+  </div>

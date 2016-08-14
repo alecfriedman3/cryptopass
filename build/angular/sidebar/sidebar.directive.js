@@ -29,13 +29,10 @@ app.directive('sidebar', function($state){
     templateUrl: 'build/angular/sidebar/sidebar.html',
     link: function(scope){
     	scope.singleView = function (id){
-        console.log(id);
-        console.log($state.current.name);
       	if (!$state.current.name.match(/\.single$/)) $state.go($state.current.name + '.single', {id: id})
       	else $state.go($state.current.name, {id: id})
       }
       scope.settingsView = function(navItem, second){
-        console.log(second);
         $state.go('settings', {currentSidebar: navItem})
       }
     }

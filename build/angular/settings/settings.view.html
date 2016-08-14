@@ -6,10 +6,10 @@
     <button ng-click="dropboxAuth()" ng-controller="dropboxController" class="btn btn-primary dropbox-connect-button"><span class="icon icon-dropbox"></span>{{dropboxAuthenticated}}</button>
     <div class="change-master-pass-div">
       <h3>Change Master Password</h3>
-      <div ng-show="error" class="error">
+      <div ng-show="error" class="animate-show error">
         {{error}}
       </div>
-      <div ng-show="success" class="success">
+      <div ng-show="success" class="animate-show success">
         {{success}}
       </div>
       <form ng-show="changingMasterPass" class="change-master-pass">

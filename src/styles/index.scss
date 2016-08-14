@@ -1,4 +1,3 @@
-
 html,
 body {
 	padding: 0;
@@ -15,15 +14,14 @@ h1, h2, h3, h4, h5, h6{
 header{
 	-webkit-app-region: drag;
 }
-textarea:focus, input:focus{
-  outline: none;
-}
+input:focus::-webkit-input-placeholder { color:transparent; }
+
 .ui-view-wrapper{
 	padding: 20px 50px 20px 50px;
 	display: inline;
 	align-content: center;
 	margin: 0 auto;
-	background-color: rgba(224, 79, 95, 0.8)
+	background-color: rgb(181, 221, 219)
 
 }
 .view-title{
@@ -50,6 +48,18 @@ textarea:focus, input:focus{
 	text-align: center;
 	padding-top: 	5px;
 }
+//Animations
+
+.animate-show.ng-hide-add, .animate-show.ng-hide-remove {
+  transition: all linear 0.3s;
+}
+
+.animate-show.ng-hide {
+  line-height: 0;
+  opacity: 0;
+  padding: 0 10px;
+}
+
 // Lock Stuff
 .auth-input{
 	width: 80%;
@@ -202,35 +212,122 @@ textarea:focus, input:focus{
 
 // End Lock Stuff
 
+sidebar{
+	width: 35%
+}
 .sidebar{
 	height: 100%;
-	width: 200px;
+	width: 100%;
 	box-shadow: 7px 0px 24px -8px rgba(0,0,0,0.75);
-	background-color: rgba(224, 79, 95, 0.9)
+	background-color: rgba(45, 149, 145, 0.9);
+	padding-top: 10px;
 }
 
 .toolbar-header{
 	box-shadow: 0px 7px 24px -7px rgba(0,0,0,0.75);
 	border: none;
 }
-
-.nav-group-title{
-	color: white;
+.toolbar-right{
+	background-color: rgba(45, 149, 145, 0.95);
 }
+.navbar-directive-class{
+	position: absolute;
+	right: 0%;
+	z-index: 2;
+	top: 62px;
+	width: 90%;
+	height: 20px;
+}
+.navbar-header{
+	-webkit-app-region: drag;
+	color: rgb(181, 221, 219);
+	font-size: 200%;
+	margin-right: 50px;
+	margin-top: -25px;
+	margin-left: -50px;
+	padding-left: 10px;
+	padding-top: 32px;
+	vertical-align: bottom;
+}
+.categories-dropdown-button{
+	float: right;
+	margin-right: 10%;
+	margin-top: -8%
+}
+.nav-wrapper{
+	.list-group{
+		text-align: left;
+	}
+	height: auto;
+	border-top-left-radius: 6px;
+	border-bottom-left-radius: 6px;
+}
+
+.list-group-header{
+	input[type="text"]{
+		cursor: text;
+		background-color: transparent;
+		border-radius: 0;
+		border-top: none;
+		border-left: none;
+		border-right: none;
+		border-bottom: 1px solid rgb(8, 138, 133);
+	}
+}
+.sidebar-search{
+	background-color: rgb(8, 138, 133);
+	width: 110%;;
+	margin-left: -15px;
+	input{
+		text-align: center;
+		color: rgb(181, 221, 219);
+	}
+	.sidebar-search-input{
+		outline-style:none;
+		box-shadow:none;
+		border-color:transparent;
+	}
+}
+.list-group:nth-child(2){
+	.sidebar-items{
+	}
+
+}
+
 .list-group-item{
 	.media-body{
-		color: white;
+		color: rgb(181, 221, 219);
+		font-size: 15px;
 		text-shadow: 1px 1px 1px rgba(150, 150, 150, 0.53);
 	}
+
+	height: 80px;
+	padding: 20px 12px 20px 12px;
+}
+
+.sidebar-items{
+	border-top: 1px solid rgb(8, 138, 133) !important;
+	width: 400px;
+	margin-left: -4%;
 }
 
 .pane{
-	border: none
+	padding: 15px;
+	border: none;
+	color: rgb(0, 104, 100);
+	h1{
+		text-align: center;
+	}
 }
 .settings-button{
 	position: absolute;
 	bottom: 0;
 	left: 0;
+	button{
+		background-color: transparent;
+		border: none;
+		font-size: 24px;
+	}
 }
 
 .dropbox-connect-button{
@@ -245,11 +342,13 @@ textarea:focus, input:focus{
 	width: 50%;
 }
 .change-master-pass-input{
+	cursor: text;
 	border-top: none;
 	border-left: none;
 	border-right: none;
 	border-bottom: 1px solid rgb(52, 148, 132);
 	border-radius: 0;
+	background-color: transparent;
 }
 
 .change-master-pass-div{
