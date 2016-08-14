@@ -44,6 +44,7 @@ fileWriter.encryptFile = function (data, masterPswd) {
 			})
 		}
 	})
+	.catch(err => console.error(err))
 
 }
 

@@ -13,6 +13,9 @@ let encrypt = utils.encrypt
 let decrypt = utils.decrypt
 let crypto = require('crypto');
 let fs = require('fs');
+var settings = require('electron-settings');
+var rimraf = require('rimraf');
+
 
 describe('Encrypting and Decrypting Files', function (){
 
@@ -39,8 +42,8 @@ describe('Encrypting and Decrypting Files', function (){
 
   })
 
-  describe('File Generation and Retrieval', function(){
-  	var data, fileName, masterPswd;
+  describe('File Generation and Retrieval', function(done){
+  	var secret, data, fileName, masterPswd, dropboxPath;
   	beforeEach('write a file', function (){
   		data = {
   			Accounts: {
@@ -54,11 +57,24 @@ describe('Encrypting and Decrypting Files', function (){
   		masterPswd = "helloMyNameIsDoge"
   		secret = fs.readFileSync(__dirname + '/secret1.txt').toString()
       fs.writeFileSync(__dirname + '/secret2.txt', encrypt(secret, masterPswd));
+      fs.mkdirSync(__dirname + '/Apps')
+      settings.set('dropboxPath', __dirname)
+      .then(() => {
+        return settings.get('dropboxPath');
+      })
+      .then(dbPath => {
+        dropboxPath = dbPath;
+        done()
+      })
     })
 
-    afterEach('delete encrypted secret', function (){
+    afterEach('delete encrypted secret', function (done){
     	fs.unlinkSync(__dirname + '/secret2.txt')
   		fs.unlinkSync(__dirname + '/' + fileName)
+      rimraf(__dirname + '/Apps', function(err, data){
+        console.log(err, data);
+        done()
+      })
     })
 
   	it('should write to the filesystem', function (done){
@@ -79,6 +95,15 @@ describe('Encrypting and Decrypting Files', function (){
 	  		done()
   		}).catch(done)
   	})
+    it('should encrypt the information into a separate dropbox folder', function(done){
+      encryptFile(data, masterPswd)
+      .then(function(){
+        let enData = fs.readFileSync(__dirname + '/Apps/' + fileName).toString();
+        let decrypted = decrypt(enData, masterPswd);
+        console.log(decrypted);
+        done()
+      })
+    })
 
   	it('should decrypt encrypted information', function (done){
   		encryptFile(data, masterPswd)
