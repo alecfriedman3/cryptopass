@@ -1,5 +1,3 @@
-'use strict'
-
 let chai = require('chai')
 let expect = chai.expect;
 let fileWriter = require('../encrypt.file.js');
@@ -13,9 +11,6 @@ let encrypt = utils.encrypt
 let decrypt = utils.decrypt
 let crypto = require('crypto');
 let fs = require('fs');
-var settings = require('electron-settings');
-var rimraf = require('rimraf');
-
 
 describe('Encrypting and Decrypting Files', function (){
 
@@ -42,8 +37,8 @@ describe('Encrypting and Decrypting Files', function (){
 
   })
 
-  describe('File Generation and Retrieval', function(done){
-  	var secret, data, fileName, masterPswd, dropboxPath;
+  describe('File Generation and Retrieval', function(){
+  	var data, fileName, masterPswd;
   	beforeEach('write a file', function (){
   		data = {
   			Accounts: {
@@ -55,30 +50,14 @@ describe('Encrypting and Decrypting Files', function (){
   		}
   		fileName = 'data.txt';
   		masterPswd = "helloMyNameIsDoge"
-  		secret = fs.readFileSync(__dirname + '/secret1.txt').toString();
-      fs.writeFileSync(__dirname + '/secret2.txt', encrypt(secret, masterPswd));
-      fs.mkdirSync(__dirname + '/Apps');
-      settings.set('dropboxPath', __dirname)
-      .then(() => {
-        return settings.get('dropboxPath');
-      })
-      .then(dbPath => {
-        dropboxPath = dbPath;
-        done()
-      })
-    })
-
-    afterEach('delete encrypted secret', function (done){
-    	fs.unlinkSync(__dirname + '/secret2.txt')
-  		fs.unlinkSync(__dirname + '/' + fileName)
-      rimraf(__dirname + '/Apps', function(err, data){
-        console.log(err, data);
-        done();
-      });
   		secret = fs.readFileSync(__dirname + '/../secret1.txt').toString()
       fs.writeFileSync(__dirname + '/../secret2.txt', encrypt(secret, masterPswd));
     })
 
+    afterEach('delete encrypted secret', function (){
+    	fs.unlinkSync(__dirname + '/../secret2.txt')
+  		fs.unlinkSync(__dirname + '/../' + fileName)
+    })
 
   	it('should write to the filesystem', function (done){
   		encryptFile(data, masterPswd)
@@ -87,14 +66,6 @@ describe('Encrypting and Decrypting Files', function (){
   			done()
   		}).catch(done)
   	})
-    it('should write the information into a separate dropbox folder', function(done){
-      encryptFile(data, masterPswd)
-      .then(function(){
-        let data = fs.readFileSync(__dirname + '/Apps/CryptoPass/' + fileName);
-        expect(data).to.be.ok
-        done()
-      }).catch(done)
-    })
 
   	it('should encrypt the information', function (done){
   		encryptFile(data, masterPswd)
@@ -106,17 +77,6 @@ describe('Encrypting and Decrypting Files', function (){
 	  		done()
   		}).catch(done)
   	})
-    it('should encrypt and decrypt the information in separate dropbox folder', function(done){
-      encryptFile(data, masterPswd)
-      .then(function(){
-        let enData = fs.readFileSync(__dirname + '/Apps/CryptoPass/' + fileName).toString();
-        let decrypted = decrypt(enData, masterPswd);
-        decrypted = JSON.parse(decrypted);
-        expect(enData).to.equal(fs.readFileSync(__dirname + '/' + fileName).toString())
-        expect(decrypted).to.deep.equal(data)
-        done()
-      }).catch(done)
-    })
 
   	it('should decrypt encrypted information', function (done){
   		encryptFile(data, masterPswd)
