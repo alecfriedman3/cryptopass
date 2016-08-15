@@ -6,13 +6,17 @@ app.controller('firstLoginController', function($scope, $state, $rootScope){
   $scope.master = null;
 
   $scope.setPassword = function (master){
-    utils.generateSecret(master);
-    utils.encryptFile({}, master);
-    settings.set('user', true).then(() => {
-      $rootScope.validated = true;
-      $rootScope.$evalAsync()
-      $state.go('home')
-    })
+    if ($scope.master === $scope.master2) {
+      utils.generateSecret(master);
+      utils.encryptFile({}, master);
+      settings.set('user', true).then(() => {
+        $rootScope.validated = true;
+        $rootScope.$evalAsync()
+        $state.go('home')
+      })
+    } else {
+      alert ("Your Passwords Do Not Match!");
+    }
   }
 
   $scope.username;
