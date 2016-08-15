@@ -55,8 +55,8 @@ describe('Encrypting and Decrypting Files', function (){
   		}
   		fileName = 'data.txt';
   		masterPswd = "helloMyNameIsDoge"
-  		secret = fs.readFileSync(__dirname + '/secret1.txt').toString();
-      fs.writeFileSync(__dirname + '/secret2.txt', encrypt(secret, masterPswd));
+      secret = fs.readFileSync(__dirname + '/../secret1.txt').toString()
+      fs.writeFileSync(__dirname + '/../secret2.txt', encrypt(secret, masterPswd));
       fs.mkdirSync(__dirname + '/Apps');
       settings.set('dropboxPath', __dirname)
       .then(() => {
@@ -69,8 +69,8 @@ describe('Encrypting and Decrypting Files', function (){
     })
 
     afterEach('delete encrypted secret', function (done){
-    	fs.unlinkSync(__dirname + '/secret2.txt')
-  		fs.unlinkSync(__dirname + '/' + fileName)
+      fs.unlinkSync(__dirname + '/../secret2.txt')
+  		fs.unlinkSync(__dirname + '/../' + fileName)
       rimraf(__dirname + '/Apps', function(err, data){
         console.log(err, data);
         done();
@@ -112,7 +112,7 @@ describe('Encrypting and Decrypting Files', function (){
         let enData = fs.readFileSync(__dirname + '/Apps/CryptoPass/' + fileName).toString();
         let decrypted = decrypt(enData, masterPswd);
         decrypted = JSON.parse(decrypted);
-        expect(enData).to.equal(fs.readFileSync(__dirname + '/' + fileName).toString())
+        expect(enData).to.equal(fs.readFileSync(__dirname + '/../' + fileName).toString())
         expect(decrypted).to.deep.equal(data)
         done()
       }).catch(done)
