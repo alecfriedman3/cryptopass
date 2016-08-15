@@ -1,5 +1,5 @@
 CryptoPass/node_modules
-CryptoPass//dist
+CryptoPass/dist
 CryptoPass/build/public
 CryptoPass/index.css
 CryptoPass/utilities/secret2.txt
