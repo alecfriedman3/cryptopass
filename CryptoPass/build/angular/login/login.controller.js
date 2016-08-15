@@ -13,7 +13,7 @@ app.controller('singleLoginController', function($scope, $stateParams){
 
 
 app.controller('addLoginController', function($scope, $state, $stateParams, $rootScope){
-
+	//Let's also add a website field
 	$scope.login = {
 		name: null,
 		username: null,
