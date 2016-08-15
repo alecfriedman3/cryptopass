@@ -90,7 +90,11 @@ let window;
 var idleTime=0;
 
 app.on('ready', () => {
-  window = new electron.BrowserWindow();
+  window = new electron.BrowserWindow({
+  		width: 1000,
+  		height: 650,
+  		titleBarStyle: 'hidden',
+  	})
 
   window.on('close', (e) => {
     if (willQuitApp) {
@@ -100,7 +104,7 @@ app.on('ready', () => {
 
     e.preventDefault();
     window.hide();
-     // setInterval(function(){window = null;}, 10000) 
+     // setInterval(function(){window = null;}, 10000)
    }
   });
 
@@ -113,7 +117,7 @@ app.on('ready', () => {
 /* 'activate' is emitted when the user clicks the Dock icon (OS X) */
 app.on('activate', () => window.show());
 
-/* 'before-quit' is emitted when Electron receives 
+/* 'before-quit' is emitted when Electron receives
  * the signal to exit and wants to start closing windows */
 app.on('before-quit', () => willQuitApp = true);
 

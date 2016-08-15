@@ -5,15 +5,17 @@
   "content_scripts": [
     {
       "matches": [
-        "<all_urls>" // do we want this to interact with all urls or just specified ones?
+        "<all_urls>"
       ],
       "js": ["node_modules/jquery/dist/jquery.min.js", "content.js"]
     }
   ],
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["node_modules/jquery/dist/jquery.min.js", "/node_modules/socket.io-client/socket.io.js", "background.js"],
+    "run_at": "document_end"
   },
   "browser_action": {
-    "default_icon": "icon.png"
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
   }
 }
