@@ -9,3 +9,22 @@ app.controller('singleNoteController', function($scope, $stateParams){
     $scope.updateInfo = !$scope.updateInfo;
   }
 })
+
+app.controller('addNoteController', function($scope, $state, $stateParams, $rootScope) {
+
+  $scope.note = {
+  	name: null,
+  	data: null
+  }
+
+  $scope.createNote = function() {
+    var newId = masterObj.note[masterObj.note.length - 1].id + 1
+    $scope.note.id = newId
+    if ($scope.note) masterObj.note.push($scope.note)
+    var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
+    socket.emit('addFromElectron', { data: encrypted })
+    $rootScope.$evalAsync()
+    $state.go('note.single', { id: newId })
+  }
+
+})

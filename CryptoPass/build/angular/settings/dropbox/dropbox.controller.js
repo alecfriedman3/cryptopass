@@ -22,7 +22,10 @@ app.controller('dropboxController', function($scope){
       settings.delete('dropboxPath').then(() => setScope())
     } else {
       let dropboxPath = dialog.showOpenDialog({title: 'Please select your Dropbox folder', properties: ['openDirectory']})
-      settings.set('dropboxPath', dropboxPath[0]).then(() => setScope())
+      settings.set('dropboxPath', dropboxPath[0]).then(() => {
+        setScope();
+        encryptFile(masterObj, masterPass)
+      })
     }
   }
 })

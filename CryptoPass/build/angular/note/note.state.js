@@ -13,3 +13,11 @@ app.config(function($stateProvider) {
     controller: 'singleNoteController'
   })
 })
+
+app.config(function($stateProvider) {
+  $stateProvider.state('note.add', {
+    url: '/note/add',
+    templateUrl: 'build/angular/note/note.add.view.html',
+    controller: 'addNoteController'
+  })
+})

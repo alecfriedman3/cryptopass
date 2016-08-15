@@ -13,3 +13,12 @@ app.config(function($stateProvider) {
     controller: 'singleIdentityController'
   })
 })
+
+app.config(function($stateProvider) {
+  $stateProvider.state('identity.add', {
+    url: '/identity/add',
+    templateUrl: 'build/angular/identity/identity.add.view.html',
+    controller: 'addIdentityController'
+  })
+})
+
