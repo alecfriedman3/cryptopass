@@ -1,6 +1,6 @@
 app.controller('settingsController', function($scope, $stateParams, $timeout){
 
-  $scope.sidebar = $stateParams.currentSidebar;
+  $scope.sidebar = ''//$stateParams.currentSidebar;
   $scope.error = null;
   $scope.changingMasterPass = false;
   $scope.success = null;

@@ -6,6 +6,7 @@ var Promise = require('bluebird');
 var fs = Promise.promisifyAll(require('fs'));
 var fileWriter = {};
 var settings = require('electron-settings');
+var mkdirp = require('mkdirp-promise')
 module.exports = fileWriter;
 
 
@@ -36,12 +37,17 @@ fileWriter.encryptFile = function (data, masterPswd) {
 					return fs.writeFileAsync(val + '/Apps/CryptoPass/data.txt', encrypted);
 				}
 			})
-			//Need to catch the error from stat Async and then make directory and writefile
+			//write secret if we don't get an error
+			.then(() => fs.writeFileAsync(val + '/Apps/CryptoPass/secret2.txt', fileWriter.generateSecret(masterPswd)))
+				//Need to catch the error from stat Async and then make directory and writefile
 			//This should only happen first time user connects dropbox
 			.catch(err => {
-				return fs.mkdirAsync(val + '/Apps/CryptoPass')
+				//recursively create dir if it doesn't exist
+				return mkdirp(val + '/Apps/CryptoPass')
 			})
+			//after we make dir write the data to dir
 			.then(() => fs.writeFileAsync(val + '/Apps/CryptoPass/data.txt', encrypted))
+			.then(() => fs.writeFileAsync(val + '/Apps/CryptoPass/secret2.txt', fileWriter.generateSecret(masterPswd)))
 		}
 	})
 	.catch(err => console.error(err))
@@ -63,6 +69,7 @@ fileWriter.generateSecret = function (masterPswd) {
   var secret = fs.readFileSync(__dirname + '/secret1.txt').toString();
   var encrypted = encrypt(secret, masterPswd);
   fs.writeFileSync(__dirname+"/secret2.txt", encrypted);
+	return fs.readFileSync(__dirname + '/secret2.txt').toString()
 }
 
 fileWriter.getDataEncrypted = function (){
