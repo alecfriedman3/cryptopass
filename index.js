@@ -31,16 +31,18 @@ function createMainWindow() {
 		win.loadURL(`file:${indexFile}`);
 	}
 
-	win.on('close', (e) => {
-	if (willQuitApp) {
-		/* the user tried to quit the app */
-		win = null;
-	} else {
-		/* the user only tried to close the win */
-		e.preventDefault();
-		win.hide();
-	}
-});
+	win.on('close',
+// 	       (e) => {
+// 	if (willQuitApp) {
+// 		/* the user tried to quit the app */
+// 		win = null;
+// 	} else {
+// 		/* the user only tried to close the win */
+// 		e.preventDefault();
+// 		win.hide();
+// 	}
+// }
+onClosed);
 
 	win.on('closed', onClosed);
 
