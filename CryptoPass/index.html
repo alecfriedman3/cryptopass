@@ -18,8 +18,11 @@
     <script>
     	var io = require('socket.io-client'),
 			socket = io.connect('http://localhost:9999', {reconnect: true});
-
+			socket.on('connect', function(){
+				console.log('electron connected');
+			})
 			socket.on('chromeAdd', function () {
+				console.log('chromeAdd fired');
 			  decryptFile(masterPass)
 			  .then(function (file){
 			  	masterObj = file

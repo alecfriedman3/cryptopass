@@ -9,7 +9,6 @@ var server = http.createServer(app)
 var io = require('socket.io')(server)
 
 io.on('connection', function (socket){
-
   socket.on('addFromChrome', function (data) {
   	// get the encrypted data from chrome extension and write it to the fs
   	fs.writeFileAsync(__dirname + '/../utilities/data.txt', data.data)
