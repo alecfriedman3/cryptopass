@@ -10,9 +10,11 @@
       </div>
       <div class="form-group">
         <label for="password1">Enter Your Master Password:</label>
-        <input class="form-control first-login-form-input" type="text" placeholder="Master Password" name="password1" ng-model="master" ng-minlength="6" ng-maxlength="20" required>
+        <input class="form-control first-login-form-input" type="text" placeholder="Master Password" name="password1" ng-model="master" ng-minlength="6" required>
         <label for="password2">Please Re-enter Your Password:</label>
-        <input class="form-control first-login-form-input" type="text" placeholder="Master Password" name="password2" ng-model="master2" ng-minlength="6" ng-maxlength="20" required>
+        <input class="form-control first-login-form-input" type="text" placeholder="Master Password" name="password2" ng-model="master2" ng-minlength="6" required>
+        <label for="password3">Please Re-enter Your Password:</label>
+        <input class="form-control first-login-form-input" type="text" placeholder="Master Password" name="password3" ng-model="master3" ng-minlength="6" required>
         <button type="submit" class="btn btn-large btn-default" ng-disabled="masterForm.$invalid">Set Password</button>
       </div>
     </form>
