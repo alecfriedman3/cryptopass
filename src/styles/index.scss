@@ -1,4 +1,4 @@
-html,
+/*html,*/
 body {
 	padding: 0;
 	margin: 0;
@@ -59,6 +59,7 @@ input:focus::-webkit-input-placeholder { color:transparent; }
   line-height: 0;
   opacity: 0;
   padding: 0 10px;
+}
 
 .sidebar-add {
   margin: 20px 10px 10px 0;
@@ -372,8 +373,4 @@ sidebar{
 }
 .sidebar-secondary-label{
 	margin-left: 25px;
-}
-
-.foo {
-	background: #FFF;
 }
