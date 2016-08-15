@@ -1,0 +1,12 @@
+<h1>Hi, {{username}}!</h1>
+<h3>It looks like this is your first time using CryptoPass </br> Please create a master password for your account</h3>
+<div class="first-login-input">
+  <form ng-submit="setPassword(master)">
+    <div class="form-group">
+      <label for="password1">Enter Your Master Password:</label>
+      <input class="form-control first-login-form-input" type="text" placeholder="Master Password" name="password1" ng-model="master">
+    <!--   <label for="password2">Please Re-enter Your Password:</label>
+      <input class="form-control first-login-form-input" type="text" placeholder="Master Password" name="password2" ng-model="master2"> -->
+    </div>
+  </form>
+</div>
