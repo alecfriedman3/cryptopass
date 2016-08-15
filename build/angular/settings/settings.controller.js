@@ -21,6 +21,7 @@ app.controller('settingsController', function($scope, $stateParams, $timeout){
           encryptFile(masterObj, newPassword1)
           .then(() => decryptFile(newPassword1))
           .then(() => {
+          	masterPass = newPassword1;
             $scope.success = "Successfully updated password!";
             $scope.changingMasterPass = false
             $scope.currentPassword = '';
