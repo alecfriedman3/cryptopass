@@ -14,6 +14,7 @@ h1, h2, h3, h4, h5, h6{
 header{
 	-webkit-app-region: drag;
 }
+
 input:focus::-webkit-input-placeholder { color:transparent; }
 
 .ui-view-wrapper{
@@ -58,6 +59,13 @@ input:focus::-webkit-input-placeholder { color:transparent; }
   line-height: 0;
   opacity: 0;
   padding: 0 10px;
+
+.sidebar-add {
+  margin: 20px 10px 10px 0;
+}
+
+.single-view {
+  margin: 0 auto;
 }
 
 // Lock Stuff

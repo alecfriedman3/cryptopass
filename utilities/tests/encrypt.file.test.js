@@ -2,13 +2,13 @@
 
 let chai = require('chai')
 let expect = chai.expect;
-let fileWriter = require('./encrypt.file.js');
+let fileWriter = require('../encrypt.file.js');
 let validate = fileWriter.validate;
 let encryptFile = fileWriter.encryptFile;
 let decryptFile = fileWriter.decryptFile;
 let getDataEncrypted = fileWriter.getDataEncrypted;
 let generateSecret = fileWriter.generateSecret;
-let utils = require('./encrypt.utility.js');
+let utils = require('../encrypt.utility.js');
 let encrypt = utils.encrypt
 let decrypt = utils.decrypt
 let crypto = require('crypto');
@@ -24,12 +24,12 @@ describe('Encrypting and Decrypting Files', function (){
     beforeEach('generate master passwords', function (){
       masterPassword = 'helloMyNameIsCrypto';
       falseMaster = "hello__?MyNameIsCrykslkfj9432to";
-      secret = fs.readFileSync(__dirname + '/secret1.txt').toString()
-      fs.writeFileSync(__dirname + '/secret2.txt', encrypt(secret, masterPassword));
+      secret = fs.readFileSync(__dirname + '/../secret1.txt').toString()
+      fs.writeFileSync(__dirname + '/../secret2.txt', encrypt(secret, masterPassword));
     })
 
     afterEach('delete encrypted secret', function (){
-    	fs.unlinkSync(__dirname + '/secret2.txt')
+    	fs.unlinkSync(__dirname + '/../secret2.txt')
     })
 
     it('should validate the master password', function (){
@@ -75,12 +75,15 @@ describe('Encrypting and Decrypting Files', function (){
         console.log(err, data);
         done();
       });
+  		secret = fs.readFileSync(__dirname + '/../secret1.txt').toString()
+      fs.writeFileSync(__dirname + '/../secret2.txt', encrypt(secret, masterPswd));
     })
+
 
   	it('should write to the filesystem', function (done){
   		encryptFile(data, masterPswd)
   		.then(function (){
-  			expect(fs.readFileSync(__dirname + '/' + fileName)).to.be.ok
+  			expect(fs.readFileSync(__dirname + '/../' + fileName)).to.be.ok
   			done()
   		}).catch(done)
   	})
@@ -96,7 +99,7 @@ describe('Encrypting and Decrypting Files', function (){
   	it('should encrypt the information', function (done){
   		encryptFile(data, masterPswd)
   		.then(function (){
-	  		var enData = fs.readFileSync(__dirname + '/' + fileName).toString()
+	  		var enData = fs.readFileSync(__dirname + '/../' + fileName).toString()
 	  		var decrypted = decrypt(enData, masterPswd);
 	  		var newData = JSON.parse(decrypted);
 	  		expect(newData).to.deep.equal(data)
@@ -128,7 +131,7 @@ describe('Encrypting and Decrypting Files', function (){
   		encryptFile(data, masterPswd)
   		.then(getDataEncrypted)
   		.then(function (retreivedData){
-  			expect(retreivedData).to.be.equal(fs.readFileSync(__dirname + '/' + fileName).toString())
+  			expect(retreivedData).to.be.equal(fs.readFileSync(__dirname + '/../' + fileName).toString())
   			done()
   		}).catch(done)
   	})
@@ -140,18 +143,18 @@ describe('Encrypting and Decrypting Files', function (){
     var masterPassword = "WhateverWeWant"
 
     afterEach('delete encrypted secret', function () {
-      fs.unlinkSync(__dirname + '/secret2.txt');
+      fs.unlinkSync(__dirname + '/../secret2.txt');
     })
 
     it('should write to the filesystem', function () {
       generateSecret(masterPassword);
-      expect(fs.readFileSync(__dirname+'/secret2.txt')).to.be.ok;
+      expect(fs.readFileSync(__dirname+'/../secret2.txt')).to.be.ok;
     })
 
     it('should encrypt the secret', function () {
       generateSecret(masterPassword);
-      var encrypted = fs.readFileSync(__dirname + "/secret2.txt").toString();
-      expect(decrypt(encrypted, masterPassword)).to.be.equal(fs.readFileSync(__dirname+'/secret1.txt').toString());
+      var encrypted = fs.readFileSync(__dirname + "/../secret2.txt").toString();
+      expect(decrypt(encrypted, masterPassword)).to.be.equal(fs.readFileSync(__dirname+'/../secret1.txt').toString());
     })
 
   })
