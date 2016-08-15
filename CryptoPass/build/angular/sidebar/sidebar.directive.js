@@ -30,6 +30,7 @@ app.directive('sidebar', function($state){
     link: function(scope){
     	scope.singleView = function (id){
       	var stateParent = $state.current.name.replace(/\.single/g, '').replace(/\.add/g, '')
+      	console.log(stateParent)
       	$state.go(stateParent + '.single', {id: id})
       }
 
