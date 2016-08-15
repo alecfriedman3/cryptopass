@@ -27,6 +27,46 @@ app.controller('authController', function($scope, $state, $rootScope){
 	}
 });
 
+//CODE FOR SYNCING WITH DB BELOW
+// 
+// app.controller('authController', function($scope, $state, $rootScope){
+//
+// 	$scope.master = null;
+//
+// 	$scope.authenticatePassword = function (master){
+// 		var isValid = validate(master)
+// 		if (!isValid) {
+// 			console.log('invalid master password')
+// 			$scope.master = null
+// 			return
+// 		} else if (isValid){
+// 			dropboxUtilities.getFileData()
+// 			.then(data => {
+// 				var decryptedDropbox = decryptData(data, master);
+// 				return encryptFile(decryptedDropbox, master);
+// 			})
+// 			.then(file => {
+// 				masterObj = JSON.parse(decryptFile(master));
+// 				masterPass = master;
+// 				$rootScope.validated = true;
+// 				$rootScope.$evalAsync()
+// 				$state.go('home')
+// 			})
+// 			.catch(err => {
+// 				console.log(err);
+// 				masterObj = JSON.parse(decryptFile(master));
+// 				masterPass = master;
+// 				$rootScope.validated = true;
+// 				$rootScope.$evalAsync()
+// 				$state.go('home')
+// 			})
+// 		}
+// 	}
+// });
+
+
+
+
 // 	var number = document.getElementsByClassName("number"),
 // 	    numberSelect = document.getElementsByClassName("number_select");
 //

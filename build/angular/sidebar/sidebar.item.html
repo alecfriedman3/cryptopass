@@ -1,5 +1,15 @@
-<span class="nav-group-item">
+<!-- <span class="nav-group-item">
   <span class="icon icon-download"></span>
   <h5 class="inline">{{item.name}}</h5>
-  <h6 class="sidebar-secondary-label">{{secondaryProp}}</h6>
-</span>
+  <h6 class="sidebar-secondary-label">{{item.secondaryProp()}}</h6>
+</span> -->
+<div class="sidebar-items">
+  <li class="list-group-item">
+    <img class="img-circle media-object pull-left" ng-src="{{getImg(item.name)}}" width="48" height="48" />
+    <div class="media-body">
+      <strong>{{item.name}}</strong>
+      <p>{{item.secondaryProp()}}</p>
+    </div>
+  </li>
+
+</div>

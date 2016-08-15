@@ -1,11 +1,12 @@
+'use strict'
 var utils = require('./encrypt.utility.js')
 var encrypt = utils.encrypt;
 var decrypt = utils.decrypt;
-var Promise = require('bluebird')
-var fs = Promise.promisifyAll(require('fs'))
-var fileWriter = {}
+var Promise = require('bluebird');
+var fs = Promise.promisifyAll(require('fs'));
+var fileWriter = {};
+var settings = require('electron-settings');
 module.exports = fileWriter;
-
 
 
 fileWriter.validate = function (masterPw) {
@@ -23,6 +24,27 @@ fileWriter.encryptFile = function (data, masterPswd) {
 	// upon exiting application, encrypt data and write to file
 	var encrypted = encrypt(JSON.stringify(data), masterPswd)
 	return fs.writeFileAsync(__dirname + '/data.txt', encrypted)
+	.then(() => {
+		return settings.get('dropboxPath')
+	})
+	.then(val => {
+		if(val) {
+			//Use Stat to check if file exists (fs.exists is deprecated)
+			return fs.statAsync(val + '/Apps/CryptoPass').then((stat) => {
+				if(!err) {
+					//If No error then it exists.  Write that data
+					return fs.writeFileAsync(val + '/Apps/CryptoPass/data.txt', encrypted);
+				}
+			})
+			//Need to catch the error from stat Async and then make directory and writefile
+			//This should only happen first time user connects dropbox
+			.catch(err => {
+				return fs.mkdirAsync(val + '/Apps/CryptoPass')
+			})
+			.then(() => fs.writeFileAsync(val + '/Apps/CryptoPass/data.txt', encrypted))
+		}
+	})
+	.catch(err => console.error(err))
 
 }
 
