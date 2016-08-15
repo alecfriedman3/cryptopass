@@ -1,5 +1,5 @@
-let username = require('username')
-let settings = require('electron-settings');
+// var username = require('username')
+// var settings = require('electron-settings');
 
 app.controller('firstLoginController', function($scope, $state, $rootScope){
 
@@ -7,14 +7,12 @@ app.controller('firstLoginController', function($scope, $state, $rootScope){
 
   $scope.setPassword = function (master){
     utils.generateSecret(master);
-    settings.set('user', {
-      exists: true
+    utils.encryptFile({}, master);
+    settings.set('user', true).then(() => {
+      $rootScope.validated = true;
+      $rootScope.$evalAsync()
+      $state.go('home')
     })
-      .then(function () {
-        $rootScope.validated = true;
-        $rootScope.$evalAsync()
-        $state.go('home')
-      })
   }
 
   $scope.username;
