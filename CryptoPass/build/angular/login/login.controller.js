@@ -3,12 +3,36 @@ app.controller('loginController', function($scope){
   $scope.accounts = masterObj.login;
 })
 
-app.controller('singleLoginController', function($scope, $stateParams){
+app.controller('singleLoginController', function($scope, $stateParams, $state){
   $scope.account = masterObj.login.filter(info => info.id == $stateParams.id)[0]
   $scope.updateInfo = false;
   $scope.showForm = function () {
     $scope.updateInfo = !$scope.updateInfo;
   }
+  $scope.changeInfo=function(){
+  	if ($scope.password1!==$scope.password2) {
+  		$scope.error=true;
+  		return;
+  	}
+  	$scope.error=null;
+  	masterObj.login.forEach(account =>{
+  		if (account.id===$scope.account.id) {
+  			account.username=$scope.userName || account.username;
+  			account.password=$scope.password1 || account.password;
+  		}
+  	})
+  	var encrypted=encrypt(JSON.stringify(masterObj),masterPass);
+  	socket.emit('addFromElectron',{data:encrypted});
+  	$state.reload();
+  }
+  $scope.generatePassword = function (len, syms, nums){
+		$scope.password1=$scope.password2 = createRandom(+len, +syms, +nums)
+
+	}
+		$scope.gen = null
+	$scope.generate = function (){
+		$scope.gen = !$scope.gen
+	}
 })
 
 
