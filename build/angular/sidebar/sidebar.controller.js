@@ -5,7 +5,6 @@ app.controller('sidebarController', function($rootScope, $scope){
 
   username().then(username => {
     $scope.username = username;
-    console.log(username);
     $scope.$evalAsync()
   })
 });

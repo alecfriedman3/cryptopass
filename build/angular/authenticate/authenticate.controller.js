@@ -13,7 +13,6 @@ app.controller('authController', function($scope, $state, $rootScope){
 	$scope.authenticatePassword = function (master){
 		var isValid = validate(master)
 		if (!isValid) {
-			console.log('invalid master password')
 			$scope.master = null
 			return
 		} else if (isValid){
