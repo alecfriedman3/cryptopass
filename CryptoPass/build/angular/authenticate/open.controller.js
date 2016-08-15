@@ -1,6 +1,6 @@
 app.controller('openController', function($scope, $state, $rootScope){
 
-  settings.get('usersd').then(val => {
+  settings.get('userds').then(val => {
     if (val) {
       // console.log(val);
       $state.go('auth');
