@@ -10,6 +10,7 @@ var indexFile = `${__dirname}/index.html`;
 
 
 // prevent window being garbage collected
+let willQuitApp = false;
 let mainWindow;
 
 function onClosed() {
@@ -20,25 +21,40 @@ function onClosed() {
 
 function createMainWindow() {
 	const win = new BrowserWindow({
-		width: 800,
-		height: 500,
-		titleBarStyle: 'hidden'
+		width: 1000,
+		height: 650,
+		titleBarStyle: 'hidden',
+
 	});
 
 	if (process.env['NODE_ENV'] == 'dev') {
 		win.loadURL(`file:${indexFile}`);
 	}
 
+	win.on('close',
+// 	       (e) => {
+// 	if (willQuitApp) {
+// 		/* the user tried to quit the app */
+// 		win = null;
+// 	} else {
+// 		/* the user only tried to close the win */
+// 		e.preventDefault();
+// 		win.hide();
+// 	}
+// }
+onClosed);
 
 	win.on('closed', onClosed);
 
 	return win;
 }
 
+app.on('activate', () => mainWindow.show());
+
 app.on('window-all-closed', () => {
-	if (process.platform !== 'darwin') {
+	// if (process.platform !== 'darwin') {
 		app.quit();
-	}
+	// }
 });
 
 app.on('activate-with-no-open-windows', () => {

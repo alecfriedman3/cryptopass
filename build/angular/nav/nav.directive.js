@@ -6,6 +6,7 @@ app.directive('navBar', function($state, $stateParams, $rootScope){
     templateUrl: 'build/angular/nav/nav.directive.html',
     link: function(scope){
       scope.active = null;
+      scope.show = false
       scope.navClick = function(str){
       	decryptFile(masterPass)
       	.then(function (obj){
@@ -23,7 +24,12 @@ app.directive('navBar', function($state, $stateParams, $rootScope){
       		return
       	}
         scope.active = str;
+        scope.show = false;
         $state.go(str)
+      }
+      scope.showHideDropdown = function(){
+        console.log('clicked');
+        scope.show = !scope.show;
       }
     }
   }

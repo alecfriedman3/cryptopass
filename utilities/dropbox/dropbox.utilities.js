@@ -17,7 +17,7 @@ module.exports = {
         xhr.open("GET", linkObj.link, false);
         xhr.onreadystatechange = function(e) {
           if (xhr.readyState === 4 && xhr.status === 200){
-            resolve(xhr.responseText)
+            resolve(xhr.responseText.replace(/"/g, ''))
           } else {
             reject(xhr.statusText)
           }
