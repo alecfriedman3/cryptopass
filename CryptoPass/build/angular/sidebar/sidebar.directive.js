@@ -13,7 +13,19 @@ app.directive('sidebarItem', function($state){
         let fileNames = fs.readdirSync(__dirname +'/build/images/icons/');
         let strArr = str.toLowerCase().split(' ');
         let matches = strArr.filter(word => fileNames.indexOf(word += '.png') > -1)
-        return matches.length > 0 ? 'build/images/icons/' + matches[0] + '.png' : 'build/images/icons/key.png';
+        return matches.length > 0 ? 'build/images/icons/' + matches[0] + '.png' : 'build/images/icons/key.png';     
+      }
+      scope.delete=function(id){
+        var stateParent = $state.current.name.replace(/\.single/g, '').replace(/\.add/g, '')
+        masterObj[stateParent].forEach((info, i) => {
+          if (info.id==id) {
+            masterObj[stateParent].splice(i,1);
+
+          }
+        })
+        var encrypted=encrypt(JSON.stringify(masterObj),masterPass);
+        socket.emit('addFromElectron',{data:encrypted});
+       $state.go(stateParent);
       }
     }
   }
