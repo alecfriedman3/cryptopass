@@ -18,7 +18,7 @@ app.controller('addIdentityController', function($scope, $state, $stateParams, $
   }
 
   $scope.createId = function() {
-    var newId = masterObj.identity[masterObj.identity.length - 1].id + 1
+    var newId = masterObj.identity.length ? masterObj.identity[masterObj.identity.length - 1].id + 1 : 1
     $scope.identity.id = newId
     if ($scope.identity) masterObj.identity.push($scope.identity)
     var encrypted = encrypt(JSON.stringify(masterObj), masterPass)

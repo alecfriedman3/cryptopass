@@ -18,7 +18,7 @@ app.controller('addNoteController', function($scope, $state, $stateParams, $root
   }
 
   $scope.createNote = function() {
-    var newId = masterObj.note[masterObj.note.length - 1].id + 1
+    var newId = masterObj.note.length ? masterObj.note[masterObj.note.length - 1].id + 1 : 1;
     $scope.note.id = newId
     if ($scope.note) masterObj.note.push($scope.note)
     var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
