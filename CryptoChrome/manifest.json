@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "CryptoChrome",
+  "version": "1.0.0",
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>" // do we want this to interact with all urls or just specified ones?
+      ],
+      "js": ["node_modules/jquery/dist/jquery.min.js", "content.js"]
+    }
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "browser_action": {
+    "default_icon": "icon.png"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "cryptochrome",
+  "version": "1.0.0",
+  "description": "cryptochromeextension",
+  "main": "content.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "atf",
+  "license": "ISC",
+  "dependencies": {
+    "socket.io": "^1.4.8"
+  }
+}
