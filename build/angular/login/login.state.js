@@ -14,3 +14,11 @@ app.config(function($stateProvider) {
     controller: 'singleLoginController'
   })
 })
+
+app.config(function($stateProvider) {
+  $stateProvider.state('login.add', {
+    url: '/login/add',
+    templateUrl: 'build/angular/login/login.add.view.html',
+    controller: 'addLoginController'
+  })
+})

@@ -121,7 +121,9 @@ describe('Encrypting and Decrypting Files', function (){
   	it('should decrypt encrypted information', function (done){
   		encryptFile(data, masterPswd)
   		.then(function (){
-	  		var newData = decryptFile(masterPswd)
+	  		return decryptFile(masterPswd)
+  		})
+  		.then(function(newData){
 	  		expect(newData).to.deep.equal(data)
 	  		done()
   		}).catch(done)

@@ -15,17 +15,31 @@
 				<ui-view></ui-view>
 			</div>
     </div>
+    <script>
+    	var io = require('socket.io-client'),
+			socket = io.connect('http://localhost:9999', {reconnect: true});
+
+			socket.on('chromeAdd', function () {
+			  decryptFile(masterPass)
+			  .then(function (file){
+			  	masterObj = file
+			  })
+			});
+
+    </script>
 		<script>
 			var dropboxUtilities = require('./utilities/dropbox/dropbox.utilities.js')
-			var fileUtilities = require('./utilities/encrypt.file.js');
+			var utils = require('./utilities/encrypt.file.js');
 			var utilities = require('./utilities/encrypt.utility.js');
-			var validate = fileUtilities.validate;
-			var decryptFile = fileUtilities.decryptFile;
-			var encryptFile = fileUtilities.encryptFile;
+			var validate = utils.validate;
+			var decryptFile = utils.decryptFile;
+			var encryptFile = utils.encryptFile;
+			var encrypt = utilities.encrypt;
 			var decryptData = utilities.decrypt;
-			var getDataEncrypted = fileUtilities.getDataEncrypted;
-			var generateSecret = fileUtilities.generateSecret;
-			var masterObj= {
+			var getDataEncrypted = utils.getDataEncrypted
+			var createRandom = require('./utilities/password-utilities/pass.gen').createRandom
+			var generateSecret = utils.generateSecret;
+			var masterObj = {
 			  login: [
 			    {
 			      name: 'Facebook',
