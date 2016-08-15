@@ -13,11 +13,11 @@
         <sidebar-item ng-repeat="info in navItem" item="info" ng-click="singleView(info.id)"></sidebar-item>
       </ul>
 
-      <button class="btn btn-default pull-right sidebar-add" ng-click="addItem()"><span class="icon icon-plus-squared"></span></button>
+		  <div class="btn-group settings-button">
+		    <button ng-click="settingsView(navItem, secondaryProp)">
+		      <span class="icon icon-cog"></span>
+		    </button>
+	      <button class="btn btn-default pull-right sidebar-add" ng-click="addItem()"><span class="icon icon-plus-squared"></span></button>
+		  </div>
   </nav>
-  <div class="btn-group settings-button">
-    <button ng-click="settingsView(navItem, secondaryProp)">
-      <span class="icon icon-cog"></span>
-    </button>
-  </div>
 </div>

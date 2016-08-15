@@ -19,17 +19,20 @@ app.controller('addLoginController', function($scope, $state, $stateParams, $roo
 		username: null,
 		password: null
 	}
+	$scope.gen = null
 
-	$scope.generatePassword = function (){
+	$scope.generate = function (){
+		$scope.gen = !$scope.gen
+	}
 
-		$scope.login.password = createRandom(20)
+	$scope.generatePassword = function (len, syms, nums){
+		$scope.login.password = createRandom(+len, +syms, +nums)
 
 	}
 
 	$scope.createLogin = function (){
 		var newId = masterObj.login[masterObj.login.length - 1].id + 1
 		$scope.login.id = newId
-		$scope.login.secondaryProp = function (){ return this.username }
 		masterObj.login.push($scope.login)
 		var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
 		socket.emit('addFromElectron', {data: encrypted})
