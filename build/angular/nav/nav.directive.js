@@ -6,6 +6,7 @@ app.directive('navBar', function($state, $stateParams){
     templateUrl: 'build/angular/nav/nav.directive.html',
     link: function(scope){
       scope.active = null;
+      scope.show = false
       scope.navClick = function(str){
       	if (str == scope.active) return
       	var storedState = JSON.stringify({name: $state.current.name, id: $stateParams.id})
@@ -18,7 +19,12 @@ app.directive('navBar', function($state, $stateParams){
       		return
       	}
         scope.active = str;
+        scope.show = false;
         $state.go(str)
+      }
+      scope.showHideDropdown = function(){
+        console.log('clicked');
+        scope.show = !scope.show;
       }
     }
   }

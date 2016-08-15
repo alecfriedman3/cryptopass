@@ -1,9 +1,23 @@
-<div class="pane pane-sm sidebar">
+<div class="pane pane-lg sidebar">
+  <nav-bar class="navbar-directive-class" ng-show="true"></nav-bar>
   <nav class="nav-group">
-    <h5 class="nav-group-title">Categories</h5>
+    <h1 class="navbar-header">Welcome, {{username}}</h1>
       <!-- <sidebar-item model="item" ng-repeat="item in items"></sidebar-item> -->
-      <sidebar-item ng-repeat="info in navItem" item="info" ng-click="singleView(info.id)"></sidebar-item>
+      <ul class="list-group">
+        <div class="sidebar-search">
+          <li class="list-group-header">
+            <input class="sidebar-search-input form-control" type="text" placeholder="Search">
+          </li>
+        </div>
+
+        <sidebar-item ng-repeat="info in navItem" item="info" ng-click="singleView(info.id)"></sidebar-item>
+      </ul>
+
       <button class="btn btn-default pull-right sidebar-add"><span class="icon icon-plus-squared"></span></button>
   </nav>
-  <button ng-click="dropboxAuth()" ng-controller="dropboxController" class="btn btn-primary">{{dropboxAuthenticated}}</button>
+  <div class="btn-group settings-button">
+    <button ng-click="settingsView(navItem, secondaryProp)">
+      <span class="icon icon-cog"></span>
+    </button>
+  </div>
 </div>
