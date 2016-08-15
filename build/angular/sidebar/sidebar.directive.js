@@ -29,14 +29,12 @@ app.directive('sidebar', function($state){
     templateUrl: 'build/angular/sidebar/sidebar.html',
     link: function(scope){
     	scope.singleView = function (id){
-    		console.log('wtf')
       	var stateParent = $state.current.name.replace(/\.single/g, '').replace(/\.add/g, '')
       	$state.go(stateParent + '.single', {id: id})
       }
 
     	scope.addItem = function (){
     		var stateParent = $state.current.name.replace(/\.single/g, '').replace(/\.add/g, '')
-    		console.log('wtf3', stateParent)
     		$state.go(stateParent + '.add')
     	}
 
