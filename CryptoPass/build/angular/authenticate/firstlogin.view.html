@@ -1,6 +1,6 @@
 <div class="first-login">
   <h1>Hi, {{username}}!</h1>
-  <h3>It looks like this is your first time using CryptoPass. </br> Please create a master password for your account</h3>
+  <h3>It looks like this is your first time using CryptoPass. </br> Please create a master password for your account.</h3>
   <div class="first-login-input">
     <form novalidate name="masterForm" ng-submit="setPassword(master)">
       <div ng-messages="masterForm.master.$error" ng-hide="masterForm.title.$pristine" role="alert">
@@ -18,5 +18,6 @@
         <button type="submit" class="btn btn-large btn-default" ng-disabled="masterForm.$invalid">Set Password</button>
       </div>
     </form>
+    <button class="btn btn-large btn-primary" ng-click="dropboxImport()">Import From Dropbox</button>
   </div>
 </div>
