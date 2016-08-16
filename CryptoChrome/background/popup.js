@@ -1,19 +1,19 @@
 
+		var socket = io.connect('http://localhost:9999', { reconnect: true });
+var app = angular.module('cryptoPass', [ /*, require('angular-animate'), 'ui.slider'*/ ])
 
-// var app = angular.module('cryptoPass', [ /*, require('angular-animate'), 'ui.slider'*/ ])
+app.controller('cryptoCtrl', function($scope, $rootScope) {
+  console.log('started angular')
+  $scope.authenticate = true;
 
-// app.controller('cryptoCtrl', function($scope, $rootScope) {
-//   console.log('started angular')
-//   $scope.authenticate = true;
-
-//   $scope.authenticatePassword = function() {
-//     // need to validate password from chrome
-//     console.log($scope.master, socket)
-//     masterPass = $scope.master
-//     console.log(masterPass)
-//     socket.emit('chromeToValidate')
-//   }
-// })
+  $scope.authenticatePassword = function() {
+    // need to validate password from chrome
+    console.log($scope.master, socket)
+    masterPass = $scope.master
+    console.log(masterPass)
+    socket.emit('chromeToValidate', {})
+  }
+})
 
 
 

@@ -59,7 +59,7 @@ io.on('connection', function (socket){
   	}).catch(console.error.bind(error))
   })
 
-  socket.on('chromeToValidate', function (){
+  socket.on('chromeToValidate', function (data){
   	socket.emit('secretToChrome', {data: 'hello'})
   	return
 
