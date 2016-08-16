@@ -10,15 +10,15 @@ angular.module('app.routes', [])
     
   
 
-      .state('tabsController.cryptoPass', {
-    url: '/home',
-    views: {
-      'tab1': {
-        templateUrl: 'templates/cryptoPass.html',
-        controller: 'cryptoPassCtrl'
-      }
-    }
-  })
+  //     .state('tabsController.cryptoPass', {
+  //   url: '/home',
+  //   views: {
+  //     'tab1': {
+  //       templateUrl: 'templates/cryptoPass.html',
+  //       controller: 'cryptoPassCtrl'
+  //     }
+  //   }
+  // })
 
   .state('logIn', {
     url: '/auth',
@@ -32,11 +32,11 @@ angular.module('app.routes', [])
     abstract:true
   })
 
-  .state('logins', {
-    url: '/logins',
-    templateUrl: 'templates/logins.html',
-    controller: 'loginsCtrl'
-  })
+  // .state('logins', {
+  //   url: '/logins',
+  //   templateUrl: 'templates/logins.html',
+  //   controller: 'loginsCtrl'
+  // })
 
   .state('creditcards', {
     url: '/creditcards',
@@ -56,11 +56,11 @@ angular.module('app.routes', [])
     controller: 'notesCtrl'
   })
 
-  .state('loginDeatails', {
-    url: '/loginDeatails',
-    templateUrl: 'templates/loginDeatails.html',
-    controller: 'loginDeatailsCtrl'
-  })
+  // .state('loginDeatails', {
+  //   url: '/loginDeatails',
+  //   templateUrl: 'templates/loginDeatails.html',
+  //   controller: 'loginDeatailsCtrl'
+  // })
 
   .state('creditcardDetails', {
     url: '/creditcardDetails',
