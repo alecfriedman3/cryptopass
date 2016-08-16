@@ -71,9 +71,13 @@ app.on('ready', () => {
 var chalk = require('chalk')
 const exec = require('child_process').exec;
 
-var execution = exec('node chrome-server/chrome.extension.server.js');
+var child = exec('node chrome-server/chrome.extension.server.js');
 
-execution.stdout.on('data', function (data){
+child.stdout.on('data', function (data){
 	if (typeof data === 'string') console.log(chalk.cyan(data));
 	else console.log(chalk.cyan('server data'), data)
 })
+
+app.on('before-quit', () => {
+		child.kill('SIGTERM')
+});

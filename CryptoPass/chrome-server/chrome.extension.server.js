@@ -55,7 +55,7 @@ io.on('connection', function (socket){
   	.then(data => {
   		data = data.toString()
   		socket.emit('responseChromeValidated', {data: data})
-  	}).catch(console.error.bind(error))
+  	}).catch(console.error.bind(console))
   })
 
   socket.on('chromeToValidate', function (data){
@@ -63,9 +63,8 @@ io.on('connection', function (socket){
 
   	fs.readFileAsync(__dirname + '/../utilities/secret2.txt')
   	.then(secretData => {
-  		secretData = secretData.toString()
-  		io.emit('secretToChrome', {data: secretData})
-  	}).catch(console.error.bind(error))
+  		socket.emit('secretToChrome', {data: secretData.toString()})
+  	}).catch(console.error.bind(console))
   })
 
 
