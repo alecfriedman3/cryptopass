@@ -9,7 +9,10 @@
   "author": "atf",
   "license": "ISC",
   "dependencies": {
+    "angular": "^1.5.8",
+    "angular-ui-router": "^0.3.1",
     "jquery": "*",
-    "socket.io": "^1.4.8"
+    "socket.io": "^1.4.8",
+    "ui-router": "^1.0.0-alpha.3"
   }
 }
