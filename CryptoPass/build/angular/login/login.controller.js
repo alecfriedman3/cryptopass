@@ -1,5 +1,4 @@
 app.controller('loginController', function($scope){
-  console.log('in logins controller');
   $scope.accounts = masterObj.login;
 })
 
@@ -61,7 +60,7 @@ app.controller('addLoginController', function($scope, $state, $stateParams, $roo
 		var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
 		socket.emit('addFromElectron', {data: encrypted})
 		$rootScope.$evalAsync()
-		$state.go('login.single', {id: newId})
+		$state.go('login.single', {id: newId}, {reload: true})
 	}
 
 })

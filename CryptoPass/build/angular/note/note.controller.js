@@ -24,7 +24,7 @@ app.controller('addNoteController', function($scope, $state, $stateParams, $root
     var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
     socket.emit('addFromElectron', { data: encrypted })
     $rootScope.$evalAsync()
-    $state.go('note.single', { id: newId })
+    $state.go('note.single', { id: newId }, {reload: true})
   }
 
 })

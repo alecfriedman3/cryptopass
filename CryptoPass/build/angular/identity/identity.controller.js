@@ -24,7 +24,7 @@ app.controller('addIdentityController', function($scope, $state, $stateParams, $
     var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
     socket.emit('addFromElectron', { data: encrypted })
     $rootScope.$evalAsync()
-    $state.go('identity.single', { id: newId })
+    $state.go('identity.single', { id: newId }, {reload: true})
   }
 
 })
