@@ -1,11 +1,12 @@
 app.config(function($stateProvider, $urlRouterProvider) {
-  $stateProvider.state('tabsController.cryptoPass', {
+  $stateProvider.state('home', {
     url: '/home',
     views: {
       'tab1': {
-        templateUrl: 'templates/cryptoPass.html',
+        templateUrl: 'angular/home/home.view.html',
         controller: 'cryptoPassCtrl'
       }
     }
   })
+
 })
