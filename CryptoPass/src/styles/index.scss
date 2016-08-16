@@ -553,4 +553,21 @@ body {
   }
 }
 
+.no-data-content {
+  h3 {
+    color: rgb(52, 148, 132);
+    width: 100%;
+    text-align: center;
+  }
+  .no-data-content-btn {
+    display: block;
+    margin-left: 50px;
+  }
+  button {
+    display: inline-block;
+    span {
+      margin-right: 10px;
+    }
+  }
+}
 
