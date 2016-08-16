@@ -36,14 +36,14 @@ app.controller('cryptoCtrl', function($scope, $rootScope) {
 
   socket.on('secretToChrome', function(data) {
     console.log('secret ', data)
-    // try {
-    //   console.log('decrypting secret')
-    //     // try decrypting, if success emit success, otherwise reset master
-    //   decrypt(data.data, masterPass);
-    //   socket.emit('chromeValidated');
-    // } catch (err) {
-    //   console.error(err)
-    // }
+    try {
+      console.log('decrypting secret')
+        // try decrypting, if success emit success, otherwise reset master
+      decrypt(data.data, masterPass);
+      socket.emit('chromeValidated');
+    } catch (err) {
+      console.error(err)
+    }
   })
 
 
