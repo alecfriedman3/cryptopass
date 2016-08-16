@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="angular/build/main.js"></script>
+    <script src="js/controllers.js"></script>
+  </head>
+
+  <body ng-app="cryptoPass">
+    <ion-nav-view></ion-nav-view>
+    <script>
+    var masterObj = {
+      login: [
+        {
+          name: 'Facebook',
+    			secondaryProp: function(){return this.username},
+          username: 'elliottmcnary@gmail.com',
+          password: 'test1234',
+          id: 1
+        },{
+          name: 'Twitter',
+    			secondaryProp: function(){return this.username},
+          username: 'elliottmcnary@gmail.com',
+          password: 'twitterPass',
+          id: 2
+        },{
+          name: 'Quora',
+    			secondaryProp: function(){return this.username},
+          username: 'elliottmcnary@gmail.com',
+          password: 'testingPass',
+          id: 3
+        },{
+          name: 'Chase',
+    			secondaryProp: function(){return this.username},
+          username: 'elliottmcnary@gmail.com',
+          password: '3203242Elliott',
+          id: 4
+        },{
+          name: 'Wells Fargo',
+    			secondaryProp: function(){return this.username},
+          username: 'elliottmcnary@gmail.com',
+          password: 'blah5302',
+          id: 5
+        },
+      ],
+      creditCard: [
+        {
+          name: 'Chase Saphire Preferred',
+    			secondaryProp: function(){return this.cardNumber},
+          cardNumber: '4444 3839 3020 2010',
+          ccv: '439',
+          expiration: '12/2019',
+          firstName: 'Elliott',
+          lastName: 'McNary',
+          type: 'Visa',
+          id: 1
+        },{
+          name: 'Capital One Venture',
+    			secondaryProp: function(){return this.cardNumber},
+          cardNumber: '4444 3239 3020 2010',
+          ccv: '342',
+          expiration: '12/2018',
+          firstName: 'Elliott',
+          lastName: 'McNary',
+          type: 'Visa',
+          id: 2
+        }
+      ],
+      identity: [
+        {
+          name: 'Social Security',
+    			secondaryProp: function(){return this.data.slice(0, 12) + '...'},
+          data: 'Number: 548 29 3039',
+          id: 1
+        },{
+          name: 'NSA Access Card',
+    			secondaryProp: function(){return this.data.slice(0, 12) + '...'},
+          data: 'Badge Number: 3402349342',
+          id: 2
+        }
+      ],
+      note: [
+        {
+          name: 'Sensitive Note',
+          data: 'Today I did something very bad and I don\'t want people to know about it.',
+    			secondaryProp: function(){return this.data.slice(0, 12) + '...'},
+          id: 1
+        },{
+          name: 'Dear Diary - 1/31',
+          data: 'I kissed a girl and I liked it',
+    			secondaryProp: function(){return this.data.slice(0, 12) + '...'},
+          id: 2
+        }
+      ]
+    }
+    </script>
+  </body>
+</html>
