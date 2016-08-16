@@ -1,5 +1,6 @@
 
-// var socket = io.connect('http://localhost:9999', { reconnect: true });
+var socket = io('http://localhost:9999', { reconnect: true });
+var masterObj, masterPass;
 var app = angular.module('cryptoPass', [ /*, require('angular-animate'), 'ui.slider'*/ ])
 
 app.controller('cryptoCtrl', function($scope, $rootScope) {
@@ -14,7 +15,6 @@ app.controller('cryptoCtrl', function($scope, $rootScope) {
     socket.emit('chromeToValidate')
   }
 })
-
 
   socket.on('connect', function() {
     console.log('chrome connected');
@@ -32,15 +32,18 @@ app.controller('cryptoCtrl', function($scope, $rootScope) {
   $('button').on('click', function() {
     console.log('clicked');
     socket.emit('chromeToValidate', { data: 'lollll' })
+    console.log(masterPass)
   })
 
   socket.on('secretToChrome', function(data) {
     console.log('secret ', data)
     try {
-      console.log('decrypting secret')
         // try decrypting, if success emit success, otherwise reset master
-      decrypt(data.data, masterPass);
-      socket.emit('chromeValidated');
+      var decrypted = decrypt(data.data, masterPass)
+      var test = encrypt('hello world', masterPass)
+      var detest = decrypt(test.toString(), masterPass)
+      console.log('decrypting secret', detest)
+      // socket.emit('chromeValidated');
     } catch (err) {
       console.error(err)
     }

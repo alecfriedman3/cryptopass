@@ -60,13 +60,11 @@ io.on('connection', function (socket){
 
   socket.on('chromeToValidate', function (data){
   	console.log('chrome to validate')
-  	// io.emit('secretToChrome', {data: 'hello'})
-  	// return
 
   	fs.readFileAsync(__dirname + '/../utilities/secret2.txt')
-  	.then(data => {
-  		data = data.toString()
-  		socket.emit('secretToChrome', {data: data})
+  	.then(secretData => {
+  		secretData = secretData.toString()
+  		io.emit('secretToChrome', {data: secretData})
   	}).catch(console.error.bind(error))
   })
 
