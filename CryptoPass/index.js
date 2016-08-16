@@ -68,6 +68,12 @@ app.on('ready', () => {
 });
 
 
+var chalk = require('chalk')
 const exec = require('child_process').exec;
 
-exec('node chrome-server/chrome.extension.server.js');
+var execution = exec('node chrome-server/chrome.extension.server.js');
+
+execution.stdout.on('data', function (data){
+	if (typeof data === 'string') console.log(chalk.cyan(data));
+	else console.log(chalk.cyan('server data'), data)
+})

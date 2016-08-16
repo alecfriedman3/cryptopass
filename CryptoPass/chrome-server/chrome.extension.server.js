@@ -7,10 +7,9 @@ var fs = Promise.promisifyAll(require('fs'));
 
 var server = http.createServer(app)
 var io = require('socket.io')(server)
-
 io.on('connection', function (socket){
 
-	socket.emit('connect')
+	io.emit('connect')
 
   socket.on('addFromChrome', function (data) {
   	// get the encrypted data from chrome extension and write it to the fs
@@ -60,8 +59,9 @@ io.on('connection', function (socket){
   })
 
   socket.on('chromeToValidate', function (data){
-  	socket.emit('secretToChrome', {data: 'hello'})
-  	return
+  	console.log('chrome to validate')
+  	io.emit('secretToChrome', {data: 'hello'})
+  	// return
 
   	// fs.readFileAsync(__dirname + '/../utilities/secret2.txt')
   	// .then(data => {
@@ -75,3 +75,4 @@ io.on('connection', function (socket){
 
 
 server.listen(9999, 'localhost')
+console.log(chalk.cyan('child server connected'))
