@@ -2,7 +2,7 @@ var encryptFile = require('./utilities/encrypt.file.js');
 
 var masterPassword = 'master';
 
-var dataObj = {
+var masterObj = {
   login: [
     {
       name: 'Facebook',
@@ -77,4 +77,4 @@ var dataObj = {
 };
 
 encryptFile.generateSecret(masterPassword);
-encryptFile.encryptFile(dataObj, masterPassword);
+encryptFile.encryptFile(masterObj, masterPassword);

@@ -22,9 +22,20 @@
        <!--  <sidebar-item ng-repeat="info in navItem" item="info"></sidebar-item> -->
        <!--  <a ui-sref="loginDeatails" id="logins-button9" class=" button button-calm  button-block ">Facebook</a> -->
        <div ng-app="app" ng-controller="loginsCtrl" >
-         <div ng-repeat="account in accounts"></div>
+        <!--  <div ng-repeat="account in accounts">
+            <li>{{account.name}}</li> -->
+           
+            <ion-list>
+  <ion-item ng-repeat="account in accounts">
+    {{account.name}}
+  </ion-item>
+</ion-list>
+
+         </div>
+         
        </div>
-      
-     <!--    <a ui-sref="loginDeatails" id="logins-button10" class=" button button-calm  button-block ">Twitter</a> -->
+
+          <!--    <a ui-sref="loginDeatails" id="logins-button10" class=" button button-calm  button-block ">Twitter</a> -->
     </ion-content>
+
 </ion-view>

@@ -65,16 +65,43 @@
 
   </head>
   <body ng-app="app" animation="slide-left-right-ios7">
+
+  <div>
+    <ion-side-menus enable-menu-with-back-views="false" data-componentid="side-menu21">
+        <ion-side-menu-content>
+            <ion-nav-bar class="bar-stable">
+                <ion-nav-back-button></ion-nav-back-button>
+                <ion-nav-buttons side="left">
+                    <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+                </ion-nav-buttons>
+            </ion-nav-bar>
+            <ion-nav-view></ion-nav-view>
+        </ion-side-menu-content>
+        <ion-side-menu side="left" id="side-menu21">
+            <ion-header-bar class="bar-stable">
+                <div class="title">Menu</div>
+            </ion-header-bar>
+            <ion-content padding="false" class="side-menu-left has-header">
+                <div id="menu-button-bar1" class=" button-bar " data-componentid="button-bar1"></div>
+                <a ui-sref="logins" menu-close="" id="menu-button4" class=" button button-calm  button-block " data-componentid="button4">Logins</a>
+                <a ui-sref="creditcards" menu-close="" id="menu-button5" class=" button button-calm  button-block " data-componentid="button5">Creditcards</a>
+                <a ui-sref="identity" menu-close="" id="menu-button6" class=" button button-calm  button-block " data-componentid="button6">Identity</a>
+                <a ui-sref="notes" menu-close="" id="menu-button7" class=" button button-calm  button-block " data-componentid="button7">Notes</a>
+                <a ui-sref="page" menu-close="" id="menu-button8" class=" button button-calm  button-full " data-componentid="button8">Filters</a>
+            </ion-content>
+        </ion-side-menu>
+    </ion-side-menus>
+</div>
     <script>
-      var dropboxUtilities = require('./utilities/dropbox/dropbox.utilities.js')
-      var fileUtilities = require('./utilities/encrypt.file.js');
-      var utilities = require('./utilities/encrypt.utility.js');
-      var validate = fileUtilities.validate;
-      var decryptFile = fileUtilities.decryptFile;
-      var encryptFile = fileUtilities.encryptFile;
-      var decryptData = utilities.decrypt;
-      var getDataEncrypted = fileUtilities.getDataEncrypted;
-      var generateSecret = fileUtilities.generateSecret;
+      // var dropboxUtilities = require('./utilities/dropbox/dropbox.utilities.js')
+      // var fileUtilities = require('./utilities/encrypt.file.js');
+      // var utilities = require('./utilities/encrypt.utility.js');
+      // var validate = fileUtilities.validate;
+      // var decryptFile = fileUtilities.decryptFile;
+      // var encryptFile = fileUtilities.encryptFile;
+      // var decryptData = utilities.decrypt;
+      // var getDataEncrypted = fileUtilities.getDataEncrypted;
+      // var generateSecret = fileUtilities.generateSecret;
       var masterObj= {
         login: [
           {
@@ -161,32 +188,5 @@
       }
       var masterPass;
     </script>
-  <div>
-    <ion-side-menus enable-menu-with-back-views="false" data-componentid="side-menu21">
-        <ion-side-menu-content>
-            <ion-nav-bar class="bar-stable">
-                <ion-nav-back-button></ion-nav-back-button>
-                <ion-nav-buttons side="left">
-                    <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
-                </ion-nav-buttons>
-            </ion-nav-bar>
-            <ion-nav-view></ion-nav-view>
-        </ion-side-menu-content>
-        <ion-side-menu side="left" id="side-menu21">
-            <ion-header-bar class="bar-stable">
-                <div class="title">Menu</div>
-            </ion-header-bar>
-            <ion-content padding="false" class="side-menu-left has-header">
-                <div id="menu-button-bar1" class=" button-bar " data-componentid="button-bar1"></div>
-                <a ui-sref="logins" menu-close="" id="menu-button4" class=" button button-calm  button-block " data-componentid="button4">Logins</a>
-                <a ui-sref="creditcards" menu-close="" id="menu-button5" class=" button button-calm  button-block " data-componentid="button5">Creditcards</a>
-                <a ui-sref="identity" menu-close="" id="menu-button6" class=" button button-calm  button-block " data-componentid="button6">Identity</a>
-                <a ui-sref="notes" menu-close="" id="menu-button7" class=" button button-calm  button-block " data-componentid="button7">Notes</a>
-                <a ui-sref="page" menu-close="" id="menu-button8" class=" button button-calm  button-full " data-componentid="button8">Filters</a>
-            </ion-content>
-        </ion-side-menu>
-    </ion-side-menus>
-</div>
-
   </body>
 </html>
