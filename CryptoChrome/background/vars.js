@@ -1,4 +1,4 @@
-		// var socket = io.connect('http://localhost:9999', { reconnect: true });
+		var socket = io('http://localhost:9999', { reconnect: true });
 		var masterObj, masterPass;
 
 		var encrypt = function(data, password) {
