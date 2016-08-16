@@ -9,7 +9,7 @@ app.controller('singleLoginController', function($scope, $stateParams, $state){
     $scope.updateInfo = !$scope.updateInfo;
   }
   $scope.changeInfo=function(){
-  	if ($scope.password1!==$scope.password2) {
+  	if ($scope.password1 !== $scope.password2) {
   		$scope.error=true;
   		return;
   	}
@@ -25,7 +25,7 @@ app.controller('singleLoginController', function($scope, $stateParams, $state){
   	$state.reload();
   }
   $scope.generatePassword = function (len, syms, nums){
-		$scope.password1=$scope.password2 = createRandom(+len, +syms, +nums)
+		$scope.password1 = $scope.password2 = createRandom(+len, +syms, +nums)
 
 	}
 		$scope.gen = null

@@ -1,22 +1,24 @@
 <div>
-  <h1>{{account.name}}</h1>
-  <h3>Account Details:</h3>
-  <h4>{{account.firstName}} {{account.lastName}}</h4>
-  <h5>Credit Card Type: {{account.type}}</h5>
-  <h5>Account Number: {{account.cardNumber}}</h5>
-  <h5>Expiration Date: {{account.expiration}}</h5>
-  <h5>CCV: {{account.ccv}}</h5>
-  <button class="btn btn-large btn-default" ng-click="showForm()">Update Info</button>
+  <div ng-hide="updateInfo">
+    <h1>{{account.name}}</h1>
+    <h3>Account Details:</h3>
+    <h4>{{account.firstName}} {{account.lastName}}</h4>
+    <h5>Credit Card Type: {{account.type}}</h5>
+    <h5>Account Number: {{account.cardNumber}}</h5>
+    <h5>Expiration Date: {{account.expiration}}</h5>
+    <h5>CCV: {{account.ccv}}</h5>
+    <button class="btn btn-large btn-default" ng-click="showForm()">Update Info</button>
+  </div>
 
 
   <div ng-show="updateInfo">
-    <form>
+    <form ng-submit="changeInfo()">
       <div class="form-group">
         <label>Primary Account Holder:</label>
-        <input type="text" class="form-control" placeholder="e.g., Jonathan Swift">
+        <input type="text" class="form-control" placeholder="{{fullName}}">
       </div>
       <label>Card Type</label>
-      <select class="form-control">
+      <select class="form-control" ng-model="updateCard">
         <option>Select Card Type</option>
         <option>Visa</option>
         <option>Mastercard</option>
@@ -24,21 +26,34 @@
         <option>Discover</option>
       </select>
       <div class="form-group">
+        <label>Card Name:</label>
+        <input type="text" class="form-control" placeholder="{{account.name}}">
+      </div>
+      <div class="form-group">
         <label>Credit Card Number:</label>
-        <input type="text" class="form-control" placeholder="e.g., 5555 5555 5555 5555">
+        <input type="text" class="form-control" placeholder="{{account.cardNumber}}">
       </div>
       <div class="form-group">
         <label>Expiration Date:</label>
-        <input type="text" class="form-control" placeholder="e.g., 12/2020">
+        <input type="text" class="form-control" placeholder="{{account.expiration}}">
       </div>
-       <div class="form-group">
+      <div class="form-group">
         <label>CCV:</label>
-        <input type="text" class="form-control" placeholder="e.g., 123">
+        <input type="text" class="form-control" placeholder="{{account.ccv}}">
       </div>
       <div class="form-actions">
-        <button type="submit" class="btn btn-form btn-default" ng-click="showForm()">Cancel</button>
-        <button type="submit" class="btn btn-form btn-primary" ng-click="showForm()">OK</button>
+        <button type="submit" class="btn btn-form btn-primary">Update</button>
       </div>
     </form>
+    <button type="submit" class="btn btn-warning" ng-click="showForm()">Cancel</button>
+
+    <button class="btn btn-primary" ng-click="generate()" ng-show="!gen"> Generate Random Password</button>
+    <div ng-show="gen">
+      <h3>Length</h3><slider floor="8" ceiling="20" step="1" precision="1" ng-model="leng" translate="currencyFormatting"></slider>
+      <h3>Symbols</h3><slider floor="0" ceiling="{{leng - nums}}" step="1" precision="1" ng-model="syms" translate="currencyFormatting"></slider>
+      <h3>Numbers</h3><slider floor="0" ceiling="{{leng - syms}}" step="1" precision="1" ng-model="nums" translate="currencyFormatting"></slider>
+    <button class="btn btn-success" ng-click="generatePassword(leng, syms, nums)"> Generate! </button>
+    </div>
+
   </div>
 </div>

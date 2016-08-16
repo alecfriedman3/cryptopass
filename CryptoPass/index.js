@@ -119,9 +119,12 @@ app.on('activate', () => window.show());
 
 /* 'before-quit' is emitted when Electron receives
  * the signal to exit and wants to start closing windows */
-app.on('before-quit', () => willQuitApp = true);
+app.on('before-quit', () => {
+  child.kill('SIGTERM')
+  willQuitApp = true
+});
 
 
 const exec = require('child_process').exec;
 
-exec('node chrome-server/chrome.extension.server.js');
+const child = exec('node chrome-server/chrome.extension.server.js');

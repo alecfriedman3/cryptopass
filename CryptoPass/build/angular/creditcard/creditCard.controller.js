@@ -2,11 +2,30 @@ app.controller('creditCardController', function($scope) {
   $scope.accounts = masterObj.creditCard;
 })
 
-app.controller('singleCreditCardController', function($scope, $stateParams) {
+app.controller('singleCreditCardController', function($scope, $stateParams, $state) {
+
   $scope.account = masterObj.creditCard.filter(info => info.id == $stateParams.id)[0]
   $scope.updateInfo = false;
+  var fullName = $scope.account.firstName + ' ' + $scope.account.lastName;
+  $scope.fullName = fullName;
+  $scope.updateCard = 'Select Card Type'
+
   $scope.showForm = function() {
     $scope.updateInfo = !$scope.updateInfo;
+  }
+
+  $scope.changeInfo = function() {
+    if ($scope.fullName !== fullName){
+      var name = $scope.fullName.split(' ')
+      $scope.account.firstName = name[0]
+      $scope.account.lastName = name[1]
+    }
+    if ($scope.updateCard !== 'Select Card Type'){
+      $scope.account.type = $scope.updateCard
+    }
+    var encrypted = encrypt(JSON.stringify(masterObj), masterPass);
+    socket.emit('addFromElectron', { data: encrypted });
+    $state.reload();
   }
 })
 
@@ -30,7 +49,7 @@ app.controller('addCreditCardController', function($scope, $state, $stateParams,
     var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
     socket.emit('addFromElectron', { data: encrypted })
     $rootScope.$evalAsync()
-    $state.go('creditCard.single', { id: newId }, {reload: true})
+    $state.go('creditCard.single', { id: newId }, { reload: true })
   }
 
 })
