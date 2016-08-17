@@ -1,0 +1,30 @@
+<ion-view title="Logins" id="page6">
+    <ion-content padding="true" class="has-header">
+        <h4 id="logins-heading3" style="color:#53BCEE;text-align:center;">Add</h4>
+        <form id="logins-form1" class="list ">
+            <label class="item item-input " id="logins-input1">
+                <span class="input-label">Name</span>
+                <input type="text" placeholder="">
+            </label>
+            <label class="item item-input " id="logins-input2">
+                <span class="input-label">Username</span>
+                <input type="email" placeholder="">
+            </label>
+            <label class="item item-input " id="logins-input3">
+                <span class="input-label">Password</span>
+                <input type="password" placeholder="">
+            </label>
+        </form>
+        <div class="spacer" style="width: 300px; height: 26px;"></div>
+        <h4 id="logins-heading4" style="color:#53BCEE;text-align:center;">All your Logins</h4>
+
+       <!--   <sidebar nav-item="accounts"></sidebar> -->
+       <!--  <sidebar-item ng-repeat="info in navItem" item="info"></sidebar-item> -->
+       <!--  <a ui-sref="loginDeatails" id="logins-button9" class=" button button-calm  button-block ">Facebook</a> -->
+       <div ng-app="app" ng-controller="loginsCtrl" >
+         <div ng-repeat="account in accounts"></div>
+       </div>
+      
+     <!--    <a ui-sref="loginDeatails" id="logins-button10" class=" button button-calm  button-block ">Twitter</a> -->
+    </ion-content>
+</ion-view>
