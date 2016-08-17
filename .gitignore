@@ -1,8 +1,8 @@
-CryptoPass/node_modules
+**/node_modules
 CryptoPass/dist
 /CryptoPass/build/public
 CryptoPass/index.css
-/CryptoPass/utilities/secret2.txt
-/CryptoPass/utilities/data.txt
-CryptoChrome/node_modules
-CryptIon/node_modules
+CryptoPass/utilities/secret2.txt
+CryptoPass/utilities/data.txt
+CryptoChrome/utils.js
+
