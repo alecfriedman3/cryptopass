@@ -56,6 +56,9 @@ app.directive('sidebar', function($state){
       	$state.go(stateParent + '.single', {id: id}, {reload: true})
       }
 
+      scope.stateName = nameFormat($state.current.name.replace(/\.single/g, '').replace(/\.add/g, ''));
+
+
     	scope.addItem = function (){
     		var stateParent = $state.current.name.replace(/\.single/g, '').replace(/\.add/g, '') + '.add'
         console.log(stateParent)
@@ -65,6 +68,25 @@ app.directive('sidebar', function($state){
 
       scope.settingsView = function(navItem, second){
         $state.go('settings', {currentSidebar: navItem})
+      }
+
+      function nameFormat (name) { // I would take this out of the link function since it does not deal with scope, just strings
+        if (name.toLowerCase() === "home") return "Home"
+        name = name[0].toLowerCase()+name.substring(1)
+        var re = /[A-Z]/g
+        var capitalsArr = name.match(re);
+        var wordsArr = name.split(re);
+        for (var i = 1; i < wordsArr.length; i ++) {
+          wordsArr[i] = capitalsArr[i-1]+wordsArr[i]
+        }
+        var title = wordsArr.join(" ")
+        title = title[0].toUpperCase()+title.substring(1)
+        if (title[title.length-1] === "y") {
+          title = title.slice(0, -1)+"ies"
+        } else {
+          title += "s"
+        }
+        return title
       }
 
     }
