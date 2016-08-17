@@ -1,6 +1,7 @@
-CryptoPass/node_modules
+**/node_modules
 CryptoPass/dist
 /CryptoPass/build/public
 CryptoPass/index.css
 CryptoPass/utilities/secret2.txt
 CryptoPass/utilities/data.txt
+
