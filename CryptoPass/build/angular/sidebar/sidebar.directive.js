@@ -70,7 +70,7 @@ app.directive('sidebar', function($state){
         $state.go('settings', {currentSidebar: navItem})
       }
 
-      function nameFormat (name) {
+      function nameFormat (name) { // I would take this out of the link function since it does not deal with scope, just strings
         if (name.toLowerCase() === "home") return "Home"
         name = name[0].toLowerCase()+name.substring(1)
         var re = /[A-Z]/g
