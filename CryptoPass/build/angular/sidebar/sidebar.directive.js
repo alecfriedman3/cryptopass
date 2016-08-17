@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-app.directive('sidebarItem', function($state){
+app.directive('sidebarItem', function($state, $stateParams){
   return {
     restrict: 'E',
     scope: {
@@ -36,9 +36,14 @@ app.directive('sidebarItem', function($state){
         socket.emit('addFromElectron',{data:encrypted});
 
         if (masterObj[stateParent].length){
-          var minIdx = Math.min.apply(null, masterObj[stateParent].map(obj => obj.id))
-          $state.go(stateParent + '.single', {id: minIdx}, {reload: true})
-          return
+          if ($stateParams.id == id){
+            var minIdx = Math.min.apply(null, masterObj[stateParent].map(obj => obj.id))
+            $state.go(stateParent + '.single', {id: minIdx}, {reload: true})
+            return
+          } else{
+            $state.go(stateParent + '.single', {id: $stateParams.id}, {reload: true})
+            return
+          }
         }
         // else go to the eventual state with no info
         $state.go(stateParent);
@@ -62,7 +67,8 @@ app.directive('sidebar', function($state){
 
     	scope.singleView = function (id){
       	var stateParent = $state.current.name.replace(/\.single/g, '').replace(/\.add/g, '')
-      	console.log(stateParent)
+        var storedState = JSON.stringify({name: $state.current.name, id: id})
+        window.sessionStorage.setItem(stateParent, storedState)
       	$state.go(stateParent + '.single', {id: id})
       }
 
