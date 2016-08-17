@@ -27,7 +27,7 @@ app.directive('sidebarItem', function($state){
         })
         var encrypted=encrypt(JSON.stringify(masterObj),masterPass);
         socket.emit('addFromElectron',{data:encrypted});
-        //not working properly
+        //not working properly, masterObj updated asynchronously
         if (masterObj[stateParent].length){
           var minIdx = Math.min.apply(null, masterObj[stateParent].map(obj => obj.id))
           $state.go(stateParent + '.single', {id: minIdx}, {reload: true})
