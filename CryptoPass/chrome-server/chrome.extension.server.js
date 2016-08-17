@@ -6,9 +6,20 @@ var Promise = require('bluebird');
 var fs = Promise.promisifyAll(require('fs'));
 
 var server = http.createServer(app)
-var io = require('socket.io')(server)
 
+app.get('/secret', function (req, res, next){
+		console.log('requested secret')
+  	fs.readFileAsync(__dirname + '/../utilities/secret2.txt')
+  	.then(secretData => {
+  		res.send({data: secretData.toString()})
+  	}).catch(console.error.bind(console))
+})
+
+var io = require('socket.io')(server)
 io.on('connection', function (socket){
+
+	io.emit('connect')
+
   socket.on('addFromChrome', function (data) {
   	// get the encrypted data from chrome extension and write it to the fs
   	fs.writeFileAsync(__dirname + '/../utilities/data.txt', data.data)
@@ -22,14 +33,21 @@ io.on('connection', function (socket){
   	})
   	.then(() => {
   		// emmit message to electron telling it to update the local data in app
-    	socket.emit('chromeAdd')
+    	io.emit('chromeAdd')
   	}).catch(console.error.bind(console))
   });
 
   socket.on('addFromElectron', function (data){
   	// get the encrypted data from electron app and write it to the fs
   	fs.writeFileAsync(__dirname + '/../utilities/data.txt', data.data)
-    .then(() => {
+  	.then(() => {
+  		// read the newly encrypted file
+  		return fs.readFileAsync(__dirname + '/../utilities/data.txt')
+  	})
+  	.then(file => {
+  		// send the newly encrypted file back to chrome extension
+    	io.emit('electronAdd', {data: file.toString()})
+    	// encrypt to dropbox
   		return settings.get('dropboxPath')
   	})
   	.then(val => {
@@ -37,18 +55,21 @@ io.on('connection', function (socket){
   			return fs.writeFileAsync(val + '/Apps/CryptoPass/data.txt', encrypted);
   		}
   	})
-  	.then(() => {
-  		// read the newly encrypted file
-  		return fs.readFileAsync(__dirname + '/../utilities/data.txt')
-  	})
-  	.then(file => {
-  		// send the newly encrypted file back to chrome extension
-    	socket.emit('electronAdd', file.toString())
+  	.catch(console.error.bind(console))
+  })
+
+
+  socket.on('chromeValidate', function (){
+  	fs.readFileAsync(__dirname + '/../utilities/data.txt')
+  	.then(data => {
+  		data = data.toString()
+  		socket.emit('responseChromeValidated', {data: data})
   	}).catch(console.error.bind(console))
   })
+
 
 })
 
 
-
 server.listen(9999, 'localhost')
+console.log(chalk.cyan('child server connected'))
