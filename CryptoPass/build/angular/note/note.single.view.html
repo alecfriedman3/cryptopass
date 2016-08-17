@@ -1,10 +1,12 @@
 <div>
+
 	<div ng-hide="updateInfo">
-	  <h1>{{note.name}}</h1>
-	  <h3>Details:</h3>
-	  <h5>{{note.data}}</h5>
-	  <button class="btn btn-large btn-default" ng-click="showForm()">Update Info</button>
-	</div>
+
+    <h1 class="highlightable">{{note.name}}</h1>
+    <h3>Details:</h3>
+    <h5 class="highlightable">{{note.data}}</h5>
+    <button class="btn btn-large btn-default" ng-click="showForm()">Update Info</button>
+  </div>
 
   <div ng-show="updateInfo">
     <form ng-submit="changeInfo()">

@@ -2,8 +2,8 @@ app.controller('creditCardController', function($scope) {
   $scope.accounts = masterObj.creditCard;
 })
 
-app.controller('singleCreditCardController', function($scope, $stateParams, $state) {
 
+app.controller('singleCreditCardController', function($scope, $stateParams, Clipboard, $state) {
   $scope.account = masterObj.creditCard.filter(info => info.id == $stateParams.id)[0]
   $scope.updateInfo = false;
   var fullName = $scope.account.firstName + ' ' + $scope.account.lastName;
@@ -32,6 +32,10 @@ app.controller('singleCreditCardController', function($scope, $stateParams, $sta
     var encrypted = encrypt(JSON.stringify(masterObj), masterPass);
     socket.emit('addFromElectron', { data: encrypted });
     $state.reload();
+  }
+
+  $scope.copyText = function(text){
+    Clipboard.copy(text)
   }
 })
 

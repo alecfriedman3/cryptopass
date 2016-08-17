@@ -1,15 +1,15 @@
 <div>
+
   <div ng-hide="updateInfo">
     <h1>{{account.name}}</h1>
     <h3>Account Details:</h3>
-    <h4>{{account.firstName}} {{account.lastName}}</h4>
-    <h5>Credit Card Type: {{account.type}}</h5>
-    <h5>Account Number: {{account.cardNumber}}</h5>
-    <h5>Expiration Date: {{account.expiration}}</h5>
-    <h5>CCV: {{account.ccv}}</h5>
+    <h4 class="highlightable">{{account.firstName}} {{account.lastName}}</h4>
+    <h5 class="highlightable">Credit Card Type: {{account.type}}</h5>
+    <h5 class="highlightable">Account Number: {{account.cardNumber}} <button class="copy-button btn btn-default" ng-click="copyText(account.cardNumber)">Copy</button></h5>
+    <h5 class="highlightable">Expiration Date: {{account.expiration}}</h5>
+    <h5 class="highlightable">CCV: {{account.ccv}} <button class="copy-button btn btn-default" ng-click="copyText(account.ccv)">Copy</button></h5>
     <button class="btn btn-large btn-default" ng-click="showForm()">Update Info</button>
   </div>
-
 
   <div ng-show="updateInfo">
     <form ng-submit="changeInfo()">

@@ -1,12 +1,11 @@
 <div>
   <h1>{{account.name}}</h1>
   <div ng-hide="updateInfo">
-  <h3>Login Details:</h3>
-  <h5>Username: {{account.username}}</h3>
-  <h5>Password: {{account.password}}</h3>
-  <button class="btn btn-large btn-default" ng-click="showForm()">
-    Update Info
-  </button>
+    <h3>Login Details:</h3>
+    <h5 class="highlightable">Username: {{account.username}} <button class="copy-button btn btn-default" ng-click="copyText(account.username)">Copy</button></h5>
+    <h5 class="highlightable">Password: {{account.password}} <button class="copy-button btn btn-default" ng-click="copyText(account.password)">Copy</button></h5>
+    <button class="btn btn-large btn-default" ng-click="showForm()">Update Info</button>
+
   </div>
 
   <div ng-show="updateInfo">

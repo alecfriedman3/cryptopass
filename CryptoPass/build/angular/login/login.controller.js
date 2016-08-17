@@ -2,7 +2,9 @@ app.controller('loginController', function($scope){
   $scope.accounts = masterObj.login;
 })
 
-app.controller('singleLoginController', function($scope, $stateParams, $state){
+
+app.controller('singleLoginController', function($scope, $stateParams, Clipboard, $state){
+
   $scope.account = masterObj.login.filter(info => info.id == $stateParams.id)[0]
   $scope.updateInfo = false;
   $scope.newAccount = angular.copy($scope.account)
@@ -10,6 +12,7 @@ app.controller('singleLoginController', function($scope, $stateParams, $state){
   $scope.showForm = function () {
     $scope.updateInfo = !$scope.updateInfo;
   }
+
   $scope.changeInfo=function(){
   	if ($scope.password1 !== $scope.password2) {
   		$scope.error = true;
@@ -38,6 +41,12 @@ app.controller('singleLoginController', function($scope, $stateParams, $state){
 	$scope.generate = function (){
 		$scope.gen = !$scope.gen
 	}
+
+  $scope.copyText = function(text){
+    console.log('clicked in controller');
+    Clipboard.copy(text)
+  }
+
 })
 
 
