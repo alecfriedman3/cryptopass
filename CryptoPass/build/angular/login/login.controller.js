@@ -5,18 +5,25 @@ app.controller('loginController', function($scope){
 app.controller('singleLoginController', function($scope, $stateParams, $state){
   $scope.account = masterObj.login.filter(info => info.id == $stateParams.id)[0]
   $scope.updateInfo = false;
+  $scope.newAccount = angular.copy($scope.account)
+
   $scope.showForm = function () {
     $scope.updateInfo = !$scope.updateInfo;
   }
   $scope.changeInfo=function(){
   	if ($scope.password1 !== $scope.password2) {
-  		$scope.error=true;
+  		$scope.error = true;
+      setTimeout(function (){
+        $scope.error = null
+        $scope.$digest()
+      }, 5000)
   		return;
   	}
-  	$scope.error=null;
+  	$scope.error = null;
   	masterObj.login.forEach(account =>{
   		if (account.id===$scope.account.id) {
-  			account.password=$scope.password1 || account.password;
+        account.username = $scope.newAccount.username
+  			account.password = $scope.password1 || account.password;
   		}
   	})
   	var encrypted=encrypt(JSON.stringify(masterObj),masterPass);

@@ -5,12 +5,18 @@ app.controller('noteController', function ($scope) {
 app.controller('singleNoteController', function($scope, $stateParams, $state){
   $scope.note = masterObj.note.filter(info => info.id == $stateParams.id)[0]
   $scope.updateInfo = false;
+  $scope.newNote = angular.copy($scope.note)
 
   $scope.showForm = function () {
     $scope.updateInfo = !$scope.updateInfo;
   }
 
   $scope.changeInfo = function (){
+    for (var key in $scope.newNote){
+      if ($scope.note[key] !== $scope.newNote[key]){
+        $scope.note[key] = $scope.newNote[key]
+      }
+    }
     var encrypted = encrypt(JSON.stringify(masterObj), masterPass);
     socket.emit('addFromElectron', { data: encrypted });
     $state.reload();

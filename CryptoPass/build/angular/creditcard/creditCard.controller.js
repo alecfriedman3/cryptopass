@@ -9,12 +9,18 @@ app.controller('singleCreditCardController', function($scope, $stateParams, $sta
   var fullName = $scope.account.firstName + ' ' + $scope.account.lastName;
   $scope.fullName = fullName;
   $scope.updateCard = 'Select Card Type'
+  $scope.newAccount = angular.copy($scope.account)
 
   $scope.showForm = function() {
     $scope.updateInfo = !$scope.updateInfo;
   }
 
   $scope.changeInfo = function() {
+    for (var key in $scope.newAccount){
+      if ($scope.account[key] !== $scope.newAccount[key]){
+        $scope.account[key] = $scope.newAccount[key];
+      }
+    }
     if ($scope.fullName !== fullName){
       var name = $scope.fullName.split(' ')
       $scope.account.firstName = name[0]

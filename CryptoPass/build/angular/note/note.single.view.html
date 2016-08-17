@@ -1,24 +1,25 @@
 <div>
-  <h1>{{note.name}}</h1>
-  <h3>Details:</h3>
-  <h5>{{note.data}}</h5>
-  <button class="btn btn-large btn-default" ng-click="showForm()">Update Info</button>
-
+	<div ng-hide="updateInfo">
+	  <h1>{{note.name}}</h1>
+	  <h3>Details:</h3>
+	  <h5>{{note.data}}</h5>
+	  <button class="btn btn-large btn-default" ng-click="showForm()">Update Info</button>
+	</div>
 
   <div ng-show="updateInfo">
     <form ng-submit="changeInfo()">
       <div class="form-group">
         <label>Note Name:</label>
-        <input type="text" class="form-control" ng-model="note.name">
+        <input type="text" class="form-control" ng-model="newNote.name">
       </div>
       <div class="form-group">
         <label>Information to Update: </label>
-        <input type="text" class="form-control" ng-model="note.data">
+        <input type="text" class="form-control" ng-model="newNote.data">
       </div>
       <div class="form-actions">
         <button type="submit" class="btn btn-form btn-positive">OK</button>
       </div>
     </form>
-    <button class="btn btn-form btn-default" ng-click="showForm()">Cancel</button>
+    <button class="btn btn-form btn-warning" ng-click="showForm()">Cancel</button>
   </div>
 </div>
