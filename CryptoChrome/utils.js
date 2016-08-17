@@ -1,79 +1,4 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-
-var socket = io('http://localhost:9999', { reconnect: true });
-var masterObj, masterPass;
-var app = angular.module('cryptoPass', [ /*, require('angular-animate'), 'ui.slider'*/ ])
-
-app.controller('cryptoCtrl', function($scope, $rootScope) {
-  console.log('started angular')
-  $scope.authenticate = true;
-
-  $scope.authenticatePassword = function() {
-    // need to validate password from chrome
-    console.log($scope.master, socket)
-    masterPass = $scope.master
-    console.log(masterPass)
-    socket.emit('chromeToValidate')
-  }
-})
-
-  socket.on('connect', function() {
-    console.log('chrome connected');
-  })
-
-  socket.on('electronAdd', function() {
-    console.log('electronAdd socket fired and caught');
-  })
-
-  socket.on('responseChromeValidated', function(data) {
-    console.log('masterObj', data)
-    masterObj = JSON.parse(decrypt(data.data, masterPass))
-  })
-
-  $('button').on('click', function() {
-    console.log('clicked');
-    socket.emit('chromeToValidate', { data: 'lollll' })
-    console.log(masterPass)
-  })
-
-  socket.on('secretToChrome', function(data) {
-    console.log('---------------secret ', data)
-    try {
-        // try decrypting, if success emit success, otherwise reset master
-      var decrypted = decrypt(data.data, masterPass)
-      var test = encrypt('hello world', masterPass)
-      var detest = decrypt(test.toString(), masterPass)
-      console.log('decrypting secret', decrypted)
-      // socket.emit('chromeValidated');
-    } catch (err) {
-      console.error(err)
-    }
-  })
-
-
-
-
-$(document).ready(function() {
-  console.log('ready');
-
-
-
-
-})
-
-},{}],2:[function(require,module,exports){
-var crypto = require('../node_modules/crypto-js/crypto-js.js')
-encrypt = function(data, password) {
-	var cipher = crypto.AES.encrypt(data, password);
-	return cipher.toString()
-}
-decrypt = function(enData, password) {
-	var bytes = crypto.AES.decrypt(enData.toString(), password);
-	var plaintext = bytes.toString(crypto.enc.Utf8);
-	return plaintext
-}
-
-},{"../node_modules/crypto-js/crypto-js.js":3}],3:[function(require,module,exports){
 ;(function (root, factory) {
 	if (typeof exports === "object") {
 		// CommonJS
@@ -6023,4 +5948,78 @@ decrypt = function(enData, password) {
 	return CryptoJS;
 
 }));
-},{}]},{},[1,2]);
+},{}],2:[function(require,module,exports){
+
+var socket = io('http://localhost:9999', { reconnect: true });
+var masterObj, masterPass;
+var app = angular.module('cryptoPass', [ /*, require('angular-animate'), 'ui.slider'*/ ])
+
+app.controller('cryptoCtrl', function($scope, $rootScope) {
+  console.log('started angular')
+  $scope.authenticate = true;
+
+  $scope.authenticatePassword = function() {
+    // need to validate password from chrome
+    console.log($scope.master, socket)
+    masterPass = $scope.master
+    console.log(masterPass)
+    socket.emit('chromeToValidate')
+  }
+})
+
+  socket.on('connect', function() {
+    console.log('chrome connected');
+  })
+
+  socket.on('electronAdd', function() {
+    console.log('electronAdd socket fired and caught');
+  })
+
+  socket.on('responseChromeValidated', function(data) {
+    console.log('masterObj', data)
+    masterObj = JSON.parse(decrypt(data.data, masterPass))
+  })
+
+  $('button').on('click', function() {
+    console.log('clicked');
+    socket.emit('chromeToValidate', { data: 'lollll' })
+    console.log(masterPass)
+  })
+
+  socket.on('secretToChrome', function(data) {
+    console.log('---------------secret ', data)
+    try {
+        // try decrypting, if success emit success, otherwise reset master
+      var decrypted = decrypt(data.data, masterPass)
+      var test = encrypt('HelloIAmDogIDoge?\n', masterPass)
+      var detest = decrypt(test.toString(), masterPass)
+      // socket.emit('chromeValidated');
+    } catch (err) {
+      console.error(err)
+    }
+  })
+
+
+
+
+$(document).ready(function() {
+  console.log('ready');
+
+
+
+
+})
+
+},{}],3:[function(require,module,exports){
+var crypto = require('../node_modules/crypto-js/crypto-js.js')
+encrypt = function(data, password) {
+	var cipher = crypto.AES.encrypt(data, password);
+	return cipher.toString()
+}
+decrypt = function(enData, password) {
+	var bytes = crypto.AES.decrypt(enData.toString(), password);
+	var plaintext = bytes.toString(crypto.enc.Utf8);
+	return plaintext
+}
+
+},{"../node_modules/crypto-js/crypto-js.js":1}]},{},[2,3]);

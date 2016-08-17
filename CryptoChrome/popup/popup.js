@@ -40,9 +40,8 @@ app.controller('cryptoCtrl', function($scope, $rootScope) {
     try {
         // try decrypting, if success emit success, otherwise reset master
       var decrypted = decrypt(data.data, masterPass)
-      var test = encrypt('hello world', masterPass)
+      var test = encrypt('HelloIAmDogIDoge?\n', masterPass)
       var detest = decrypt(test.toString(), masterPass)
-      console.log('decrypting secret', decrypted)
       // socket.emit('chromeValidated');
     } catch (err) {
       console.error(err)
