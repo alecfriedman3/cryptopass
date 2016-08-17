@@ -10,6 +10,6 @@ app.controller('loginController', function($scope, $state){
 app.controller('loginSingleController', function($stateParams, $scope, $state){
   console.log($stateParams);
   console.log('in singleCont');
-  $scope.account = '';
+  $scope.account = $stateParams.accountData
   console.log(($state));
 })

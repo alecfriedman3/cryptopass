@@ -43,6 +43,7 @@ var app = angular.module('cryptoPass', ['ionic'])
   })
   .state('app.loginSingle', {
     url: '/login/:id',
+    params: {accountData: null},
     views: {
       'menuContent': {
         templateUrl: 'angular/login/login.single.html',
@@ -59,7 +60,16 @@ var app = angular.module('cryptoPass', ['ionic'])
       }
     }
   })
-
+  .state('app.creditCardSingle', {
+    url: '/creditCard/:id',
+    params: {accountData: null},
+    views: {
+      'menuContent': {
+        templateUrl: 'angular/creditCard/creditCard.single.html',
+        controller: 'creditCardSingleController'
+      }
+    }
+  })
   .state('app.identity', {
       url: '/identity',
       views: {
