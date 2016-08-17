@@ -6,6 +6,13 @@ app.config(function($stateProvider) {
   })
 })
 
+app.config(function($stateProvider) {
+  $stateProvider.state('login.add', {
+    url: '/login/add',
+    templateUrl: 'build/angular/login/login.add.view.html',
+    controller: 'addLoginController'
+  })
+})
 
 app.config(function($stateProvider) {
   $stateProvider.state('login.single', {
@@ -15,10 +22,3 @@ app.config(function($stateProvider) {
   })
 })
 
-app.config(function($stateProvider) {
-  $stateProvider.state('login.add', {
-    url: '/login/add',
-    templateUrl: 'build/angular/login/login.add.view.html',
-    controller: 'addLoginController'
-  })
-})

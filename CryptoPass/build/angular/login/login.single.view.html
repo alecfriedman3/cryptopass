@@ -1,29 +1,44 @@
 <div>
   <h1>{{account.name}}</h1>
-  <h3>Login Details:</h3>
-  <h5 class="highlightable">Username: {{account.username}} <button class="copy-button btn btn-default" ng-click="copyText(account.username)">Copy</button></h5>
-  <h5 class="highlightable">Password: {{account.password}} <button class="copy-button btn btn-default" ng-click="copyText(account.password)">Copy</button></h5>
-  <button class="btn btn-large btn-default" ng-click="showForm()">Update Info</button><button class="btn btn-large btn-primary">Generate Strong Password</button>
+  <div ng-hide="updateInfo">
+    <h3>Login Details:</h3>
+    <h5 class="highlightable">Username: {{account.username}} <button class="copy-button btn btn-default" ng-click="copyText(account.username)">Copy</button></h5>
+    <h5 class="highlightable">Password: {{account.password}} <button class="copy-button btn btn-default" ng-click="copyText(account.password)">Copy</button></h5>
+    <button class="btn btn-large btn-default" ng-click="showForm()">Update Info</button>
 
+  </div>
 
   <div ng-show="updateInfo">
-    <form>
+    <form ng-submit="changeInfo()">
       <div class="form-group">
         <label>{{account.name}} Username</label>
-        <input type="text" class="form-control" placeholder="Email">
+        <input type="text" class="form-control" ng-model="newAccount.username">
       </div>
       <div class="form-group">
         <label>Password</label>
-        <input type="text" class="form-control" placeholder="Password">
+        <input ng-model="password1" type="text" class="form-control" placeholder="Password">
       </div>
       <div class="form-group">
         <label>Confirm Password</label>
-        <input type="text" class="form-control" placeholder="Password">
+        <input ng-model="password2" type="text" class="form-control" placeholder="Confirm Password">
       </div>
       <div class="form-actions">
-        <button type="submit" class="btn btn-form btn-default" ng-click="showForm()">Cancel</button>
-        <button type="submit" class="btn btn-form btn-primary" ng-click="showForm()">OK</button>
+        <button type="submit" class="btn btn-form btn-primary">OK</button>
       </div>
     </form>
+    <button type="submit" class="btn btn-warning" ng-click="showForm()">Cancel</button>
+
+    <button class="btn btn-primary" ng-click="generate()" ng-show="!gen"> Generate Random Password</button>
+    <div ng-show="gen">
+      <h3>Length</h3><slider floor="8" ceiling="20" step="1" precision="1" ng-model="leng" translate="currencyFormatting"></slider>
+      <h3>Symbols</h3><slider floor="0" ceiling="{{leng - nums}}" step="1" precision="1" ng-model="syms" translate="currencyFormatting"></slider>
+      <h3>Numbers</h3><slider floor="0" ceiling="{{leng - syms}}" step="1" precision="1" ng-model="nums" translate="currencyFormatting"></slider>
+    <button class="btn btn-positive" ng-click="generatePassword(leng, syms, nums)"> Generate! </button>
+    </div>
+
+
+  </div>
+  <div ng-show="error">
+    <p>Passwords don't match! Please try again :) </p>
   </div>
 </div>
