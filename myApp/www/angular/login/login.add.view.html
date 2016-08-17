@@ -1,13 +1,16 @@
-<ion-view view-title="Logins">
+<!-- <ion-view view-title="Logins">
   <ion-content>
 
 <form ng-submit="createLogin()">
+	<label>
+		<span class="input-label">Add</span>
 	<div class="form-group">
 		<input ng-model="login.name" placeholder="Account name" class="form-control">
 		<input ng-model="login.username" placeholder="Username" class="form-control">
 		<input ng-model="login.password" placeholder="password" class="form-control">
 		<button class="btn btn-positive" type="submit">Submit</button>
 	</div>
+	</label>
 </form>
 		<button class="btn btn-primary" ng-click="generate()" ng-show="!gen"> Generate Random Password</button>
 		<div ng-show="gen">
@@ -18,4 +21,57 @@
 		</div>
 
 		  </ion-content>
+</ion-view> -->
+<!-- 
+<ion-view view-title="Logins">
+  <ion-content>
+<form ng-submit="checkMaster(master)">
+ <label class="item item-input">
+ <span class="input-label">Password</span>
+ <input ng-model="master" type="password">
+ <span class="input-label">Password</span>
+ <input ng-model="master" type="password">
+
+</label>
+</form>
+  </ion-content>
+</ion-view> -->
+
+<!-- <input ng-model="login.username" placeholder="Username" class="form-control">
+		<input ng-model="login.password" placeholder="password" class="form- -->
+
+<ion-view title="Logins" id="page6">
+    <ion-content padding="true" class="has-header">
+        <h4 id="logins-heading3" style="color:#53BCEE;text-align:center;">Add</h4>
+        <form id="logins-form1" class="list ">
+           <!--  <label class="item item-input " id="logins-input1">
+                <span class="input-label">Name</span>
+                <input ng-model="login.name" type="text" placeholder="">
+            </label> -->
+             <label class="item item-input " id="logins-input2">
+                <span class="input-label">Name</span>
+                <input ng-model="login.username" type="email" placeholder="">
+            </label>
+            <label class="item item-input " id="logins-input2">
+                <span class="input-label">Username</span>
+                <input ng-model="login.username" type="email" placeholder="">
+            </label>
+            <label class="item item-input " id="logins-input3">
+                <span class="input-label">Password</span>
+                <input ng-model="login.password" type="password" placeholder="">
+            </label>
+        </form>
+        <!-- try -->
+		<button class="btn btn-primary" ng-click="generate()" ng-show="!gen"> Generate Random Password</button>
+		<div ng-show="gen">
+			<h3>Length</h3><slider floor="8" ceiling="20" step="1" precision="1" ng-model="leng" translate="currencyFormatting"></slider>
+			<h3>Symbols</h3><slider floor="0" ceiling="{{leng - nums}}" step="1" precision="1" ng-model="syms" translate="currencyFormatting"></slider>
+			<h3>Numbers</h3><slider floor="0" ceiling="{{leng - syms}}" step="1" precision="1" ng-model="nums" translate="currencyFormatting"></slider>
+		<button class="btn btn-success" ng-click="generatePassword(leng, syms, nums)"> Generate! </button>
+		</div>
+       <!-- try -->
+        <div class="spacer" style="width: 300px; height: 26px;"></div>
+        <button class="btn btn-positive" type="submit">Submit</button>
+          </ion-content>
 </ion-view>
+ 
