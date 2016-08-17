@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-var app = angular.module('cryptoPass', ['ionic'])
+var app = angular.module('cryptoPass', ['ionic', 'ngCordovaOauth'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -31,17 +31,15 @@ var app = angular.module('cryptoPass', ['ionic'])
     templateUrl: 'templates/menu.html',
     controller: 'AppCtrl'
   })
-.state('auth', {
-    url: '/auth',
-    views: {
-      'menuContent': {
-        templateUrl: 'angular/authenticate/auth.view.html',
-        controller: 'authController'
+  .state('auth', {
+      url: '/auth',
+      views: {
+        'auth': {
+          templateUrl: 'angular/authenticate/auth.view.html',
+          controller: 'authController'
+        }
       }
-    }
-  })
-  
-
+    })
   .state('app.home', {
     url: '/home',
     views: {
@@ -51,7 +49,7 @@ var app = angular.module('cryptoPass', ['ionic'])
       }
     }
   })
-  
+
   .state('app.login', {
     url: '/login',
     views: {
