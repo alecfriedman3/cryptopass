@@ -1,9 +1,5 @@
 app.controller('loginController', function($scope, $state){
   $scope.accounts = masterObj.login;
-  $scope.goToSingle = function(stateId){
-    console.log('clicked');
-    $state.go('app.loginSingle')
-  }
 
 })
 

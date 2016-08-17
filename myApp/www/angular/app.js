@@ -31,7 +31,27 @@ var app = angular.module('cryptoPass', ['ionic'])
     templateUrl: 'templates/menu.html',
     controller: 'AppCtrl'
   })
+.state('auth', {
+    url: '/auth',
+    views: {
+      'menuContent': {
+        templateUrl: 'angular/authenticate/auth.view.html',
+        controller: 'authController'
+      }
+    }
+  })
+  
 
+  .state('app.home', {
+    url: '/home',
+    views: {
+      'menuContent': {
+        templateUrl: 'angular/home/home.view.html',
+        controller: 'homeController'
+      }
+    }
+  })
+  
   .state('app.login', {
     url: '/login',
     views: {
@@ -79,6 +99,17 @@ var app = angular.module('cryptoPass', ['ionic'])
         }
       }
     })
+
+    .state('app.identitySingle', {
+    url: '/identity/:id',
+    params: {accountData: null},
+    views: {
+      'menuContent': {
+        templateUrl: 'angular/identity/identity.single.html',
+        controller: 'identitySingleController'
+      }
+    }
+  })
     .state('app.note', {
       url: '/note',
       views: {
@@ -89,6 +120,16 @@ var app = angular.module('cryptoPass', ['ionic'])
       }
     })
 
+  .state('app.noteSingle', {
+      url: '/note/:id',
+       params: {accountData: null},
+      views: {
+        'menuContent': {
+          templateUrl: 'angular/note/note.single.html',
+          controller: 'noteSingleController'
+        }
+      }
+    })
   .state('app.settings', {
     url: '/settings',
     views: {
@@ -99,7 +140,7 @@ var app = angular.module('cryptoPass', ['ionic'])
     }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/login');
+  $urlRouterProvider.otherwise('/auth');
 })
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
