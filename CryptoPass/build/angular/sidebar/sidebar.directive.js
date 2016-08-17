@@ -21,20 +21,26 @@ app.directive('sidebarItem', function($state){
 
       scope.delete = function(id){
         var stateParent = $state.current.name.replace(/\.single/g, '').replace(/\.add/g, '')
+        if (window.sessionStorage[stateParent]){
+          var storedStateId = JSON.parse(window.sessionStorage[stateParent]).id
+          if (storedStateId == id){
+            window.sessionStorage.removeItem(stateParent)
+          }
+        }
         masterObj[stateParent].forEach((info, i) => {
           if (info.id == id) {
             masterObj[stateParent].splice(i,1);
           }
         })
-        var encrypted=encrypt(JSON.stringify(masterObj),masterPass);
+        var encrypted = encrypt(JSON.stringify(masterObj),masterPass);
         socket.emit('addFromElectron',{data:encrypted});
-        //not working properly, masterObj updated asynchronously
+
         if (masterObj[stateParent].length){
           var minIdx = Math.min.apply(null, masterObj[stateParent].map(obj => obj.id))
           $state.go(stateParent + '.single', {id: minIdx}, {reload: true})
+          return
         }
         // else go to the eventual state with no info
-        // for now go to parent, no reload
         $state.go(stateParent);
       }
     }
@@ -57,7 +63,7 @@ app.directive('sidebar', function($state){
     	scope.singleView = function (id){
       	var stateParent = $state.current.name.replace(/\.single/g, '').replace(/\.add/g, '')
       	console.log(stateParent)
-      	$state.go(stateParent + '.single', {id: id}, {reload: true})
+      	$state.go(stateParent + '.single', {id: id})
       }
 
       scope.stateName = nameFormat($state.current.name.replace(/\.single/g, '').replace(/\.add/g, ''));

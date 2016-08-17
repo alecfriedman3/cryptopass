@@ -8,11 +8,11 @@ app.directive('navBar', function($state, $stateParams, $rootScope){
       scope.show = false
       scope.navClick = function(str){
         var stateParent = $state.current.name.replace(/\.single/g, '').replace(/\.add/g, '')
-      	decryptFile(masterPass)
-      	.then(function (obj){
-					masterObj = obj
-					$rootScope.$evalAsync()
-				})
+    //   	decryptFile(masterPass)
+    //   	.then(function (obj){
+				// 	masterObj = obj
+				// 	$rootScope.$evalAsync()
+				// })
       	if (str == stateParent) return
       	var storedState = JSON.stringify({name: $state.current.name, id: $stateParams.id})
         window.sessionStorage.setItem(stateParent, storedState)
