@@ -15,7 +15,7 @@
     <form ng-submit="changeInfo()">
       <div class="form-group">
         <label>Primary Account Holder:</label>
-        <input type="text" class="form-control" placeholder="{{fullName}}">
+        <input type="text" class="form-control" ng-model="fullName">
       </div>
       <label>Card Type</label>
       <select class="form-control" ng-model="updateCard">
@@ -27,33 +27,25 @@
       </select>
       <div class="form-group">
         <label>Card Name:</label>
-        <input type="text" class="form-control" placeholder="{{account.name}}">
+        <input type="text" class="form-control" ng-model="account.name">
       </div>
       <div class="form-group">
         <label>Credit Card Number:</label>
-        <input type="text" class="form-control" placeholder="{{account.cardNumber}}">
+        <input type="text" class="form-control" ng-model="account.cardNumber">
       </div>
       <div class="form-group">
         <label>Expiration Date:</label>
-        <input type="text" class="form-control" placeholder="{{account.expiration}}">
+        <input type="text" class="form-control" ng-model="account.expiration">
       </div>
       <div class="form-group">
         <label>CCV:</label>
-        <input type="text" class="form-control" placeholder="{{account.ccv}}">
+        <input type="text" class="form-control" ng-model="account.ccv">
       </div>
       <div class="form-actions">
-        <button type="submit" class="btn btn-form btn-primary">Update</button>
+        <button type="submit" class="btn btn-form btn-positive">Update</button>
       </div>
     </form>
     <button type="submit" class="btn btn-warning" ng-click="showForm()">Cancel</button>
-
-    <button class="btn btn-primary" ng-click="generate()" ng-show="!gen"> Generate Random Password</button>
-    <div ng-show="gen">
-      <h3>Length</h3><slider floor="8" ceiling="20" step="1" precision="1" ng-model="leng" translate="currencyFormatting"></slider>
-      <h3>Symbols</h3><slider floor="0" ceiling="{{leng - nums}}" step="1" precision="1" ng-model="syms" translate="currencyFormatting"></slider>
-      <h3>Numbers</h3><slider floor="0" ceiling="{{leng - syms}}" step="1" precision="1" ng-model="nums" translate="currencyFormatting"></slider>
-    <button class="btn btn-success" ng-click="generatePassword(leng, syms, nums)"> Generate! </button>
-    </div>
 
   </div>
 </div>

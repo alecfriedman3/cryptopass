@@ -6,15 +6,19 @@
 
 
   <div ng-show="updateInfo">
-    <form>
+    <form ng-submit="changeInfo()">
+      <div class="form-group">
+        <label>Note Name:</label>
+        <input type="text" class="form-control" ng-model="note.name">
+      </div>
       <div class="form-group">
         <label>Information to Update:</label>
-        <input type="text" class="form-control" placeholder="Input the data you wish to encrypt here">
+        <input type="text" class="form-control" ng-model="note.data">
       </div>
       <div class="form-actions">
-        <button type="submit" class="btn btn-form btn-default" ng-click="showForm()">Cancel</button>
-        <button type="submit" class="btn btn-form btn-primary" ng-click="showForm()">OK</button>
+        <button type="submit" class="btn btn-form btn-positive">OK</button>
       </div>
     </form>
+    <button class="btn btn-form btn-default" ng-click="showForm()">Cancel</button>
   </div>
 </div>

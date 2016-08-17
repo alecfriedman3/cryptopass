@@ -16,7 +16,6 @@ app.controller('singleLoginController', function($scope, $stateParams, $state){
   	$scope.error=null;
   	masterObj.login.forEach(account =>{
   		if (account.id===$scope.account.id) {
-  			account.username=$scope.userName || account.username;
   			account.password=$scope.password1 || account.password;
   		}
   	})

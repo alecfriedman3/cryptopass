@@ -13,7 +13,7 @@
     <form ng-submit="changeInfo()">
       <div class="form-group">
         <label>{{account.name}} Username</label>
-        <input ng-model="userName" type="text" class="form-control" placeholder="{{account.username}}">
+        <input type="text" class="form-control" ng-model="account.username">
       </div>
       <div class="form-group">
         <label>Password</label>
@@ -34,7 +34,7 @@
       <h3>Length</h3><slider floor="8" ceiling="20" step="1" precision="1" ng-model="leng" translate="currencyFormatting"></slider>
       <h3>Symbols</h3><slider floor="0" ceiling="{{leng - nums}}" step="1" precision="1" ng-model="syms" translate="currencyFormatting"></slider>
       <h3>Numbers</h3><slider floor="0" ceiling="{{leng - syms}}" step="1" precision="1" ng-model="nums" translate="currencyFormatting"></slider>
-    <button class="btn btn-success" ng-click="generatePassword(leng, syms, nums)"> Generate! </button>
+    <button class="btn btn-positive" ng-click="generatePassword(leng, syms, nums)"> Generate! </button>
     </div>
 
 

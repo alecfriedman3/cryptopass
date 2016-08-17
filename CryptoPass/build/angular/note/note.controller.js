@@ -2,12 +2,20 @@ app.controller('noteController', function ($scope) {
   $scope.notes = masterObj.note;
 })
 
-app.controller('singleNoteController', function($scope, $stateParams){
+app.controller('singleNoteController', function($scope, $stateParams, $state){
   $scope.note = masterObj.note.filter(info => info.id == $stateParams.id)[0]
   $scope.updateInfo = false;
+
   $scope.showForm = function () {
     $scope.updateInfo = !$scope.updateInfo;
   }
+
+  $scope.changeInfo = function (){
+    var encrypted = encrypt(JSON.stringify(masterObj), masterPass);
+    socket.emit('addFromElectron', { data: encrypted });
+    $state.reload();
+  }
+
 })
 
 app.controller('addNoteController', function($scope, $state, $stateParams, $rootScope) {

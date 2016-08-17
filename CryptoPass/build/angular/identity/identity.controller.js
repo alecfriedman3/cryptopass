@@ -2,12 +2,20 @@ app.controller('identityController', function ($scope) {
   $scope.identity = masterObj.identity;
 })
 
-app.controller('singleIdentityController', function($scope, $stateParams){
+app.controller('singleIdentityController', function($scope, $stateParams, $state){
   $scope.identity = masterObj.identity.filter(info => info.id == $stateParams.id)[0]
   $scope.updateInfo = false;
+
   $scope.showForm = function () {
     $scope.updateInfo = !$scope.updateInfo;
   }
+
+  $scope.changeInfo = function (){
+    var encrypted = encrypt(JSON.stringify(masterObj), masterPass);
+    socket.emit('addFromElectron', { data: encrypted });
+    $state.reload();
+  }
+
 })
 
 app.controller('addIdentityController', function($scope, $state, $stateParams, $rootScope) {
