@@ -3,9 +3,11 @@
   <li class="list-group-item">
     <img class="img-circle media-object pull-left" ng-src="{{getImg(item.name)}}" width="48" height="48" />
     <div class="media-body">
+      <span class="deletebtn">
+        <span ng-click="delete(item.id)" class="icon icon-cancel-circled"></span>
+      </span>
       <strong>{{item.name}}</strong>
       <p>{{secondaryProp}}</p>
     </div>
   </li>
-<button ng-click="delete(item.id)"><span class="icon icon-cancel-circled"></span></button>
 </div>
