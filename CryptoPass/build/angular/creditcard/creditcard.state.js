@@ -7,6 +7,14 @@ app.config(function($stateProvider) {
 })
 
 app.config(function($stateProvider) {
+  $stateProvider.state('creditCard.add', {
+    url: '/creditCard/add',
+    templateUrl: 'build/angular/creditcard/creditCard.add.view.html',
+    controller: 'addCreditCardController'
+  })
+})
+
+app.config(function($stateProvider) {
   $stateProvider.state('creditCard.single', {
     url: '/creditCard/:id',
     templateUrl: 'build/angular/creditcard/creditCard.single.view.html',
@@ -14,10 +22,3 @@ app.config(function($stateProvider) {
   })
 })
 
-app.config(function($stateProvider) {
-  $stateProvider.state('creditCard.add', {
-    url: '/creditCard/add',
-    templateUrl: 'build/angular/creditcard/creditCard.add.view.html',
-    controller: 'addCreditCardController'
-  })
-})

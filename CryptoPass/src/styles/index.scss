@@ -20,15 +20,10 @@ header{
 }
 
 input:focus::-webkit-input-placeholder { color:transparent; }
-
-.ui-view-wrapper{
-	padding: 20px 50px 20px 50px;
-	display: inline;
-	align-content: center;
-	margin: 0 auto;
-	background-color: rgb(181, 221, 219)
-
+.highlightable{
+  -webkit-user-select: text;
 }
+
 .view-title{
 	text-align: center;
 }
@@ -265,11 +260,18 @@ sidebar{
 .categories-dropdown-button{
 	float: right;
 	margin-right: 10%;
-	margin-top: -8%
+	margin-top: -11%;
+  padding: 10px;
+  cursor: pointer;
 }
 .nav-wrapper{
 	.list-group{
 		text-align: left;
+    .list-group-item{
+      h1, h2, h3, h4, h5, h6{
+        cursor: pointer;
+      }
+    }
 	}
 	height: auto;
 	border-top-left-radius: 6px;
@@ -322,6 +324,7 @@ sidebar{
 	border-top: 1px solid rgb(8, 138, 133) !important;
 	width: 400px;
 	margin-left: -4%;
+
 }
 
 .pane{
@@ -354,7 +357,9 @@ sidebar{
 }
 .change-master-pass{
 	width: 50%;
+  margin-top: 20px;
 }
+
 .change-master-pass-input{
 	cursor: text;
 	border-top: none;
@@ -363,6 +368,12 @@ sidebar{
 	border-bottom: 1px solid rgb(52, 148, 132);
 	border-radius: 0;
 	background-color: transparent;
+}
+.change-master-pass-input-first{
+	margin-bottom: 50px;
+}
+.change-master-pass-button{
+  margin-top: 20px;
 }
 
 .change-master-pass-div{
@@ -571,3 +582,8 @@ body {
   }
 }
 
+  .copy-button{
+    font-size: 12px;
+    padding: 0px, 3px, 0px, 3px;
+    margin-left: 5px;
+  }
