@@ -3,11 +3,15 @@ app.controller('loginController', function($scope){
   $scope.accounts = masterObj.login;
 })
 
-app.controller('singleLoginController', function($scope, $stateParams){
+app.controller('singleLoginController', function($scope, $stateParams, Clipboard){
   $scope.account = masterObj.login.filter(info => info.id == $stateParams.id)[0]
   $scope.updateInfo = false;
   $scope.showForm = function () {
     $scope.updateInfo = !$scope.updateInfo;
+  }
+  $scope.copyText = function(text){
+    console.log('clicked in controller');
+    Clipboard.copy(text)
   }
 })
 
