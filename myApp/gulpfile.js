@@ -35,7 +35,7 @@ gulp.task('buildJS', function () {
         .pipe(sourcemaps.init())
         .pipe(concat('main.js'))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('./www/angular/build'));
+        .pipe(gulp.dest('./www/build/'));
 });
 
 gulp.task('sass', function(done) {
