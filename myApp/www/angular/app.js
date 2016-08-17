@@ -69,6 +69,18 @@ var app = angular.module('cryptoPass', ['ionic', 'ngCordovaOauth'])
       }
     }
   })
+
+
+  .state('app.loginAdd', {
+    url: '/login/add',
+    views: {
+      'menuContent': {
+        templateUrl: 'angular/login/login.add.view.html',
+        controller: 'addLoginController'
+      }
+    }
+    
+})
   .state('app.creditCard', {
     url: '/creditCard',
     views: {

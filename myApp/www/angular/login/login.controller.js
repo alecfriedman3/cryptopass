@@ -9,3 +9,9 @@ app.controller('loginSingleController', function($stateParams, $scope, $state){
   $scope.account = $stateParams.accountData
   console.log(($state));
 })
+
+
+app.controller('addLoginController', function($scope, $state){
+
+
+})
