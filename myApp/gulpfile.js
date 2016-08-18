@@ -11,6 +11,7 @@ var concat = require('gulp-concat');
 var sourcemaps = require('gulp-sourcemaps');
 var runSeq = require('run-sequence');
 var rename = require('gulp-rename');
+var browserify = require('gulp-browserify');
 
 var paths = {
   sass: ['./scss/**/*.scss']
@@ -34,6 +35,10 @@ gulp.task('buildJS', function () {
         .pipe(plumber())
         .pipe(sourcemaps.init())
         .pipe(concat('main.js'))
+        .pipe(browserify({
+          insertGlobals : true,
+          debug : true
+        }))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('./www/build/'));
 });

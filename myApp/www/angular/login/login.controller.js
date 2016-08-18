@@ -24,7 +24,30 @@ app.controller('addLoginController', function($scope, $state){
 	}
 
 	$scope.generatePassword = function (len, syms, nums){
-		$scope.login.password = createRandom(+len, +syms, +nums)
+		// $scope.login.password = createRandom(+len, +syms, +nums)
+
+ $scope.login.password =function createRandom (leng, syms, nums){
+		var chars = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ"
+		var syms = "!@#$%^&*()_-+={[}]|\"';:.>,</?"
+		var nums = "0123456789"
+		var pass = new Array(length).fill('');
+		while (symTotal > 0){
+			var ind = random.integer(0, length)
+			if (!pass[ind]){
+				pass[ind] = syms[random.integer(0, syms.length - 1)]
+				symTotal --
+			}
+		}
+		while (numTotal > 0){
+			var ind = random.integer(0, length)
+			if (!pass[ind] && pass[ind] !== 0){
+				pass[ind] = nums[random.integer(0, nums.length - 1)]
+				numTotal --
+			}
+		}
+		return pass.map(char => char && char !== 0? char : chars[random.integer(0, chars.length - 1)]).join('')
+	}
+
 
 	}
 
