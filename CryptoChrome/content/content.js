@@ -1,28 +1,24 @@
-// var io = require('socket.io-client'),
 
-
-// var passwordField = $("input[type='password']").eq(0);
-// var usernameField = $("input[type='email']").eq(0);
-
-// passwordField.val('asdfasdfas')
-
-// console.log(passwordField.val());
 var eventListener = new EventListener();
 
 chrome.extension.onMessage.addListener(function (req, sender, sendRes){
-  console.log('received message', req, eventListener)
   if (!eventListener[req.eventName]) return
-    console.log(req);
   eventListener.emit(req.eventName, req);
 })
-
-console.log(window.location.href);
 
 var $email = $('input[type="email"]')
 var $password = $('input[type="password"]')
 var $username = $('input[type="username]')
+var usernameArr = []
+var $usernames = $('input[type="text"]').each(function (){
+  console.log('clicked on input type text')
+  var placeholder = $(this).attr('placeholder')
+  var id = $(this).is('#username') || $(this).is('#email') || $(this).hasClass('username') || $(this).hasClass('email')
+  console.log(placeholder)
+  if (placeholder && placeholder.toLowerCase().match(/(username)|(email)/) || id) usernameArr.push($(this))
+})
 
-console.log($email, $password);
+// console.log($email, $password);
 
 if ($email.length || $password.length) {
   console.log('sending')
@@ -30,25 +26,24 @@ if ($email.length || $password.length) {
 }
 
 eventListener.on('loginRes', function (data) {
-  console.log('In the loginRes listener')
   data.logins.forEach(function (account) {
     console.log(account);
-    var accountRe = new RegExp(account.name.toLowerCase())
-    if (window.location.href.toLowerCase().match(accountRe)) {
+    var lowerName = account.name.split(' ').join('').toLowerCase()
+    var accountRe = new RegExp(lowerName)
+    if (window.location.href.toLowerCase().match(accountRe) || (account.name.toLowerCase() == 'gmail' && window.location.href.toLowerCase().match(/google/))) {
       console.log('got a match');
-      $password.val(account.password);
+      if ($password.length){
+        $password.val(account.password);
+      }
+      if ($email.length){
+        $email.val(account.username);
+      }
+      if (usernameArr.length){
+        usernameArr.forEach(function (input){
+          input.val(account.username)
+        })
+      }
     }
   })
 })
-
-// if (window.location.href.toLowerCase().match(/login/))
-
-// console.log('content running')
-//   var passInput = $('input[type="password"]')
-//   console.log(passInput)
-
-// $(':submit').on('click', function (){
-//   console.log('clicked')
-//   passInput.val('eS8$.oO1w5y8kyP7')
-// })
 
