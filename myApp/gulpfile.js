@@ -11,38 +11,45 @@ var concat = require('gulp-concat');
 var sourcemaps = require('gulp-sourcemaps');
 var runSeq = require('run-sequence');
 var rename = require('gulp-rename');
-var browserify = require('gulp-browserify');
+var browserify = require('browserify');
+var source = require('vinyl-source-stream');
 
 var paths = {
   sass: ['./scss/**/*.scss']
 };
 
 gulp.task('build', function () {
-    runSeq(['buildJS', 'sass']);
+    runSeq(['buildJS', 'browserify', 'sass']);
 });
 
 gulp.task('default', function(){
-  gulp.start('build')
+  gulp.start('build')
 
-  gulp.watch('www/angular/**', function () {
-    runSeq('buildJS');
-  });
+  gulp.watch('www/angular/**', function () {
+    runSeq('buildJS', 'browserify');
+  });
 
 })
 
 gulp.task('buildJS', function () {
-    return gulp.src(['./www/angular/app.js', './www/angular/**/*.js'])
-        .pipe(plumber())
-        .pipe(sourcemaps.init())
-        .pipe(concat('main.js'))
-        .pipe(browserify({
-          insertGlobals : true,
-          debug : true
-        }))
-        .pipe(sourcemaps.write())
-        .pipe(gulp.dest('./www/build/'));
+    return gulp.src(['./www/angular/app.js', './www/angular/**/*.js'])
+        .pipe(plumber())
+        .pipe(sourcemaps.init())
+        .pipe(concat('built.js'))
+        .on('error', function(err){console.log(err)})
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest('./www/build/'))
+
 });
 
+gulp.task('browserify', ['buildJS'], function(){
+    return browserify({
+            entries: ['./www/build/built.js']
+        })
+        .bundle()
+        .pipe(source('main.js'))
+        .pipe(gulp.dest('./www/build/'));
+});
 gulp.task('sass', function(done) {
   gulp.src('./scss/ionic.app.scss')
     .pipe(sass())
