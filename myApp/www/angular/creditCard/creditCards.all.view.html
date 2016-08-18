@@ -1,5 +1,6 @@
 <ion-view view-title="Credit Card">
   <ion-content>
+  <h1 ui-sref="app.creditCardAdd">Add</h1>
     <div ui-sref="app.creditCardSingle({id: account.id, accountData: account})" ng-repeat="account in accounts">
       <h1>{{account.name}}<h1>
     </div>
