@@ -65,17 +65,21 @@ app.controller('addLoginController', function($scope, $state, $stateParams, $roo
 
 	$scope.generatePassword = function (len, syms, nums){
 		$scope.login.password = createRandom(+len, +syms, +nums)
-
+    $scope.login.password2 = $scope.login.password
 	}
 
 	$scope.createLogin = function (){
-		var newId = masterObj.login.length ? masterObj.login[masterObj.login.length - 1].id + 1 : 1;
-		$scope.login.id = newId
-		masterObj.login.push($scope.login)
-		var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
-		socket.emit('addFromElectron', {data: encrypted})
-		$rootScope.$evalAsync()
-		$state.go('login.single', {id: newId}, {reload: true})
+    if ($scope.login.password !== $scope.login.password2) {
+      alert("Passwords do not match!");
+    } else {
+  		var newId = masterObj.login.length ? masterObj.login[masterObj.login.length - 1].id + 1 : 1;
+  		$scope.login.id = newId
+  		masterObj.login.push($scope.login)
+  		var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
+  		socket.emit('addFromElectron', {data: encrypted})
+  		$rootScope.$evalAsync()
+  		$state.go('login.single', {id: newId}, {reload: true})
+    }
 	}
 
 })
