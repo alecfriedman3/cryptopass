@@ -1,8 +1,8 @@
 <div class="single-view">
-
-	<div ng-hide="updateInfo">
     <img class="img-circle media-object pull-left" ng-src="{{getImg(note.name)}}" width="48" height="48" />
-    <h1 class="highlightable">{{note.name}}</h1>
+    <h1 class="single-header highlightable">{{note.name}}</h1>
+
+  <div class="inner-single" ng-hide="updateInfo">
     <h3>Details:</h3>
     <p class="highlightable">{{note.data}}</p>
     <button class="btn btn-large btn-default" ng-click="showForm()">Update Info</button>

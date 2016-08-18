@@ -1,14 +1,14 @@
 <div class="single-view">
-
-  <div ng-hide="updateInfo">
   <img class="img-circle media-object pull-left" ng-src="{{getImg(account.name)}}" width="48" height="48" />
-    <h1>{{account.name}}</h1>
+    <h1 class="single-header">{{account.name}}</h1>
+
+  <div class="inner-single" ng-hide="updateInfo">
     <h3>Account Details:</h3>
-    <h4 class="highlightable">{{account.firstName}} {{account.lastName}}</h4>
-    <h5 class="highlightable">Credit Card Type: {{account.type}}</h5>
-    <h5 class="highlightable">Account Number: {{account.cardNumber}} <button class="copy-button btn btn-default" ng-click="copyText(account.cardNumber)">Copy</button></h5>
-    <h5 class="highlightable">Expiration Date: {{account.expiration}}</h5>
-    <h5 class="highlightable">CCV: {{account.ccv}} <button class="copy-button btn btn-default" ng-click="copyText(account.ccv)">Copy</button></h5>
+    <h4 class="highlightable"><span class="categories">Card Holder:</span> {{account.firstName}} {{account.lastName}}</h4>
+    <h5 class="highlightable"><span class="categories">Credit Card Type:</span> {{account.type}}</h5>
+    <h5 class="highlightable"><span class="categories">Account Number:</span> {{account.cardNumber}} <button class="copy-button btn btn-default" ng-click="copyText(account.cardNumber)">Copy</button></h5>
+    <h5 class="highlightable"><span class="categories">Expiration Date:</span> {{account.expiration}}</h5>
+    <h5 class="highlightable"><span class="categories">CCV:</span> {{account.ccv}} <button class="copy-button btn btn-default" ng-click="copyText(account.ccv)">Copy</button></h5>
     <button class="btn btn-large btn-default" ng-click="showForm()">Update Info</button>
   </div>
 
