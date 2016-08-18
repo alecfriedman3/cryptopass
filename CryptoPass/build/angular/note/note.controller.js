@@ -7,6 +7,8 @@ app.controller('singleNoteController', function($scope, $stateParams, $state){
   $scope.updateInfo = false;
   $scope.newNote = angular.copy($scope.note)
 
+  $scope.getImg = getImg
+
   $scope.showForm = function () {
     $scope.updateInfo = !$scope.updateInfo;
   }

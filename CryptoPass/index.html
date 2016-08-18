@@ -30,6 +30,13 @@
 			  })
 			});
 
+			function getImg(str){
+        let fileNames = fs.readdirSync(__dirname +'/build/images/icons/');
+        let strArr = str.toLowerCase().split(' ');
+        let matches = strArr.filter(word => fileNames.indexOf(word += '.png') > -1)
+        return matches.length > 0 ? 'build/images/icons/' + matches[0] + '.png' : 'build/images/icons/key.png';
+      }
+
     </script>
 		<script>
 			var dropboxUtilities = require('./utilities/dropbox/dropbox.utilities.js')

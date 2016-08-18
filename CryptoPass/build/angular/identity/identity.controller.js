@@ -7,6 +7,8 @@ app.controller('singleIdentityController', function($scope, $stateParams, $state
   $scope.updateInfo = false;
   $scope.newAccount = angular.copy($scope.identity)
 
+  $scope.getImg = getImg
+
   $scope.showForm = function () {
     $scope.updateInfo = !$scope.updateInfo;
   }
