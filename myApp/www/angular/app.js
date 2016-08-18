@@ -124,7 +124,7 @@ var app = angular.module('cryptoPass', [ 'ionic', 'ngCordovaOauth','ui.slider'])
       url: '/note',
       views: {
         'menuContent': {
-          templateUrl: 'angular/note/note.all.view.html',
+          templateUrl: 'angular/note/note.view.html',
           controller: 'noteController'
         }
       }
@@ -140,6 +140,17 @@ var app = angular.module('cryptoPass', [ 'ionic', 'ngCordovaOauth','ui.slider'])
         }
       }
     })
+
+   .state('app.noteAdd', {
+    url: '/note/add',
+     views: {
+      'menuContent': {
+        templateUrl: 'angular/note/note.add.view.html',
+         controller: 'addNoteController'
+       }
+    }
+    
+ })
   .state('app.settings', {
     url: '/settings',
     views: {

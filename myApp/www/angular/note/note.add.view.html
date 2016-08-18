@@ -1,24 +1,21 @@
 
 
 
-<ion-view title="Logins" id="page6">
+<ion-view title="Note" id="page6">
     <ion-content padding="true" class="has-header">
         <h4 id="logins-heading3" style="color:#53BCEE;text-align:center;">Add</h4>
-        <form  ng-submit="createLogin()">
+        <form  ng-submit="createNote()">
           <div class="form-group">
           
              <label class="item item-input " id="logins-input2">
                 <span class="input-label">Name</span>
-                <input ng-model="login.name" type="text" placeholder="">
+                <input ng-model="note.name" type="text" placeholder="">
             </label>
             <label class="item item-input " id="logins-input2">
-                <span class="input-label">Username</span>
-                <input ng-model="login.username" type="email" placeholder="">
+                <span class="input-label">Info</span>
+                <input ng-model="note.data" type="text" placeholder="">
             </label>
-            <label class="item item-input " id="logins-input3">
-                <span class="input-label">Password</span>
-                <input ng-model="login.password" type="password" placeholder="">
-            </label>
+            
             <button class="btn btn-positive" type="submit">Submit</button>
           </div>
         </form>
@@ -46,5 +43,3 @@
           
            </ion-content>
 </ion-view>
- 
-

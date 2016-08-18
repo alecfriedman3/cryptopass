@@ -41,7 +41,7 @@ app.controller('addLoginController', function($scope, $state, $stateParams, $roo
 	}
 
 	$scope.createLogin = function (){
-		console.log('hellooooooooooooo',login.password)
+		console.log('hellooooooooooooo',$scope.login.password)
 		var newId = masterObj.login.length ? masterObj.login[masterObj.login.length - 1].id + 1 : 1;
 		$scope.login.id = newId
 		masterObj.login.push($scope.login)
