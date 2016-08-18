@@ -1,4 +1,4 @@
-app.controller('authController', function($scope, $state, $cordovaOauth){
+app.controller('authController', function($scope, $state, $cordovaOauth, $cordovaTouchID){
 	var Dropbox = require('dropbox');
 	var Promise = require('bluebird');
 	var utils = require('../angular/utilities/encrypt.utility.js');
@@ -8,7 +8,20 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 	$scope.displayPasswordField = true;
 	$scope.loading = false;
 	$scope.dropboxAuthButton = false;
-  token ? null : noDropboxError()
+  token ? null : noDropboxError();
+	document.addEventListener("deviceready", function () {
+		$cordovaTouchID.checkSupport().then(function() {
+    // success, TouchID supported
+		$cordovaTouchID.authenticate("text").then(function(data) {
+				console.log(data);
+		}, function () {
+			// error
+		});
+	  }, function (error) {
+	    alert(error); // TouchID not supported
+	  });
+	}, false);
+
 
 	$scope.checkMaster = function(master){
 		$scope.loading = true;

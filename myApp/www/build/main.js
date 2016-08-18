@@ -16422,7 +16422,7 @@ module.exports = {
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-var app = angular.module('cryptoPass', ['ionic', 'ngCordovaOauth', 'ngStorage'])
+var app = angular.module('cryptoPass', ['ionic', 'ngCordova', 'ngCordovaOauth', 'ngStorage'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -16599,23 +16599,35 @@ var app = angular.module('cryptoPass', ['ionic', 'ngCordovaOauth', 'ngStorage'])
   };
 })
 
-app.controller('authController', function($scope, $state, $cordovaOauth){
+app.controller('authController', function($scope, $state, $cordovaOauth, $cordovaTouchID){
 	var Dropbox = require('dropbox');
 	var Promise = require('bluebird');
 	var utils = require('../angular/utilities/encrypt.utility.js');
 	var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
 	var token = window.localStorage.getItem('dropboxAuth');
 
-	$scope.displayPasswordField = false;
+	$scope.displayPasswordField = true;
 	$scope.loading = false;
 	$scope.dropboxAuthButton = false;
-  token ? null : noDropboxError()
+  token ? null : noDropboxError();
+	document.addEventListener("deviceready", function () {
+		$cordovaTouchID.checkSupport().then(function() {
+    // success, TouchID supported
+		$cordovaTouchID.authenticate("text").then(function(data) {
+				console.log(data);
+		}, function () {
+			// error
+		});
+	  }, function (error) {
+	    alert(error); // TouchID not supported
+	  });
+	}, false);
+
 
 	$scope.checkMaster = function(master){
 		$scope.loading = true;
 
 		if(token){
-			$scope.displayPasswordField = true;
 			var dropboxPathForCrypto;
 			dropboxUtils.getDropboxFilePath()
 			.then(function(matches){
@@ -16643,6 +16655,7 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 	};
 
 	$scope.linkDropbox = function(){
+		var dropboxPathForCrypto;
 		$scope.loading = true;
 		$cordovaOauth.dropbox('pg8nt8sn9h5yidb')
 		.then(function(res){
@@ -16698,9 +16711,6 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
   }
 })
 
-app.controller('homeController', function($scope){
-	
-})
 app.controller('creditCardController', function($scope){
   $scope.accounts = masterObj.creditCard;
 })
@@ -16710,24 +16720,27 @@ app.controller('creditCardSingleController', function($scope, $stateParams){
   $scope.account = $stateParams.accountData;
 })
 
-app.controller('loginController', function($scope, $state){
-  $scope.accounts = masterObj.login;
-
+app.controller('homeController', function($scope){
+	
 })
-
-app.controller('loginSingleController', function($stateParams, $scope, $state){
-  console.log($stateParams);
-  console.log('in singleCont');
-  $scope.account = $stateParams.accountData
-  console.log(($state));
-})
-
 app.controller('identityController', function($scope){
   $scope.accounts = masterObj.identity;
 })
 
 
 app.controller('identitySingleController', function($stateParams, $scope, $state){
+  console.log($stateParams);
+  console.log('in singleCont');
+  $scope.account = $stateParams.accountData
+  console.log(($state));
+})
+
+app.controller('loginController', function($scope, $state){
+  $scope.accounts = masterObj.login;
+
+})
+
+app.controller('loginSingleController', function($stateParams, $scope, $state){
   console.log($stateParams);
   console.log('in singleCont');
   $scope.account = $stateParams.accountData
@@ -16838,6 +16851,36 @@ module.exports = {
   },
 
 }
+
+app.factory('DropboxSync', function(){
+  var dropboxUtils = require('../angular/utilities/dropbox.utility.js')
+  var utils = require('../angular/utilities/encrypt.utility.js')
+  return {
+    sync: function(){
+      var dropboxPathForCrypto;
+
+      return dropboxUtils.getDropboxFilePath()
+        .then(function(matches){
+          if(matches){
+            dropboxPathForCrypto = matches.metadata.path_display
+            window.localStorage.setItem('dropboxPath', dropboxPathForCrypto)
+            return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt')
+          } else{
+            throw new Error('Can\'t find Dropbox Path :(')
+          }
+        })
+        .then(function(dataObj){
+          console.log('in last then');
+          window.localStorage.setItem('masterObjEncrypted', dataObj)
+          var encryptedMasterObj = window.localStorage.getItem('masterObjEncrypted')
+          console.log('globalmaster', globalMasterPass);
+          masterObj = JSON.parse(utils.decrypt(encryptedMasterObj, globalMasterPass));
+          console.dir(masterObj);
+          // return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/secret2.txt')
+        })
+    }
+  }
+})
 
 var crypto = require('crypto-js');
 
