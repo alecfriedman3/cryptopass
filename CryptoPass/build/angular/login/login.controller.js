@@ -9,6 +9,8 @@ app.controller('singleLoginController', function($scope, $stateParams, Clipboard
   $scope.updateInfo = false;
   $scope.newAccount = angular.copy($scope.account)
 
+  $scope.getImg = getImg;
+
   $scope.showForm = function () {
     $scope.updateInfo = !$scope.updateInfo;
   }

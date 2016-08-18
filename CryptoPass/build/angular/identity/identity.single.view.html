@@ -1,6 +1,7 @@
-<div>
+<div class="single-view">
 
   <div ng-hide="updateInfo">
+  <img class="img-circle media-object pull-left" ng-src="{{getImg(identity.name)}}" width="48" height="48" />
     <h1 class="highlightable">{{identity.name}}</h1>
     <h3>Details:</h3>
     <h5 class="highlightable">{{identity.data}}</h5>
