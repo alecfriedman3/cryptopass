@@ -19,6 +19,7 @@ app.controller('singleNoteController', function($scope, $stateParams, $state){
         $scope.note[key] = $scope.newNote[key]
       }
     }
+    $scope.note.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
     var encrypted = encrypt(JSON.stringify(masterObj), masterPass);
     socket.emit('addFromElectron', { data: encrypted });
     $state.reload();
@@ -36,6 +37,8 @@ app.controller('addNoteController', function($scope, $state, $stateParams, $root
   $scope.createNote = function() {
     var newId = masterObj.note.length ? masterObj.note[masterObj.note.length - 1].id + 1 : 1;
     $scope.note.id = newId
+    $scope.note.createdAt = moment().format('MMMM Do YYYY, h:mm:ss a');
+    $scope.note.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
     if ($scope.note) masterObj.note.push($scope.note)
     var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
     socket.emit('addFromElectron', { data: encrypted })

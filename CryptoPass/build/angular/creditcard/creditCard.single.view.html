@@ -10,6 +10,10 @@
     <h5 class="highlightable"><span class="categories">Expiration Date:</span> {{account.expiration}}</h5>
     <h5 class="highlightable"><span class="categories">CCV:</span> {{account.ccv}} <button class="copy-button btn btn-default" ng-click="copyText(account.ccv)">Copy</button></h5>
     <button class="btn btn-large btn-default" ng-click="showForm()">Update Info</button>
+
+    <h5>Created: {{account.createdAt}}</h5>
+    <h5>Last Updated: {{account.lastUpdated}}</h5>
+
   </div>
 
   <div ng-show="updateInfo">
