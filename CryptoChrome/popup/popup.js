@@ -1,6 +1,5 @@
 var EventListener = require('../event.listener')
-var io = require('socket.io-client');
-var $ = require('jQuery');
+
 var socket = io.connect('http://localhost:9999', { reconnect: true });
 var angular = require('angular');
 var app = angular.module('cryptoPass', [ /*, require('angular-animate'), 'ui.slider'*/ ])
@@ -16,6 +15,7 @@ app.controller('cryptoCtrl', function($scope, $rootScope) {
     console.log($scope.master, socket)
     chrome.extension.sendMessage({master: $scope.master, eventName: 'authentication'})
     eventListener.on('validation', function (data) {
+      console.log('listened', data)
       $scope.authenticate = data.valid;
       $scope.$digest();
     })
@@ -24,7 +24,7 @@ app.controller('cryptoCtrl', function($scope, $rootScope) {
 })
 
 chrome.extension.onMessage.addListener(function (req, sender, sendRes) {
-  eventListener.emit(req.eventName);
+  eventListener.emit(req.eventName, req);
 })
 
 

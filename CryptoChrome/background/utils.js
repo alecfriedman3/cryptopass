@@ -17,6 +17,7 @@ eventListener.on('authentication', function (req) {
       valid = true;
       socket.emit('chromeValidate')
     } catch (err) {
+      console.log('catching error', err)
       valid = false;
     }
     chrome.extension.sendMessage({valid: valid, eventName: 'validation'})
@@ -25,7 +26,8 @@ eventListener.on('authentication', function (req) {
 })
 
 chrome.extension.onMessage.addListener(function (req, sender, sendRes){
-	eventListener.emit(req.eventName);
+  console.log(eventListener)
+	eventListener.emit(req.eventName, req);
 })
 
 
