@@ -15,6 +15,7 @@
          <input ng-model="master" type="password">
       </label>
     </form>
+    <button ng-show="dropboxAuthButton" ng-click="linkDropbox()" class="button button-full button-positive"><span class="icon icon-dropbox"></span>Connect To Dropbox</button>
     <ion-spinner ng-show="loading" icon="ripple"></ion-spinner>
     <div ng-show="error">
       {{error}}

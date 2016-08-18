@@ -16350,6 +16350,44 @@ function request(RequestConstructor, method, url) {
 module.exports = request;
 
 },{}],53:[function(require,module,exports){
+var Dropbox = require('dropbox');
+var dbx = new Dropbox({ clientId: 'pg8nt8sn9h5yidb' });
+module.exports = {
+  getAndSetAccessToken: function(){
+    var token = window.localStorage.getItem('dropboxAuth');
+    dbx.setAccessToken(token)
+  },
+  getDropboxFilePath: function(){
+    this.getAndSetAccessToken()
+    console.log('in here');
+    return dbx.filesSearch({path: '/Apps', query: 'CryptoPass'})
+    .then(function(res){
+      return res.matches[0];
+    })
+    .catch(function(err){console.log('w have an error', err)})
+  },
+  getDataObjectFromDropbox: function(cryptoPath, file){
+    this.getAndSetAccessToken()
+    return new Promise(function(resolve, reject){
+      dbx.filesGetTemporaryLink({path: cryptoPath + file})
+      .then(function(linkObj){
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", linkObj.link, true);
+        xhr.onreadystatechange = function(e) {
+          if (xhr.readyState === 4 && xhr.statusText === "OK"){
+            console.log(xhr.responseText);
+            resolve(xhr.responseText.replace(/"/g, ''))
+          }
+        }
+        xhr.send(null)
+      })
+      .catch(function(err){reject(err)})
+    })
+  },
+
+}
+
+},{"dropbox":40}],54:[function(require,module,exports){
 var crypto = require('crypto-js');
 
 //changed from aes192 to aes256
@@ -16377,7 +16415,7 @@ module.exports = {
 	}
 }
 
-},{"crypto-js":11}],54:[function(require,module,exports){
+},{"crypto-js":11}],55:[function(require,module,exports){
 // Ionic Starter App
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
@@ -16561,53 +16599,81 @@ var app = angular.module('cryptoPass', ['ionic', 'ngCordovaOauth', 'ngStorage'])
   };
 })
 
-app.controller('creditCardController', function($scope){
-  $scope.accounts = masterObj.creditCard;
-})
-
-app.controller('creditCardSingleController', function($scope, $stateParams){
-  console.log($stateParams);
-  $scope.account = $stateParams.accountData;
-})
-
-app.controller('authController', function($scope, $state){
+app.controller('authController', function($scope, $state, $cordovaOauth){
 	var Dropbox = require('dropbox');
 	var Promise = require('bluebird');
-	var utils = require('../angular/utilities/encrypt.utility.js')
-	var dbx = new Dropbox({ clientId: 'pg8nt8sn9h5yidb' });
+	var utils = require('../angular/utilities/encrypt.utility.js');
+	var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
+	var token = window.localStorage.getItem('dropboxAuth');
 
-	var token = window.localStorage.getItem('dropboxAuth')
 	$scope.loading = false;
-
-	token ? dbx.setAccessToken(token) : null;
+	$scope.dropboxAuthButton = false;
+  token ? null : noDropboxError()
 	$scope.checkMaster = function(master){
 		$scope.loading = true;
-		var dropboxPathForCrypto;
-		getDropboxFilePath()
+		if(token){
+			var dropboxPathForCrypto;
+			dropboxUtils.getDropboxFilePath()
+			.then(function(matches){
+        if(matches){
+          dropboxPathForCrypto = matches.metadata.path_display
+          window.localStorage.setItem('dropboxPath', dropboxPathForCrypto)
+          return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt')
+        } else{
+          cantFindCryptoPass()
+        }
+      })
+      .then(function(dataObj){
+        window.localStorage.setItem('masterObj', dataObj)
+        return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/secret2.txt')
+      })
+      .then(function(secret2){
+        window.localStorage.setItem('secret2', secret2);
+        $scope.error = null;
+				var masterCorrect = utils.validate(master)
+				masterCorrect ? accessGranted() : accessDenied();
+      })
+		} else {
+			noDropboxError()
+		}
+	};
+
+	$scope.linkDropbox = function(){
+		$scope.loading = true;
+		$cordovaOauth.dropbox('pg8nt8sn9h5yidb')
+		.then(function(res){
+			return window.localStorage.setItem('dropboxAuth', res.access_token)
+		})
+		.then(function(){
+			return dropboxUtils.getDropboxFilePath()
+		})
 		.then(function(matches){
 			if(matches){
 				dropboxPathForCrypto = matches.metadata.path_display
 				window.localStorage.setItem('dropboxPath', dropboxPathForCrypto)
-				return getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt')
-
+				return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt')
 			} else{
 				cantFindCryptoPass()
 			}
 		})
 		.then(function(dataObj){
 			window.localStorage.setItem('masterObj', dataObj)
-			return getDataObjectFromDropbox(dropboxPathForCrypto, '/secret2.txt')
+			return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/secret2.txt')
 		})
 		.then(function(secret2){
-			window.localStorage.setItem('secret2', secret2)
-			var secret2 = window.localStorage.getItem('secret2');
-			var decrypt = utils.validate(master)
-			decrypt ? accessGranted() : accessDenied();
+			window.localStorage.setItem('secret2', secret2);
+			$scope.error = null;
+			$scope.loading = false;
+			$scope.dropboxAuthButton = false;
+			$scope.$evalAsync()
 		})
-
-		// $state.go('app.home');
 	}
 
+	function noDropboxError(){
+		$scope.error = "Please link your Dropbox Account To Use The Mobile App";
+		$scope.dropboxAuthButton = true;
+		$scope.$evalAsync()
+	}
 	function accessGranted(){
 		$scope.loading = false;
 		$scope.$evalAsync()
@@ -16621,52 +16687,21 @@ app.controller('authController', function($scope, $state){
 		$scope.error = 'Incorrect Password'
 	}
 
-
-	function getDataObjectFromDropbox(cryptoPath, file){
-		return new Promise(function(resolve, reject){
-      dbx.filesGetTemporaryLink({path: cryptoPath + file})
-      .then(function(linkObj){
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", linkObj.link, true);
-        xhr.onreadystatechange = function(e) {
-          if (xhr.readyState === 4 && xhr.statusText === "OK"){
-						console.log(xhr.responseText);
-            resolve(xhr.responseText.replace(/"/g, ''))
-          }
-        }
-        xhr.send(null)
-      })
-      .catch(function(err){reject(err)})
-    })
-	}
-
-	function getDropboxFilePath(){
-		console.log('in here');
-		return dbx.filesSearch({path: '/Apps', query: 'CryptoPass'})
-		.then(function(res){
-			return res.matches[0];
-		})
-		.catch(function(err){console.log('w have an error', err)})
-	}
-
 	function cantFindCryptoPass(){
-		$scope.error = "We can't find your CryptoPass folder.  Please make sure it's in your Dropbox Account"
-	}
+    $scope.error = "We can't find your CryptoPass folder.  Please make sure it's in your Dropbox Account"
+  }
 })
 
 app.controller('homeController', function($scope){
 	
 })
-app.controller('loginController', function($scope, $state){
-  $scope.accounts = masterObj.login;
-
+app.controller('creditCardController', function($scope){
+  $scope.accounts = masterObj.creditCard;
 })
 
-app.controller('loginSingleController', function($stateParams, $scope, $state){
+app.controller('creditCardSingleController', function($scope, $stateParams){
   console.log($stateParams);
-  console.log('in singleCont');
-  $scope.account = $stateParams.accountData
-  console.log(($state));
+  $scope.account = $stateParams.accountData;
 })
 
 app.controller('identityController', function($scope){
@@ -16675,6 +16710,18 @@ app.controller('identityController', function($scope){
 
 
 app.controller('identitySingleController', function($stateParams, $scope, $state){
+  console.log($stateParams);
+  console.log('in singleCont');
+  $scope.account = $stateParams.accountData
+  console.log(($state));
+})
+
+app.controller('loginController', function($scope, $state){
+  $scope.accounts = masterObj.login;
+
+})
+
+app.controller('loginSingleController', function($stateParams, $scope, $state){
   console.log($stateParams);
   console.log('in singleCont');
   $scope.account = $stateParams.accountData
@@ -16692,25 +16739,25 @@ app.controller('noteSingleController', function($stateParams, $scope, $state){
   console.log(($state));
 })
 
-app.controller('settingsController', function($scope, $cordovaOauth, $localStorage){
-  var dropbox = require('dropbox');
+app.controller('settingsController', function($scope, $cordovaOauth){
+  var dropboxUtils = require('../angular/utilities/dropbox.utility.js')
 
   function setScope(){
     var token = window.localStorage.getItem('dropboxAuth')
       if(token){
         $scope.dropboxAuthenticated = true;
-        $scope.buttonText = "Disconnect From Dropbox"
+        $scope.buttonText = "Disconnect From Dropbox";
       } else {
-        $scope.dropboxAuthenticated = false
-        $scope.buttonText = "Connect To Dropbox"
+        $scope.dropboxAuthenticated = false;
+        $scope.buttonText = "Connect To Dropbox";
       }
-      $scope.$evalAsync()
+      $scope.$evalAsync();
   }
-  setScope()
+  setScope();
 
 
   $scope.dropboxAuth = function(){
-
+    var dropboxPathForCrypto;
     if($scope.dropboxAuthenticated){
       window.localStorage.removeItem('dropboxAuth');
       setScope()
@@ -16720,13 +16767,71 @@ app.controller('settingsController', function($scope, $cordovaOauth, $localStora
         return window.localStorage.setItem('dropboxAuth', res.access_token)
       })
       .then(function(){
-        setScope()
+        return dropboxUtils.getDropboxFilePath()
+      })
+      .then(function(matches){
+        if(matches){
+          dropboxPathForCrypto = matches.metadata.path_display
+          window.localStorage.setItem('dropboxPath', dropboxPathForCrypto)
+          setScope()
+          return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt')
+        } else{
+          cantFindCryptoPass()
+        }
+      })
+      .then(function(dataObj){
+        window.localStorage.setItem('masterObj', dataObj)
+        return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/secret2.txt')
+      })
+      .then(function(secret2){
+        window.localStorage.setItem('secret2', secret2);
+        $scope.error = null;
       })
     }
-
-
   };
+
+
+  function cantFindCryptoPass(){
+    $scope.error = "We can't find your CryptoPass folder.  Please make sure it's in your Dropbox Account"
+  }
 })
+
+var Dropbox = require('dropbox');
+var dbx = new Dropbox({ clientId: 'pg8nt8sn9h5yidb' });
+module.exports = {
+  getAndSetAccessToken: function(){
+    var token = window.localStorage.getItem('dropboxAuth');
+    dbx.setAccessToken(token)
+  },
+  getDropboxFilePath: function(){
+    this.getAndSetAccessToken()
+    console.log('in here');
+    return dbx.filesSearch({path: '/Apps', query: 'CryptoPass'})
+    .then(function(res){
+      return res.matches[0];
+    })
+    .catch(function(err){console.log('w have an error', err)})
+  },
+  getDataObjectFromDropbox: function(cryptoPath, file){
+    this.getAndSetAccessToken()
+    return new Promise(function(resolve, reject){
+      dbx.filesGetTemporaryLink({path: cryptoPath + file})
+      .then(function(linkObj){
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", linkObj.link, true);
+        xhr.onreadystatechange = function(e) {
+          if (xhr.readyState === 4 && xhr.statusText === "OK"){
+            console.log(xhr.responseText);
+            resolve(xhr.responseText.replace(/"/g, ''))
+          }
+        }
+        xhr.send(null)
+      })
+      .catch(function(err){reject(err)})
+    })
+  },
+
+}
 
 var crypto = require('crypto-js');
 
@@ -16756,4 +16861,4 @@ module.exports = {
 }
 
 
-},{"../angular/utilities/encrypt.utility.js":53,"bluebird":1,"crypto-js":11,"dropbox":40}]},{},[54]);
+},{"../angular/utilities/dropbox.utility.js":53,"../angular/utilities/encrypt.utility.js":54,"bluebird":1,"crypto-js":11,"dropbox":40}]},{},[55]);

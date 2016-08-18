@@ -42,7 +42,7 @@ gulp.task('buildJS', function () {
 
 });
 
-gulp.task('browserify', function(){
+gulp.task('browserify', ['buildJS'], function(){
     return browserify({
             entries: ['./www/build/built.js']
         })
