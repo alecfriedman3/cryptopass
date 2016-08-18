@@ -6,7 +6,13 @@
 		<input ng-model="creditCard.expiration" placeholder="expiration" class="form-control">
 		<input ng-model="creditCard.firstName" placeholder="first name" class="form-control">
 		<input ng-model="creditCard.lastName" placeholder="last name" class="form-control">
-		<input ng-model="creditCard.type" placeholder="type" class="form-control">
+		 <label>Card Type</label>
+      <select class="form-control" ng-model="creditCard.type">
+        <option>Visa</option>
+        <option>Mastercard</option>
+        <option>American Express</option>
+        <option>Discover</option>
+      </select>
 		<button class="btn btn-positive" type="submit">Submit</button>
 	</div>
 </form>
