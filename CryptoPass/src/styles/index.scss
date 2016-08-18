@@ -221,7 +221,7 @@ input:focus::-webkit-input-placeholder { color:transparent; }
 // End Lock Stuff
 
 sidebar{
-	width: 35%
+	width: 360px;
 }
 .sidebar{
 	height: 100%;
@@ -336,16 +336,24 @@ sidebar{
 	}
 }
 .settings-button{
-	position: absolute;
-	bottom: 0;
-	left: 0;
+  h2 {
+    display: inline-block;
+  }
 	/*vertical-align: bottom;*/
-	button{
-		background-color: transparent;
-		border: none;
-		font-size: 24px;
-	}
+  button{
+    position: relative;
+    background-color: transparent;
+    border: none;
+    font-size: 24px;
+  }
+  .cog {
+    float: right;
+    margin-top: 5px;
+  }
 }
+  .inner-settings-btns{
+    display: inline-block;
+  }
 
 .dropbox-connect-button{
 	background-color: #007ee5 !important;
@@ -587,3 +595,39 @@ body {
     padding: 0px, 3px, 0px, 3px;
     margin-left: 5px;
   }
+
+.deletebtn {
+  margin-right: 50px;
+  float: right;
+}
+
+.single-view {
+  width: auto;
+  margin: 10px auto;
+  border: solid turquoise 1px;
+  background-color: lightgray;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.single-header {
+  font-weight: 300;
+  letter-spacing: 1px;
+  font-family: georgia;
+  color: #323232;
+  font-variant: small-caps;
+}
+
+.inner-single {
+  width: 30em;
+  text-align: left;
+  color: rgb(50, 50, 50);
+  margin: 0 auto;
+  h3 {
+    font-variant: small-caps;
+    font-weight: 400;
+    font-style: italic
+  }
+  .categories {
+    font-style: oblique;
+  }
+}

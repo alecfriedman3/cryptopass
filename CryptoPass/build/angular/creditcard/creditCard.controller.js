@@ -11,6 +11,8 @@ app.controller('singleCreditCardController', function($scope, $stateParams, Clip
   $scope.updateCard = 'Select Card Type'
   $scope.newAccount = angular.copy($scope.account)
 
+  $scope.getImg = getImg;
+
   $scope.showForm = function() {
     $scope.updateInfo = !$scope.updateInfo;
   }
