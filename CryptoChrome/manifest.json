@@ -7,11 +7,11 @@
       "matches": [
         "<all_urls>"
       ],
-      "js": ["node_modules/jquery/dist/jquery.min.js", "content.js"]
+      "js": ["node_modules/jquery/dist/jquery.min.js", "content/content.js"]
     }
   ],
   "background": {
-    "scripts": ["node_modules/jquery/dist/jquery.min.js", "/node_modules/socket.io-client/socket.io.js", "utils.js"],
+    "scripts": ["node_modules/jquery/dist/jquery.min.js", "/node_modules/socket.io-client/socket.io.js", "background/utils.js"],
     "run_at": "document_end"
   },
   "browser_action": {
