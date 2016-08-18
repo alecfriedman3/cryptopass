@@ -1,7 +1,9 @@
 app.controller('authController', function($scope, $state){
 	var Dropbox = require('dropbox');
-	var Promise = require('bluebird')
+	var Promise = require('bluebird');
+	var utils = require('../angular/utilities/encrypt.utility.js')
 	var dbx = new Dropbox({ clientId: 'pg8nt8sn9h5yidb' });
+
 	var token = window.localStorage.getItem('dropboxAuth')
 	$scope.loading = false;
 
@@ -21,17 +23,32 @@ app.controller('authController', function($scope, $state){
 			}
 		})
 		.then(function(dataObj){
-			console.log(dataObj);
 			window.localStorage.setItem('masterObj', dataObj)
 			return getDataObjectFromDropbox(dropboxPathForCrypto, '/secret2.txt')
 		})
 		.then(function(secret2){
 			window.localStorage.setItem('secret2', secret2)
-			$scope.loading = false;
-			$scope.$evalAsync()
+			var secret2 = window.localStorage.getItem('secret2');
+			var decrypt = utils.validate(master)
+			decrypt ? accessGranted() : accessDenied();
 		})
+
 		// $state.go('app.home');
 	}
+
+	function accessGranted(){
+		$scope.loading = false;
+		$scope.$evalAsync()
+		console.log('access granted');
+		$state.go('app.home')
+	}
+
+	function accessDenied(){
+		$scope.loading = false;
+		$scope.$evalAsync()
+		$scope.error = 'Incorrect Password'
+	}
+
 
 	function getDataObjectFromDropbox(cryptoPath, file){
 		return new Promise(function(resolve, reject){
