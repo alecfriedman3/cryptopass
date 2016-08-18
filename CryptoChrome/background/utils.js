@@ -29,6 +29,12 @@ chrome.extension.onMessage.addListener(function (req, sender, sendRes){
 	eventListener.emit(req.eventName, req);
 })
 
+eventListener.on('logins', function (data) {
+  console.log('responding');
+  chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, {eventName: 'loginRes', logins: masterObj.login})
+  })
+})
 
 socket.on('electronAdd', function(data) {
   console.log('electronAdd socket fired and caught');
@@ -64,7 +70,6 @@ EventListener.prototype.on = function (eventName, cb) {
 }
 
 EventListener.prototype.emit = function (eventName, data) {
-  console.log('listener here', this)
   if (!this[eventName]) throw new Error('event not registered')
   this[eventName].forEach(function (cb) {
     cb(data);

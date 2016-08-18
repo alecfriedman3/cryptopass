@@ -7,7 +7,7 @@
       "matches": [
         "<all_urls>"
       ],
-      "js": ["node_modules/jquery/dist/jquery.min.js", "content/content.js"]
+      "js": ["node_modules/jquery/dist/jquery.min.js", "utilities/dummy.js", "event.listener.js" ,"content/content.js"]
     }
   ],
   "background": {
