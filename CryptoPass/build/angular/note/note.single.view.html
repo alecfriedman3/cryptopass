@@ -6,6 +6,10 @@
     <h3>Details:</h3>
     <h5 class="highlightable">{{note.data}}</h5>
     <button class="btn btn-large btn-default" ng-click="showForm()">Update Info</button>
+
+    <h5>Created: {{note.createdAt}}</h5>
+    <h5>Last Updated: {{note.lastUpdated}}</h5>
+
   </div>
 
   <div ng-show="updateInfo">

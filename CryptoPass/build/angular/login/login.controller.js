@@ -27,6 +27,7 @@ app.controller('singleLoginController', function($scope, $stateParams, Clipboard
   		if (account.id===$scope.account.id) {
         account.username = $scope.newAccount.username
   			account.password = $scope.password1 || account.password;
+        account.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
   		}
   	})
   	var encrypted=encrypt(JSON.stringify(masterObj),masterPass);
@@ -73,6 +74,8 @@ app.controller('addLoginController', function($scope, $state, $stateParams, $roo
       alert("Passwords do not match!");
     } else {
   		var newId = masterObj.login.length ? masterObj.login[masterObj.login.length - 1].id + 1 : 1;
+      $scope.login.createdAt = moment().format('MMMM Do YYYY, h:mm:ss a');
+      $scope.login.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
   		$scope.login.id = newId
   		masterObj.login.push($scope.login)
   		var encrypted = encrypt(JSON.stringify(masterObj), masterPass)

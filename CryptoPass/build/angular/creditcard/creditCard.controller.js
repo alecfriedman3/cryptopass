@@ -29,6 +29,7 @@ app.controller('singleCreditCardController', function($scope, $stateParams, Clip
     if ($scope.updateCard !== 'Select Card Type'){
       $scope.account.type = $scope.updateCard
     }
+    $scope.account.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
     var encrypted = encrypt(JSON.stringify(masterObj), masterPass);
     socket.emit('addFromElectron', { data: encrypted });
     $state.reload();
@@ -55,6 +56,8 @@ app.controller('addCreditCardController', function($scope, $state, $stateParams,
   $scope.createCard = function() {
     var newId = masterObj.creditCard.length ? masterObj.creditCard[masterObj.creditCard.length - 1].id + 1 : 1;
     $scope.creditCard.id = newId
+    $scope.creditCard.createdAt = moment().format('MMMM Do YYYY, h:mm:ss a');
+    $scope.creditCard.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
     if ($scope.creditCard) masterObj.creditCard.push($scope.creditCard)
     var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
     socket.emit('addFromElectron', { data: encrypted })
