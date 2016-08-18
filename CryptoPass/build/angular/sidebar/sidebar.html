@@ -21,7 +21,7 @@
           </button>
 		  </div>
 
-        <sidebar-item ng-repeat="info in navItem" item="info" ng-click="singleView(info.id)"></sidebar-item>
+        <sidebar-item ng-repeat="info in navItem track by info.id" item="info" ng-click="singleView(info.id)"></sidebar-item>
       </ul>
 
   </nav>
