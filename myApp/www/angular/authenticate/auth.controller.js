@@ -5,11 +5,14 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 	var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
 	var token = window.localStorage.getItem('dropboxAuth');
 
+	$scope.displayPasswordField = true;
 	$scope.loading = false;
 	$scope.dropboxAuthButton = false;
   token ? null : noDropboxError()
+
 	$scope.checkMaster = function(master){
 		$scope.loading = true;
+
 		if(token){
 			var dropboxPathForCrypto;
 			dropboxUtils.getDropboxFilePath()
@@ -64,6 +67,7 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 			$scope.error = null;
 			$scope.loading = false;
 			$scope.dropboxAuthButton = false;
+			$scope.displayPasswordField = true;
 			$scope.$evalAsync()
 		})
 	}
@@ -71,6 +75,7 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 	function noDropboxError(){
 		$scope.error = "Please link your Dropbox Account To Use The Mobile App";
 		$scope.dropboxAuthButton = true;
+		$scope.displayPasswordField = false;
 		$scope.$evalAsync()
 	}
 	function accessGranted(){

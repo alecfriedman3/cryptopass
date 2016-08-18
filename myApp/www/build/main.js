@@ -16606,12 +16606,16 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 	var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
 	var token = window.localStorage.getItem('dropboxAuth');
 
+	$scope.displayPasswordField = false;
 	$scope.loading = false;
 	$scope.dropboxAuthButton = false;
   token ? null : noDropboxError()
+
 	$scope.checkMaster = function(master){
 		$scope.loading = true;
+
 		if(token){
+			$scope.displayPasswordField = true;
 			var dropboxPathForCrypto;
 			dropboxUtils.getDropboxFilePath()
 			.then(function(matches){
@@ -16665,6 +16669,7 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 			$scope.error = null;
 			$scope.loading = false;
 			$scope.dropboxAuthButton = false;
+			$scope.displayPasswordField = true;
 			$scope.$evalAsync()
 		})
 	}
@@ -16672,6 +16677,7 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 	function noDropboxError(){
 		$scope.error = "Please link your Dropbox Account To Use The Mobile App";
 		$scope.dropboxAuthButton = true;
+		$scope.displayPasswordField = false;
 		$scope.$evalAsync()
 	}
 	function accessGranted(){
@@ -16704,24 +16710,24 @@ app.controller('creditCardSingleController', function($scope, $stateParams){
   $scope.account = $stateParams.accountData;
 })
 
-app.controller('identityController', function($scope){
-  $scope.accounts = masterObj.identity;
-})
-
-
-app.controller('identitySingleController', function($stateParams, $scope, $state){
-  console.log($stateParams);
-  console.log('in singleCont');
-  $scope.account = $stateParams.accountData
-  console.log(($state));
-})
-
 app.controller('loginController', function($scope, $state){
   $scope.accounts = masterObj.login;
 
 })
 
 app.controller('loginSingleController', function($stateParams, $scope, $state){
+  console.log($stateParams);
+  console.log('in singleCont');
+  $scope.account = $stateParams.accountData
+  console.log(($state));
+})
+
+app.controller('identityController', function($scope){
+  $scope.accounts = masterObj.identity;
+})
+
+
+app.controller('identitySingleController', function($stateParams, $scope, $state){
   console.log($stateParams);
   console.log('in singleCont');
   $scope.account = $stateParams.accountData
