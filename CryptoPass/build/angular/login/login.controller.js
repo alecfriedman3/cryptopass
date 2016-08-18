@@ -9,6 +9,8 @@ app.controller('singleLoginController', function($scope, $stateParams, Clipboard
   $scope.updateInfo = false;
   $scope.newAccount = angular.copy($scope.account)
 
+  $scope.getImg = getImg;
+
   $scope.showForm = function () {
     $scope.updateInfo = !$scope.updateInfo;
   }
@@ -26,6 +28,7 @@ app.controller('singleLoginController', function($scope, $stateParams, Clipboard
   	masterObj.login.forEach(account =>{
   		if (account.id===$scope.account.id) {
         account.username = $scope.newAccount.username
+        account.website = $scope.newAccount.website
   			account.password = $scope.password1 || account.password;
   		}
   	})
@@ -55,7 +58,8 @@ app.controller('addLoginController', function($scope, $state, $stateParams, $roo
 	$scope.login = {
 		name: null,
 		username: null,
-		password: null
+		password: null,
+    website: null
 	}
 	$scope.gen = null
 
@@ -74,7 +78,7 @@ app.controller('addLoginController', function($scope, $state, $stateParams, $roo
 		masterObj.login.push($scope.login)
 		var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
 		socket.emit('addFromElectron', {data: encrypted})
-		$rootScope.$evalAsync()
+    $rootScope.$evalAsync()
 		$state.go('login.single', {id: newId}, {reload: true})
 	}
 
