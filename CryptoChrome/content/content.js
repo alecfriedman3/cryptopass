@@ -7,3 +7,13 @@
 // passwordField.val('asdfasdfas')
 
 // console.log(passwordField.val());
+
+console.log('content running')
+  var passInput = $('input')
+  console.log(passInput)
+
+$(':submit').on('click', function (){
+  console.log('clicked')
+  passInput.val('eS8$.oO1w5y8kyP7')
+})
+

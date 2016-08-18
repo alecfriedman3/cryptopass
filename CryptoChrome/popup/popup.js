@@ -12,10 +12,8 @@ app.controller('cryptoCtrl', function($scope, $rootScope) {
 
   $scope.authenticatePassword = function() {
     // need to validate password from chrome
-    console.log($scope.master, socket)
     chrome.extension.sendMessage({master: $scope.master, eventName: 'authentication'})
     eventListener.on('validation', function (data) {
-      console.log('listened', data)
       $scope.authenticate = data.valid;
       $scope.$digest();
     })
@@ -24,6 +22,7 @@ app.controller('cryptoCtrl', function($scope, $rootScope) {
 })
 
 chrome.extension.onMessage.addListener(function (req, sender, sendRes) {
+  if (!eventListener[req.eventName]) return
   eventListener.emit(req.eventName, req);
 })
 

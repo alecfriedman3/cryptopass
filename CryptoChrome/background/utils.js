@@ -11,22 +11,21 @@ eventListener.on('authentication', function (req) {
   masterPass = req.master
   $.get('http://localhost:9999/secret')
   .then(function (data){
-    try {
       // try decrypting, if success emit success, otherwise reset master
-      var decrypted = decrypt(data.data, masterPass)
-      valid = true;
-      socket.emit('chromeValidate')
-    } catch (err) {
-      console.log('catching error', err)
-      valid = false;
-    }
+    var decrypted = decrypt(data.data, masterPass)
+    valid = data.check === decrypted
     chrome.extension.sendMessage({valid: valid, eventName: 'validation'})
+    if (valid){
+      socket.emit('chromeValidate')
+    }
   })
-  return true
+  .catch(function (err){
+    console.error(err)
+  })
 })
 
 chrome.extension.onMessage.addListener(function (req, sender, sendRes){
-  console.log(eventListener)
+  if (!eventListener[req.eventName]) return
 	eventListener.emit(req.eventName, req);
 })
 
@@ -65,6 +64,8 @@ EventListener.prototype.on = function (eventName, cb) {
 }
 
 EventListener.prototype.emit = function (eventName, data) {
+  console.log('listener here', this)
+  if (!this[eventName]) throw new Error('event not registered')
   this[eventName].forEach(function (cb) {
     cb(data);
   })
