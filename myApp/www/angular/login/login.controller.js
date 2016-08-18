@@ -23,7 +23,7 @@ app.controller('addLoginController', function($scope, $state){
 		$scope.gen = !$scope.gen
 	}
 
-	$scope.generatePassword = function (len, syms, nums){
+	$scope.generatePassword = function (leng, syms, nums){
 		// $scope.login.password = createRandom(+len, +syms, +nums)
 
  $scope.login.password =function createRandom (leng, syms, nums){

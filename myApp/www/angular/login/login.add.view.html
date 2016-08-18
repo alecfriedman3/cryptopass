@@ -1,49 +1,9 @@
-<ion-view view-title="Logins">
-  <ion-content>
 
-<form ng-submit="createLogin()">
-	<label>
-		<span class="input-label">Add</span>
-	<div class="form-group">
-		<input ng-model="login.name" placeholder="Account name" class="form-control">
-		<input ng-model="login.username" placeholder="Username" class="form-control">
-		<input ng-model="login.password" placeholder="password" class="form-control">
-		<button class="btn btn-positive" type="submit">Submit</button>
-	</div>
-	</label>
-</form>
-		<button class="btn btn-primary" ng-click="generate()" ng-show="!gen"> Generate Random Password</button>
-		<div ng-show="gen">
-			<h3>Length</h3><slider floor="8" ceiling="20" step="1" precision="1" ng-model="leng" translate="currencyFormatting"></slider>
-			<h3>Symbols</h3><slider floor="0" ceiling="{{leng - nums}}" step="1" precision="1" ng-model="syms" translate="currencyFormatting"></slider>
-			<h3>Numbers</h3><slider floor="0" ceiling="{{leng - syms}}" step="1" precision="1" ng-model="nums" translate="currencyFormatting"></slider>
-		<button class="btn btn-success" ng-click="generatePassword(leng, syms, nums)"> Generate! </button>
-		</div>
-
-		  </ion-content>
-</ion-view> 
-<!-- 
-<ion-view view-title="Logins">
-  <ion-content>
-<form ng-submit="checkMaster(master)">
- <label class="item item-input">
- <span class="input-label">Password</span>
- <input ng-model="master" type="password">
- <span class="input-label">Password</span>
- <input ng-model="master" type="password">
-
-</label>
-</form>
-  </ion-content>
-</ion-view> -->
-
-<!-- <input ng-model="login.username" placeholder="Username" class="form-control">
-		<input ng-model="login.password" placeholder="password" class="form- -->
 
 <ion-view title="Logins" id="page6">
     <ion-content padding="true" class="has-header">
         <h4 id="logins-heading3" style="color:#53BCEE;text-align:center;">Add</h4>
-        <form id="logins-form1" class="list ">
+        <form id="logins-form1" class="list " ng-submit="createLogin()">
            <!--  <label class="item item-input " id="logins-input1">
                 <span class="input-label">Name</span>
                 <input ng-model="login.name" type="text" placeholder="">
@@ -63,54 +23,27 @@
         </form>
       
 
-<!-- <ion-list>
 
-  <ion-item>
-    <ion-range ng-model="leng" danger pin="true"></ion-range>
-  </ion-item>
-
-  <ion-item>
-    <ion-range min="-200" max="200" ng-model="syms" secondary>
-      <ion-label range-left>-200</ion-label>
-      <ion-label range-right>200</ion-label>
-    </ion-range>
-  </ion-item>
-
- <ion-item>
-   <ion-range min="20" max="80" step="2" ng-model="nums">
-     <ion-icon small range-left name="sunny"></ion-icon>
-     <ion-icon range-right name="sunny"></ion-icon>
-   </ion-range>
- </ion-item>
-
-  <ion-item>
-    <ion-label>step=100, snaps, </ion-label>
-    <ion-range min="1000" max="2000" step="100" snaps="true" secondary [(ngModel)]="singleValue4"></ion-range>
-  </ion-item>
-
-  <ion-item>
-    <ion-label>dual, step=3, snaps, </ion-label>
-    <ion-range dualKnobs="true" [(ngModel)]="dualValue2" min="21" max="72" step="3" snaps="true"></ion-range>
-  </ion-item>
-</ion-list>
-
-<ion-list> -->
-
-        <!-- try -->
-<ion-list>
-		<button class="btn btn-primary" ng-click="generate()" ng-show="!gen"> Generate Random Password</button>
+<button class="btn btn-primary" ng-click="generate()" ng-show="!gen"> Generate Random Password</button>
 		<div ng-show="gen">
-			<h3>Length</h3>  <ion-item> <ion-label range-left>-10</ion-label><ion-range min="8" max="20" step="1" ng-model="leng" precision="1" translate="currencyFormatting"> </ion-range></ion-item>
-			<!-- <h3>Symbols</h3><slider floor="0" ceiling="{{leng - nums}}" step="1" precision="1" ng-model="syms" translate="currencyFormatting"></slider>
-			<h3>Numbers</h3><slider floor="0" ceiling="{{leng - syms}}" step="1" precision="1" ng-model="nums" translate="currencyFormatting"></slider> -->
-<!-- <button class="btn btn-success" ng-click="generatePassword(leng, syms, nums)"> Generate! </button>
-		</div>
-       <!- try -->
-<!--         <div class="spacer" style="width: 300px; height: 26px;"></div>
-        <button class="btn btn-positive" type="submit">Submit</button>  -->
-        </ion-list>
-          </ion-content>
+ <h5>Length</h5>
+  <div class="range" id="slider">
+        <input type="range" name="syms" step="1" precision="1" ng-model="leng" min="8" max="20">
+ </div>
+ <h5>Symbols</h5>
+  <div class="range" id="slider">
+        <input type="range" name="syms" step="1" precision="1" ng-model="syms" min="0" max="{{leng - nums}}">
+ </div>
+ <h5>Numbers</h5>
+ <div class="range" id="slider">
+        <input type="range" name="syms" step="1" precision="1" ng-model="nums" min="0" max="{{leng - syms}}">
+ </div>
+ 
+   <button class="btn btn-success" ng-click="generatePassword(leng, syms, nums)"> Generate! </button>
+		</div>       
+	</br>
+          <button class="btn btn-positive" type="submit">Submit</button>
+           </ion-content>
 </ion-view>
  
 
-<!--  <slider floor="8" ceiling="20" step="1" precision="1" ng-model="leng" translate="currencyFormatting"></slider>
