@@ -8,6 +8,7 @@ app.controller('singleLoginController', function($scope, $stateParams, Clipboard
   $scope.account = masterObj.login.filter(info => info.id == $stateParams.id)[0]
   $scope.updateInfo = false;
   $scope.newAccount = angular.copy($scope.account)
+  $scope.isActive=false;
 
   $scope.getImg = getImg;
 
@@ -47,9 +48,16 @@ app.controller('singleLoginController', function($scope, $stateParams, Clipboard
 	}
 
   $scope.copyText = function(text){
+    $scope.isActive = !$scope.isActive;
     console.log('clicked in controller');
-    Clipboard.copy(text)
+    Clipboard.copy(text);
+    $timeout(function(){
+      // $scope.isActive = !$scope.isActive;
+      $scope.isActive = false;
+  }, 3000);
   }
+
+  
 
 })
 
