@@ -37,7 +37,7 @@ Clicking the sync with dropbox button will prompt you to select the Dropbox fold
 
 After setting up a password on the desktop app, from the root of the repo,
 
-`$ cd CryptoChrome` and `npm install`
+`$ cd CryptoChrome` and `$ npm install`
 
 After npm installing, if you do not have browserify
 `$ npm install browserify -g` and run the command `$ npm run builder`.
