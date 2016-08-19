@@ -3,19 +3,29 @@
 <head>
 
 </head>
-<body style="width: 200px" ng-app="cryptoPass" ng-controller="cryptoCtrl">
+<body style="width: 300px; height: 300px; background-color: rgba(45, 149, 145, 0.9); color: rgb(181, 221, 219);" ng-app="cryptoPass" ng-controller="cryptoCtrl">
 
+  <h1 style="text-align: center; border-bottom: 1px solid black;">CryptoPass</h1>
 
-	<div style="width: 80%; margin: 0 auto; margin-top: 40px" ng-hide="authenticate">
+  <div style="width: 80%; margin: 0 auto; margin-top: 20px; text-align: center" ng-hide="authenticate">
 		<form ng-submit="authenticatePassword()">
 			<div >
 				<input class="form-control auth-form-input" type="password" placeholder="Master Password" ng-model="master">
 			</div>
-			<button type="submit"><span>validate</span></button>
+			<button type="submit" style="margin-top: 5px;"><span>Validate</span></button>
 		</form>
 	</div>
 
-	<div ng-show="authenticate"><h1>Valid Password</h1></div>
+	<div ng-show="authenticate">
+    <div>
+      <ul>
+        <li ng-repeat='account in accounts'>
+          <a href="#">{{account.name}}</a>
+          <p>{{account.url}}</p>
+        </li>
+      </ul>
+    </div>
+  </div>
 
 
 
