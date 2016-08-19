@@ -47,6 +47,10 @@ socket.on('responseChromeValidated', function(data) {
   console.log(masterObj)
 })
 
+socket.on('chromeClearData', function (){
+  masterObj = masterPass = valid = null;
+  console.log(masterObj, 'masterObj cleared')
+})
 
 
 },{"../event.listener":3}],2:[function(require,module,exports){

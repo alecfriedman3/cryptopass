@@ -67,6 +67,9 @@ io.on('connection', function (socket){
   	}).catch(console.error.bind(console))
   })
 
+  socket.on('electronNewMaster', function (){
+    io.emit('chromeClearData')
+  })
 
 })
 
