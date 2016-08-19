@@ -8,7 +8,17 @@ app.controller('firstLoginController', function($scope, $state, $rootScope){
   $scope.master = null;
 
   $scope.setPassword = function (master){
-    if ($scope.master === $scope.master2 && $scope.master2 === $scope.master3) {
+    // var string=$scope.master.toString();
+    // console.log(string.length);
+
+    console.log($scope.master.length)
+    if ($scope.master.length<6 && $scope.master2.length<6 && $scope.master3.length<6){
+      alert("Hey! We want your password to be a little more secure! Please choose a password with at least 6 characters");
+      console.log('helloooo');
+      console.log($scope.master.length);
+    }
+    else {
+      if ($scope.master === $scope.master2 && $scope.master2 === $scope.master3) {
       utils.generateSecret(master);
       utils.encryptFile({login: [], creditCard: [], identity: [], note: [] }, master);
       settings.set('user', true).then(() => {
@@ -22,6 +32,26 @@ app.controller('firstLoginController', function($scope, $state, $rootScope){
       alert ("Your Passwords Do Not Match!");
     }
   }
+    }
+    // else {
+    // if ($scope.master === $scope.master2 && $scope.master2 === $scope.master3) {
+    //   utils.generateSecret(master);
+    //   utils.encryptFile({login: [], creditCard: [], identity: [], note: [] }, master);
+    //   settings.set('user', true).then(() => {
+    //     masterPass = master;
+    //     masterObj = {login: [], creditCard: [], identity: [], note: [] };
+    //     $rootScope.validated = true;
+    //     $rootScope.$evalAsync()
+    //     $state.go('home')
+    //   })
+    // } else {
+    //   alert ("Your Passwords Do Not Match!");
+    // }
+  // }
+  // else {
+  //   alert("All good");
+  // }
+  // }
 
   $scope.username;
 
