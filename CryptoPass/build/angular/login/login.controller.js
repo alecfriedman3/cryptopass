@@ -53,7 +53,7 @@ app.controller('singleLoginController', function($scope, $stateParams, Clipboard
     Clipboard.copy(text);
     $timeout(function(){
       // $scope.isActive = !$scope.isActive;
-      $scope.isActive = false;
+     $scope.isActive = !$scope.isActive;
   }, 3000);
   }
 
