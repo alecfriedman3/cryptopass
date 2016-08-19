@@ -644,6 +644,11 @@ body {
     width: 55%;
     margin: 5px auto;
   }
+  select {
+    display: block;
+    width: 55%;
+    margin: -10px auto 20px auto;
+  }
   button {
       text-align: center;
       margin-bottom: 5px;
@@ -660,6 +665,10 @@ body {
     display: block;
     width: 55%;
   }
+  select {
+    display: block;
+    width: 55%;
+  }
   button {
       text-align: center;
       margin-bottom: 5px;
@@ -667,5 +676,9 @@ body {
   slider {
     text-align: left;
     width: 55%;
+  }
+  textarea {
+    margin-left: 30px;
+    margin-right: 30px;
   }
 }
