@@ -30,5 +30,8 @@ In order for the chrome extension to work, your desktop application MUST BE RUNN
 Click on the yellow lock icon in your chrome extensions and sign in with your master password. Now you can navigate to the sites for which you have stored login information on the application and your login and password fields should be filled for you (let us know what sites, if any, this does not work on as every site sets up their forms differently).
 The chrome extension and desktop application dynamically update with each other, so you will consistently have up to date information in both of them.
 
+## CryptIon Cell Phone Application
+
+Cell phone application to come soon!
 
 (Since we are still in beta testing, we would advise against relying on the strong password generator to generate your passwords for applications which you do not have a backdoor to recover)
