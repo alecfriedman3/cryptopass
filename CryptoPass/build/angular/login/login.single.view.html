@@ -1,10 +1,15 @@
-<div>
-  <h1>{{account.name}}</h1>
-  <div ng-hide="updateInfo">
+<div class="single-view">
+<img class="img-circle media-object pull-left" ng-src="{{getImg(account.name)}}" width="48" height="48" />
+  <h1 class="single-header">{{account.name}}</h1>
+  <div class="inner-single" ng-hide="updateInfo">
     <h3>Login Details:</h3>
-    <h5 class="highlightable">Username: {{account.username}} <button class="copy-button btn btn-default" ng-click="copyText(account.username)">Copy</button></h5>
-    <h5 class="highlightable">Password: {{account.password}} <button class="copy-button btn btn-default" ng-click="copyText(account.password)">Copy</button></h5>
+    <h5 class="highlightable"><span class="categories">Username:</span> {{account.username}} <button class="copy-button btn btn-default" ng-click="copyText(account.username)">Copy</button></h5>
+    <h5 class="highlightable"><span class="categories">Password:</span> {{account.password}} <button class="copy-button btn btn-default" ng-click="copyText(account.password)">Copy</button></h5>
+    <h5 class="highlightable"><span class="categories">Website:</span> {{account.website}} <button class="copy-button btn btn-default" ng-click="copyText(account.password)">Copy</button></h5>
     <button class="btn btn-large btn-default" ng-click="showForm()">Update Info</button>
+
+    <h5>Created: {{account.createdAt}}</h5>
+    <h5>Last Updated: {{account.lastUpdated}}</h5>
 
   </div>
 
@@ -13,6 +18,10 @@
       <div class="form-group">
         <label>{{account.name}} Username</label>
         <input type="text" class="form-control" ng-model="newAccount.username">
+      </div>
+      <div class="form-group">
+        <label>{{account.name}} Website</label>
+        <input type="text" class="form-control" ng-model="newAccount.website">
       </div>
       <div class="form-group">
         <label>Password</label>

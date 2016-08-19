@@ -1,10 +1,14 @@
-<div>
+<div class="single-view">
+  <img class="img-circle media-object pull-left" ng-src="{{getImg(identity.name)}}" width="48" height="48" />
+    <h1 class="single-header highlightable">{{identity.name}}</h1>
 
-  <div ng-hide="updateInfo">
-    <h1 class="highlightable">{{identity.name}}</h1>
+  <div class="inner-single" ng-hide="updateInfo">
     <h3>Details:</h3>
     <h5 class="highlightable">{{identity.data}}</h5>
     <button class="btn btn-large btn-default" ng-click="showForm()">Update Info</button>
+
+    <h5>Created: {{identity.createdAt}}</h5>
+    <h5>Last Updated: {{identity.lastUpdated}}</h5>
   </div>
 
   <div ng-show="updateInfo">

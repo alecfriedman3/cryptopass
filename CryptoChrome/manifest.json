@@ -7,15 +7,15 @@
       "matches": [
         "<all_urls>"
       ],
-      "js": ["node_modules/jquery/dist/jquery.min.js", "content.js"]
+      "js": ["node_modules/jquery/dist/jquery.min.js", "utilities/dummy.js", "event.listener.js" ,"content/content.js"]
     }
   ],
   "background": {
-    "scripts": ["node_modules/jquery/dist/jquery.min.js", "/node_modules/socket.io-client/socket.io.js", "background.js"],
+    "scripts": ["node_modules/jquery/dist/jquery.min.js", "/node_modules/socket.io-client/socket.io.js", "background/utils.js"],
     "run_at": "document_end"
   },
   "browser_action": {
     "default_icon": "icon.png",
-    "default_popup": "popup.html"
+    "default_popup": "popup/popup.html"
   }
 }

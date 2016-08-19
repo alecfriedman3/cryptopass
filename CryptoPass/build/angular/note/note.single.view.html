@@ -1,11 +1,15 @@
-<div>
+<div class="single-view">
+    <img class="img-circle media-object pull-left" ng-src="{{getImg(note.name)}}" width="48" height="48" />
+    <h1 class="single-header highlightable">{{note.name}}</h1>
 
-	<div ng-hide="updateInfo">
-
-    <h1 class="highlightable">{{note.name}}</h1>
+  <div class="inner-single" ng-hide="updateInfo">
     <h3>Details:</h3>
-    <h5 class="highlightable">{{note.data}}</h5>
+    <p class="highlightable">{{note.data}}</p>
     <button class="btn btn-large btn-default" ng-click="showForm()">Update Info</button>
+
+    <h5>Created: {{note.createdAt}}</h5>
+    <h5>Last Updated: {{note.lastUpdated}}</h5>
+
   </div>
 
   <div ng-show="updateInfo">
@@ -16,7 +20,7 @@
       </div>
       <div class="form-group">
         <label>Information to Update: </label>
-        <input type="text" class="form-control" ng-model="newNote.data">
+        <textarea rows="4" type="text" class="form-control" ng-model="newNote.data"></textarea>
       </div>
       <div class="form-actions">
         <button type="submit" class="btn btn-form btn-positive">OK</button>

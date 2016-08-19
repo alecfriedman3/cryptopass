@@ -4,7 +4,9 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-var app = angular.module('cryptoPass', [ 'ionic', 'ngCordovaOauth','ui.slider'])
+
+var app = angular.module('cryptoPass', ['ionic', 'ngCordova', 'ngCordovaOauth', 'ngStorage', 'ui.slider'])
+
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -31,7 +33,7 @@ var app = angular.module('cryptoPass', [ 'ionic', 'ngCordovaOauth','ui.slider'])
     templateUrl: 'templates/menu.html',
     controller: 'AppCtrl'
   })
- 
+
 
   .state('auth', {
       url: '/auth',
@@ -50,7 +52,7 @@ var app = angular.module('cryptoPass', [ 'ionic', 'ngCordovaOauth','ui.slider'])
   //       controller: 'firstLoginController'
   //     }
   //   }
-    
+
   // })
   .state('app.home', {
     url: '/home',
@@ -91,7 +93,7 @@ var app = angular.module('cryptoPass', [ 'ionic', 'ngCordovaOauth','ui.slider'])
         controller: 'addLoginController'
       }
     }
-    
+
 })
   .state('app.creditCard', {
     url: '/creditCard',
@@ -121,7 +123,7 @@ var app = angular.module('cryptoPass', [ 'ionic', 'ngCordovaOauth','ui.slider'])
         controller: 'addcreditCardController'
       }
     }
-    
+
 })
   .state('app.identity', {
       url: '/identity',
@@ -151,7 +153,7 @@ var app = angular.module('cryptoPass', [ 'ionic', 'ngCordovaOauth','ui.slider'])
         controller: 'addIdentityController'
       }
     }
-    
+
 })
     .state('app.note', {
       url: '/note',
@@ -182,7 +184,7 @@ var app = angular.module('cryptoPass', [ 'ionic', 'ngCordovaOauth','ui.slider'])
          controller: 'addNoteController'
        }
     }
-    
+
  })
   .state('app.settings', {
     url: '/settings',

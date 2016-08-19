@@ -12,7 +12,7 @@
       <div ng-show="success" class="animate-show success">
         {{success}}
       </div>
-      <form ng-show="changingMasterPass" class="change-master-pass">
+      <form ng-show="changingMasterPass" ng-submit="changeMasterPassword(currentPassword, newPassword1, newPassword2, newPassword3)" class="change-master-pass">
         <div class="form-group">
           <input type="password" class="form-control change-master-pass-input change-master-pass-input-first" ng-model="currentPassword" placeholder="Current Master Password">
         </div>
@@ -25,10 +25,10 @@
         <div class="form-group">
           <input type="password" class="form-control change-master-pass-input" ng-model="newPassword3" placeholder="Super Confirm New Password">
         </div>
+        <button class="change-master-pass-button btn btn-negative">Change It!</button>
       </form>
       <div>
         <button ng-show="!changingMasterPass" ng-click="showForm()" class="btn btn-negative">Change Master Password</button>
-        <button ng-show="changingMasterPass" ng-click="changeMasterPassword(currentPassword, newPassword1, newPassword2, newPassword3)" class="change-master-pass-button btn btn-negative">Change It!</button>
       </div>
     </div>
 
