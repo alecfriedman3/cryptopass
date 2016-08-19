@@ -39,7 +39,7 @@ socket.on('electronAdd', function(data) {
   console.log('electronAdd socket fired and caught');
   masterObj = JSON.parse(decrypt(data.data, masterPass))
   accountInfo = masterObj.login.map(function (account) {
-    if (account.website.search(/http/) == -1) account.website = 'http://'+account.website
+    // if (account.website.search(/http/) == -1) account.website = 'http://'+account.website
     return {name: account.name, url: account.website};
   })
   chrome.extension.sendMessage({data: accountInfo, eventName: 'accountInfo'})
@@ -48,7 +48,7 @@ socket.on('electronAdd', function(data) {
 socket.on('responseChromeValidated', function(data) {
   masterObj = JSON.parse(decrypt(data.data, masterPass))
   accountInfo = masterObj.login.map(function (account) {
-    if (account.website.search(/http/) == -1) account.website = 'http://'+account.website
+    // if (account.website.search(/http/) == -1) account.website = 'http://'+account.website
     return {name: account.name, url: account.website};
   })
   console.log(accountInfo)
