@@ -22,7 +22,6 @@ module.exports = {
   },
   compareAndDelete: function (merger, base){
     for (var key in merger){
-      var keysToCheck = Object.keys(merger[key][0])
       for (var i = 0; i < merger[key].length; i++){
         for (var j = 0; j < base[key].length; j++){
           if (merger[key][i].deleted && base[key][j].name == merger[key][i].name && merger[key][i].id == base[key][j].id && merger[key][i].lastUpdated > base[key][j].lastUpdated){

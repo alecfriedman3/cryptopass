@@ -2,6 +2,8 @@
 var utils = require('./encrypt.utility.js')
 var encrypt = utils.encrypt;
 var decrypt = utils.decrypt;
+let compareAndMerge = require('./object.compare').compareAndMerge;
+let compareAndDelete = require('./object.compare').compareAndDelete;
 var Promise = require('bluebird');
 var fs = Promise.promisifyAll(require('fs'));
 var fileWriter = {};
@@ -31,17 +33,8 @@ fileWriter.encryptFile = function (data, masterPswd) {
 	.then(val => {
 		if(val) {
 			//Use Stat to check if file exists (fs.exists is deprecated)
-			return fs.statAsync(val + '/Apps/CryptoPass').then((stat) => {
-				if(!err) {
-					//If No error then it exists.  Write that data
-					return fs.writeFileAsync(val + '/Apps/CryptoPass/data.txt', encrypted);
-				}
-			})
-			//write secret if we don't get an error
-			.then(() => fs.writeFileAsync(val + '/Apps/CryptoPass/secret2.txt', fileWriter.generateSecret(masterPswd)))
-				//Need to catch the error from stat Async and then make directory and writefile
-			//This should only happen first time user connects dropbox
-			.catch(err => {
+			return fs.statAsync(val + '/Apps/CryptoPass')
+			.then((stat) => {}, (err) => {
 				//recursively create dir if it doesn't exist
 				return mkdirp(val + '/Apps/CryptoPass')
 			})
@@ -50,7 +43,7 @@ fileWriter.encryptFile = function (data, masterPswd) {
 			.then(() => fs.writeFileAsync(val + '/Apps/CryptoPass/secret2.txt', fileWriter.generateSecret(masterPswd)))
 		}
 	})
-	.catch(err => console.error(err))
+	// .catch(err => console.error(err))
 
 }
 
@@ -60,7 +53,26 @@ fileWriter.decryptFile = function (masterPswd) {
 	return fs.readFileAsync(__dirname + '/data.txt')
 	.then(function (encrypted){
 		var decrypted = decrypt(encrypted.toString(), masterPswd)
-		return JSON.parse(decrypted)
+		return Promise.all([JSON.parse(decrypted), settings.get('dropboxPath')])
+	})
+	.spread((decrypted, val) => {
+		if (val){
+			return Promise.all([decrypted, fs.readdirAsync(val + '/Apps/CryptoPass'), val])
+		}
+		return Promise.all([decrypted])
+	})
+	.spread((decrypted, dir, val) => {
+		if (dir && dir.indexOf('mobileData.txt') != -1){
+			return Promise.all([decrypted, fs.readFileAsync(val, + '/Apps/CryptoPass/mobileData.txt')])
+		}
+		return Promise.all([decrypted])
+	})
+	.spread((decrypted, encryptedMobile) => {
+		if (encryptedMobile){
+			var decryptedMobile = JSON.parse(decrypt(encryptedMobile.toString(), masterPswd))
+			return compareAndDelete(decryptedMobile, compareAndMerge(decryptedMobile, decrypted))
+		}
+		else return decrypted
 	})
 
 }
