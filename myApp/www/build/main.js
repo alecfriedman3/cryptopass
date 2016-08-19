@@ -38081,7 +38081,7 @@ module.exports = {
   fileUpload: function(encryptedData, pathName){
       this.getAndSetAccessToken()
       var dbPath = window.localStorage.getItem('dropboxPath')
-      return dbx.filesUpload({path: dbPath + '/' + pathName, contents: JSON.stringify(encryptedData), mode: 'overwrite'})
+      return dbx.filesUpload({path: dbPath + pathName, contents: JSON.stringify(encryptedData), mode: 'overwrite'})
   }
 
 }
@@ -38103,8 +38103,8 @@ module.exports = {
 		var plaintext = bytes.toString(crypto.enc.Utf8);
 		return plaintext
 	},
+	secret1: 'HelloIAmDogIDoge?',
 	validate: function (masterPw) {
-		var secret = 'HelloIAmDogIDoge?'
 		var enSecret = window.localStorage.getItem('secret2');
 	  try {
 			//adds new line randomly? have to trim()
@@ -38112,7 +38112,7 @@ module.exports = {
 	  } catch (error) {
 	    return false;
 	  }
-	  return check === secret;
+	  return check === this.secret1;
 	}
 }
 
@@ -38358,6 +38358,50 @@ var app = angular.module('cryptoPass', ['ionic', 'ngCordova', 'ngCordovaOauth', 
   };
 })
 
+app.controller('creditCardController', function($scope){
+  $scope.accounts = masterObj.creditCard;
+})
+
+app.controller('creditCardSingleController', function($scope, $stateParams){
+  console.log($stateParams);
+  $scope.account = $stateParams.accountData;
+})
+
+
+app.controller('addcreditCardController', function($scope, $state, $stateParams, $rootScope){
+	   // var dropboxUtilities = require('../../utilities/dropbox/dropbox.utilities.js')
+	   var utils = require('../../utilities/encrypt.file.js');
+	   var utilities = require('../../utilities/encrypt.utility.js');
+	   var validate = utils.validate;
+	   var decryptFile = utils.decryptFile;
+       var encryptFile = utils.encryptFile;
+       var encrypt = utilities.encrypt;
+       var decryptData = utilities.decrypt;
+       var getDataEncrypted = utils.getDataEncrypted
+       var createRandom = require('../../utilities/password-utilities/pass.gen').createRandom
+       var generateSecret = utils.generateSecret;
+
+  $scope.creditCard = {
+    name: null,
+    cardNumber: null,
+    ccv: null,
+    expiration: null,
+    firstName: null,
+    lastName: null,
+    type: null,
+  }
+
+  $scope.createCard = function() {
+    var newId = masterObj.creditCard.length ? masterObj.creditCard[masterObj.creditCard.length - 1].id + 1 : 1;
+    $scope.creditCard.id = newId
+    if ($scope.creditCard) masterObj.creditCard.push($scope.creditCard)
+    var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
+    socket.emit('addFromElectron', { data: encrypted })
+    $rootScope.$evalAsync()
+    $state.go('creditCard.single', { id: newId }, { reload: true })
+  }
+
+})
 
 app.controller('authController', function($scope, $state, $cordovaOauth){
 	var Dropbox = require('dropbox');
@@ -38467,50 +38511,81 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
   }
 })
 
-app.controller('creditCardController', function($scope){
-  $scope.accounts = masterObj.creditCard;
-})
+app.controller('recoverController', function($scope, $ionicModal){
 
-app.controller('creditCardSingleController', function($scope, $stateParams){
-  console.log($stateParams);
-  $scope.account = $stateParams.accountData;
-})
+  var classifiedUtils = require('../angular/utilities/classified/hashingBackup.js');
+  var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
+  var encryptUtil = require('../angular/utilities/encrypt.utility.js');
 
+  $scope.recoverBackup = function(){
+    window.localStorage.getItem('touchIdBackup') ? null : null //aler here if they didn't back up
 
-app.controller('addcreditCardController', function($scope, $state, $stateParams, $rootScope){
-	   // var dropboxUtilities = require('../../utilities/dropbox/dropbox.utilities.js')
-	   var utils = require('../../utilities/encrypt.file.js');
-	   var utilities = require('../../utilities/encrypt.utility.js');
-	   var validate = utils.validate;
-	   var decryptFile = utils.decryptFile;
-       var encryptFile = utils.encryptFile;
-       var encrypt = utilities.encrypt;
-       var decryptData = utilities.decrypt;
-       var getDataEncrypted = utils.getDataEncrypted
-       var createRandom = require('../../utilities/password-utilities/pass.gen').createRandom
-       var generateSecret = utils.generateSecret;
-
-  $scope.creditCard = {
-    name: null,
-    cardNumber: null,
-    ccv: null,
-    expiration: null,
-    firstName: null,
-    lastName: null,
-    type: null,
+    document.addEventListener("deviceready", function () {
+      if(device.platform.toLowerCase() === 'android'){ // eslint-disable-line
+        androidTouchId()
+      }
+      else if(device.platform.toLowerCase() === 'ios') // eslint-disable-line
+        iOSTouchId();
+    })
   }
 
-  $scope.createCard = function() {
-    var newId = masterObj.creditCard.length ? masterObj.creditCard[masterObj.creditCard.length - 1].id + 1 : 1;
-    $scope.creditCard.id = newId
-    if ($scope.creditCard) masterObj.creditCard.push($scope.creditCard)
-    var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
-    socket.emit('addFromElectron', { data: encrypted })
-    $rootScope.$evalAsync()
-    $state.go('creditCard.single', { id: newId }, { reload: true })
+  $scope.changePassword = function(master1, master2, master3){
+    if(master1.length < 8) return alert('Password must be 8 characters')
+    if(master1 === master2 && master1 === master2 && master2 === master3){
+      updateSecret2(master1)
+    } else {
+      return alert('Passwords do not match')
+    }
   }
 
+
+
+
+  function androidTouchId(){
+    console.log(FingerprintAuth); // eslint-disable-line
+    FingerprintAuth.isAvailable( // eslint-disable-line
+      function isAvailableSuccess(result) {
+          if (result.isAvailable) {
+              FingerprintAuth.show({ // eslint-disable-line
+                  clientId: "CryptoPass",
+                  clientSecret: "secretekey"
+              }, function(){
+                //success handler
+                var hash = classifiedUtils.backupHash();
+                startRecoverProcess(hash)
+              }, function(){
+                //error handler - access denied
+                alert('denied');
+              });
+          }
+      }, function(){console.log('log not available for FingerprintAu');});
+  }
+
+  function startRecoverProcess(hash){
+    //pull backup file down
+    var dropboxPath = window.localStorage.getItem('dropboxPath');
+
+    dropboxUtils.getDataObjectFromDropbox(dropboxPath, '/dataBackup.txt')
+    .then(function(dataObj){
+      decryptBackupData(dataObj, hash)
+    })
+  }
+
+  function decryptBackupData(encryptedData, hash){
+    var decryptedBackupData = encryptUtil.decrypt(encryptedData, hash);
+    $ionicModal.fromTemplateUrl('angular/authenticate/resetPassword.view.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+      $scope.modal.show()
+    });
+  }
+
+
+
 })
+
 app.controller('homeController', function($scope){
 	
 })
@@ -38757,7 +38832,7 @@ app.controller('settingsController', function($scope, $cordovaOauth, $cordovaTou
     console.log(hash, 'in encrypt and write func');
     console.log(masterObj); //eslint-disable-line
     var encryptedBackup = encryptUtil.encrypt(JSON.stringify(masterObj), hash); //eslint-disable-line
-    dropboxUtils.fileUpload(encryptedBackup, 'dataBackup.txt')
+    dropboxUtils.fileUpload(encryptedBackup, '/dataBackup.txt')
     .then(function(data){
       console.log(data, 'uploaded');
     })
@@ -38812,7 +38887,7 @@ module.exports = {
   fileUpload: function(encryptedData, pathName){
       this.getAndSetAccessToken()
       var dbPath = window.localStorage.getItem('dropboxPath')
-      return dbx.filesUpload({path: dbPath + '/' + pathName, contents: JSON.stringify(encryptedData), mode: 'overwrite'})
+      return dbx.filesUpload({path: dbPath + pathName, contents: JSON.stringify(encryptedData), mode: 'overwrite'})
   }
 
 }
@@ -38863,8 +38938,8 @@ module.exports = {
 		var plaintext = bytes.toString(crypto.enc.Utf8);
 		return plaintext
 	},
+	secret1: 'HelloIAmDogIDoge?',
 	validate: function (masterPw) {
-		var secret = 'HelloIAmDogIDoge?'
 		var enSecret = window.localStorage.getItem('secret2');
 	  try {
 			//adds new line randomly? have to trim()
@@ -38872,7 +38947,7 @@ module.exports = {
 	  } catch (error) {
 	    return false;
 	  }
-	  return check === secret;
+	  return check === this.secret1;
 	}
 }
 

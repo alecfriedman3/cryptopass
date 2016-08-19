@@ -118,7 +118,7 @@ app.controller('settingsController', function($scope, $cordovaOauth, $cordovaTou
     console.log(hash, 'in encrypt and write func');
     console.log(masterObj); //eslint-disable-line
     var encryptedBackup = encryptUtil.encrypt(JSON.stringify(masterObj), hash); //eslint-disable-line
-    dropboxUtils.fileUpload(encryptedBackup, 'dataBackup.txt')
+    dropboxUtils.fileUpload(encryptedBackup, '/dataBackup.txt')
     .then(function(data){
       console.log(data, 'uploaded');
     })
