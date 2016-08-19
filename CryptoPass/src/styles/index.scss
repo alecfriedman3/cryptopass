@@ -631,3 +631,41 @@ body {
     font-style: oblique;
   }
 }
+
+.add-form {
+  text-align: center;
+  div {
+    display: inline;
+    margin: 0 auto;
+    text-align: center;
+  }
+  input {
+    display: block;
+    width: 55%;
+    margin: 5px auto;
+  }
+  button {
+      text-align: center;
+      margin-bottom: 5px;
+  }
+  slider {
+    text-align: left;
+    width: 55%;
+  }
+}
+
+.update-form {
+  margin-left: 30px;
+  input {
+    display: block;
+    width: 55%;
+  }
+  button {
+      text-align: center;
+      margin-bottom: 5px;
+  }
+  slider {
+    text-align: left;
+    width: 55%;
+  }
+}
