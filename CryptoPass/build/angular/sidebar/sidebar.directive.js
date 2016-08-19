@@ -32,7 +32,7 @@ app.directive('sidebarItem', function($state, $stateParams){
 
         if (masterObj[stateParent].length){
           if ($stateParams.id == id){
-            var minIdx = Math.min.apply(null, masterObj[stateParent].map(obj => obj.id))
+            var minIdx = Math.min.apply(null, masterObj[stateParent].filter(obj => obj.id != id).map(obj => obj.id))
             $state.go(stateParent + '.single', {id: minIdx}, {reload: true})
             return
           } else{

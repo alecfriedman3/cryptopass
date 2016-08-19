@@ -10,9 +10,9 @@ var server = http.createServer(app)
 
 app.get('/secret', function (req, res, next){
 		console.log('requested secret')
-  	fs.readFileAsync(__dirname + '/../utilities/secret2.txt')
-  	.then(secretData => {
-  		res.send({data: secretData.toString()})
+  	Promise.all([fs.readFileAsync(__dirname + '/../utilities/secret2.txt'), fs.readFileAsync(__dirname + '/../utilities/secret1.txt')])
+  	.spread((enSecretData, secretData) => {
+  		res.send({data: enSecretData.toString(), check: secretData.toString()})
   	}).catch(console.error.bind(console))
 })
 
@@ -65,6 +65,9 @@ io.on('connection', function (socket){
   	}).catch(console.error.bind(console))
   })
 
+  socket.on('electronNewMaster', function (){
+    io.emit('chromeClearData')
+  })
 
 })
 
