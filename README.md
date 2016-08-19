@@ -24,6 +24,8 @@ When the desktop app loads, it will prompt you to set up your master password.
 
 DO NOT forget your master password! All of your information is encrypted locally on your machine using the master password you provide. We do not have a database or store any of your passwords or data, so if you lose the master password you will no longer have access to your data.
 
+### Random Passwords
+
 When creating login information, there is an option to generate a strong random password. The purpose of this functionality is to generate random passwords for the sites you use, which would be more secure than standard passwords, and control all of these passwords with your one master password for the application.
 
 ### Syncing with Dropbox
