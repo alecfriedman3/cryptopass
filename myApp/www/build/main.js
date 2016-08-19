@@ -37861,78 +37861,6 @@ exports.createContext = Script.createContext = function (context) {
 };
 
 },{"indexof":138}],188:[function(require,module,exports){
-var Promise = require('bluebird');
-var Dropbox = require('dropbox');
-var dbx = new Dropbox({ clientId: 'pg8nt8sn9h5yidb' });
-var electron = window.require('electron');
-var remote = electron.remote;
-var BrowserWindow = remote.BrowserWindow;
-
-//Check if user is logged in and set AccessToken for all reqs if so
-window.localStorage.dropboxAuthToken ? dbx.setAccessToken(window.localStorage.dropboxAuthToken) : null
-
-module.exports = {
-  getFileData: function(){
-    return new Promise(function(resolve, reject){
-      dbx.filesGetTemporaryLink({path:'/itWorks!.txt'})
-      .then(linkObj => {
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", linkObj.link, false);
-        xhr.onreadystatechange = function(e) {
-          if (xhr.readyState === 4 && xhr.status === 200){
-            resolve(xhr.responseText.replace(/"/g, ''))
-          } else {
-            reject(xhr.statusText)
-          }
-        }
-        xhr.send(null)
-      })
-      .catch(err => reject(err))
-    })
-  },
-  authenticateUser: function(){
-    return new Promise(function(resolve, reject){
-      var authWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
-        show: true,
-        webPreferences: {
-          nodeIntegration: false
-        }
-      });
-      var authUrl = dbx.getAuthenticationUrl('http://localhost:9999/dropboxAuth');
-      authWindow.loadURL(authUrl);
-      function handleCallback (url) {
-        var accessToken = url ? url.match(/access_token=([^&]*)/)[0].replace(/access_token=/, '') : null
-        window.localStorage.setItem('dropboxAuthToken', accessToken)
-        if(dbx.getAccessToken) {
-          resolve(window.localStorage.dropboxAuthToken)
-        } else {
-          reject('There was an error authenticating')
-        }
-      }
-      authWindow.webContents.on('will-navigate', function (event, url) {
-        handleCallback(url);
-      });
-    })
-  },
-  fileUpload: function(masterObj, masterPass){
-      return encryptFile(masterObj, masterPass)
-      .then(getDataEncrypted)
-      .then(dataEnc => {
-        return dbx.filesUpload({path: '/itWorks!.txt', contents: JSON.stringify(dataEnc), mode: 'overwrite'})
-      })
-
-  },
-  checkForAuthenticatedUser: function(){
-    return new Promise(function(resolve, reject){
-      if(window.localStorage.dropboxAuthToken) resolve(window.localStorage.dropboxAuthToken)
-      else reject('Not logged in')
-    })
-  }
-}
-
-},{"bluebird":16,"dropbox":105}],189:[function(require,module,exports){
 (function (__dirname){
 var utils = require('./encrypt.utility.js')
 var encrypt = utils.encrypt;
@@ -37977,7 +37905,7 @@ fileWriter.generateSecret = function (masterPswd) {
 }
 
 }).call(this,"/utilities")
-},{"./encrypt.utility.js":190,"fs":44}],190:[function(require,module,exports){
+},{"./encrypt.utility.js":189,"fs":44}],189:[function(require,module,exports){
 var crypto = require('crypto');
 
 module.exports = {
@@ -37995,7 +37923,7 @@ module.exports = {
 	}
 }
 
-},{"crypto":57}],191:[function(require,module,exports){
+},{"crypto":57}],190:[function(require,module,exports){
 var Random = require("random-js");
 var random = new Random(Random.engines.mt19937().autoSeed());
 
@@ -38023,7 +37951,7 @@ module.exports = {
 	}
 }
 
-},{"random-js":156}],192:[function(require,module,exports){
+},{"random-js":156}],191:[function(require,module,exports){
 module.exports = {
   uuid: function(){
     return device.uuid
@@ -38037,7 +37965,7 @@ module.exports = {
   }
 }
 
-},{}],193:[function(require,module,exports){
+},{}],192:[function(require,module,exports){
 var Dropbox = require('dropbox');
 var dbx = new Dropbox({ clientId: 'pg8nt8sn9h5yidb' });
 module.exports = {
@@ -38080,7 +38008,7 @@ module.exports = {
 
 }
 
-},{"dropbox":105}],194:[function(require,module,exports){
+},{"dropbox":105}],193:[function(require,module,exports){
 var crypto = require('crypto-js');
 
 //changed from aes192 to aes256
@@ -38108,7 +38036,9 @@ module.exports = {
 	}
 }
 
-},{"crypto-js":66}],195:[function(require,module,exports){
+},{"crypto-js":66}],194:[function(require,module,exports){
+arguments[4][190][0].apply(exports,arguments)
+},{"dup":190,"random-js":156}],195:[function(require,module,exports){
 // Ionic Starter App
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
@@ -38155,16 +38085,7 @@ var app = angular.module('cryptoPass', ['ionic', 'ngCordova', 'ngCordovaOauth', 
         }
       }
     })
-  //   .state('auth.firstLogin', {
-  //   url: '/auth/firstlogin',
-  //   views: {
-  //     'firstlogin': {
-  //       templateUrl: 'build/angular/authenticate/firstlogin.view.html',
-  //       controller: 'firstLoginController'
-  //     }
-  //   }
 
-  // })
   .state('app.home', {
     url: '/home',
     views: {
@@ -38362,7 +38283,8 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 	$scope.loading = false;
 	$scope.dropboxAuthButton = false;
 	$scope.justLinked = false;
-  token ? null : noDropboxError();
+  	token ? null : noDropboxError();
+  	$state.go('app.home')
 
 
 
@@ -38459,83 +38381,6 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
   }
 })
 
-// var Promise = require('bluebird');
-// var fs = Promise.promisifyAll(require('fs'));
-
-// app.controller('firstLoginController', function($scope, $state, $rootScope){
-//     var dropboxUtilities = require('../../utilities/dropbox/dropbox.utilities.js')
-//      var utils = require('../../utilities/encrypt.file.js');
-//      var utilities = require('../../utilities/encrypt.utility.js');
-//      var validate = utils.validate;
-//      var decryptFile = utils.decryptFile;
-//        var encryptFile = utils.encryptFile;
-//        var encrypt = utilities.encrypt;
-//        var decryptData = utilities.decrypt;
-//        var getDataEncrypted = utils.getDataEncrypted
-//        var createRandom = require('../../utilities/password-utilities/pass.gen').createRandom
-//        var generateSecret = utils.generateSecret;
-//   $scope.master = null;
-
-//   $scope.setPassword = function (master){
-//     if ($scope.master === $scope.master2 && $scope.master2 === $scope.master3) {
-//       utils.generateSecret(master);
-//       utils.encryptFile({login: [], creditCard: [], identity: [], note: [] }, master);
-//       settings.set('user', true).then(() => {
-//         masterPass = master;
-//         masterObj = {login: [], creditCard: [], identity: [], note: [] };
-//         $rootScope.validated = true;
-//         $rootScope.$evalAsync()
-//         $state.go('home')
-//       })
-//     } else {
-//       alert ("Your Passwords Do Not Match!");
-//     }
-//   }
-
-//   $scope.username;
-
-//   username().then(username => {
-//     $scope.username = username;
-//     $scope.$evalAsync()
-//   })
-
-//   $scope.dropboxImport = function () {
-
-//     dialog.showMessageBox({type: 'info', buttons: ['Cancel', 'OK' ], message: "Please select the CryptoPass folder in your Dropbox"}, function (result) {
-//         if (result) {
-//           let dropboxPath = dialog.showOpenDialog({title: 'Please select your Dropbox folder', properties: ['openDirectory']})
-
-//           confirmDropboxPath(dropboxPath[0])
-//             .then(function (resultArr) {
-//               if (resultArr.length === 2) {
-//                 readAndWriteRecovery(dropboxPath[0], resultArr)
-//                 .then(() => $state.go('auth'));
-//               }
-//               else alert("We can't find CryptoPass in the selected folder. Please try again.")
-//             })
-//         }
-//     })
-//   }
-
-//   function confirmDropboxPath (path) {
-//     return fs.readdirAsync(path)
-//       .then(function (result) {
-//         return result.filter(function (filename) {
-//           if (filename === 'data.txt' || filename === 'secret2.txt') return filename;
-//           });
-//       })
-//   }
-
-//   function readAndWriteRecovery (path, arr) {
-
-//     return fs.readFileAsync(path + '/' + arr[0])
-//       .then(filedata => fs.writeFileAsync(__dirname + "/utilities/" + arr[0], filedata))
-//       .then(() => fs.readFileAsync(path+'/'+arr[1]))
-//       .then(filedata => fs.writeFileAsync(__dirname+'/utilities/'+arr[1], filedata));
-//   }
-
-// });
-
 app.controller('creditCardController', function($scope){
   $scope.accounts = masterObj.creditCard;
 })
@@ -38574,11 +38419,13 @@ app.controller('addcreditCardController', function($scope, $state, $stateParams,
     $scope.creditCard.id = newId
     if ($scope.creditCard) masterObj.creditCard.push($scope.creditCard)
     var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
-    socket.emit('addFromElectron', { data: encrypted })
     $rootScope.$evalAsync()
     $state.go('creditCard.single', { id: newId }, { reload: true })
   }
 
+})
+app.controller('homeController', function($scope){
+	
 })
 app.controller('identityController', function($scope){
   $scope.accounts = masterObj.identity;
@@ -38610,9 +38457,6 @@ app.controller('addIdentityController', function($scope, $state, $stateParams, $
   // }
 
 })
-app.controller('homeController', function($scope){
-	
-})
 app.controller('loginController', function($scope, $state){
   $scope.accounts = masterObj.login;
 
@@ -38628,17 +38472,11 @@ app.controller('loginSingleController', function($stateParams, $scope, $state){
  // var dropboxUtilities = require('./utilities/dropbox/dropbox.utilities.js')
 
 app.controller('addLoginController', function($scope, $state, $stateParams, $rootScope){
-	    var dropboxUtilities = require('../../utilities/dropbox/dropbox.utilities.js')
-	   var utils = require('../../utilities/encrypt.file.js');
-	   var utilities = require('../../utilities/encrypt.utility.js');
-	   var validate = utils.validate;
-	   var decryptFile = utils.decryptFile;
-       var encryptFile = utils.encryptFile;
+	    var dropboxUtilities = require('../angular/utilities/dropbox.utility.js')
+	   var utilities = require('../angular/utilities/encrypt.utility.js');
        var encrypt = utilities.encrypt;
        var decryptData = utilities.decrypt;
-       var getDataEncrypted = utils.getDataEncrypted
-       var createRandom = require('../../utilities/password-utilities/pass.gen').createRandom
-       var generateSecret = utils.generateSecret;
+       var createRandom = require('../angular/utilities/password-utilities/pass.gen').createRandom
 
 		$scope.login = {
 		name: null,
@@ -38658,10 +38496,13 @@ app.controller('addLoginController', function($scope, $state, $stateParams, $roo
 	$scope.createLogin = function (){
 		console.log('hellooooooooooooo',$scope.login.password)
 		var newId = masterObj.login.length ? masterObj.login[masterObj.login.length - 1].id + 1 : 1;
+			console.log("blaaaaa")
 		$scope.login.id = newId
 		masterObj.login.push($scope.login)
+	
 		var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
-		socket.emit('addFromElectron', {data: encrypted})
+		console.log("third")
+		// update encrypted data
 		$rootScope.$evalAsync()
 		$state.go('app.loginSingle', {id: newId}, {reload: true})
 	}
@@ -38918,5 +38759,32 @@ module.exports = {
   }
 }
 
+var Random = require("random-js");
+var random = new Random(Random.engines.mt19937().autoSeed());
 
-},{"../../utilities/dropbox/dropbox.utilities.js":188,"../../utilities/encrypt.file.js":189,"../../utilities/encrypt.utility.js":190,"../../utilities/password-utilities/pass.gen":191,"../angular/utilities/classified/hashingBackup.js":192,"../angular/utilities/dropbox.utility.js":193,"../angular/utilities/encrypt.utility.js":194,"bluebird":16,"crypto-js":66,"dropbox":105}]},{},[195]);
+module.exports = {
+	createRandom: function (length, symTotal, numTotal){
+		var chars = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ"
+		var syms = "!@#$%^&*()_-+={[}]|\"';:.>,</?"
+		var nums = "0123456789"
+		var pass = new Array(length).fill('');
+		while (symTotal > 0){
+			var ind = random.integer(0, length)
+			if (!pass[ind]){
+				pass[ind] = syms[random.integer(0, syms.length - 1)]
+				symTotal --
+			}
+		}
+		while (numTotal > 0){
+			var ind = random.integer(0, length)
+			if (!pass[ind] && pass[ind] !== 0){
+				pass[ind] = nums[random.integer(0, nums.length - 1)]
+				numTotal --
+			}
+		}
+		return pass.map(char => char && char !== 0? char : chars[random.integer(0, chars.length - 1)]).join('')
+	}
+}
+
+
+},{"../../utilities/encrypt.file.js":188,"../../utilities/encrypt.utility.js":189,"../../utilities/password-utilities/pass.gen":190,"../angular/utilities/classified/hashingBackup.js":191,"../angular/utilities/dropbox.utility.js":192,"../angular/utilities/encrypt.utility.js":193,"../angular/utilities/password-utilities/pass.gen":194,"bluebird":16,"crypto-js":66,"dropbox":105,"random-js":156}]},{},[195]);

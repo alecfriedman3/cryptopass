@@ -10,7 +10,8 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 	$scope.loading = false;
 	$scope.dropboxAuthButton = false;
 	$scope.justLinked = false;
-  token ? null : noDropboxError();
+  	token ? null : noDropboxError();
+  	$state.go('app.home')
 
 
 

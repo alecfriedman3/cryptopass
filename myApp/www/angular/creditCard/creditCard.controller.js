@@ -36,7 +36,6 @@ app.controller('addcreditCardController', function($scope, $state, $stateParams,
     $scope.creditCard.id = newId
     if ($scope.creditCard) masterObj.creditCard.push($scope.creditCard)
     var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
-    socket.emit('addFromElectron', { data: encrypted })
     $rootScope.$evalAsync()
     $state.go('creditCard.single', { id: newId }, { reload: true })
   }
