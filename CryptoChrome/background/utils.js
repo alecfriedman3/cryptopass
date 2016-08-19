@@ -39,17 +39,15 @@ eventListener.on('logins', function (data) {
 socket.on('electronAdd', function(data) {
   console.log('electronAdd socket fired and caught');
   masterObj = JSON.parse(decrypt(data.data, masterPass))
-  console.log(masterObj)
 })
 
 socket.on('responseChromeValidated', function(data) {
   masterObj = JSON.parse(decrypt(data.data, masterPass))
-  console.log(masterObj)
 })
 
 socket.on('chromeClearData', function (){
   masterObj = masterPass = valid = null;
-  console.log(masterObj, 'masterObj cleared')
+  console.log('masterObj cleared')
 })
 
 

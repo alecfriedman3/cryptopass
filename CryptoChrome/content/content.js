@@ -11,14 +11,13 @@ var $password = $('input[type="password"]')
 var $username = $('input[type="username]')
 var usernameArr = []
 var $usernames = $('input[type="text"]').each(function (){
-  console.log('clicked on input type text')
+  // console.log('clicked on input type text')
   var placeholder = $(this).attr('placeholder')
   var id = $(this).is('#username') || $(this).is('#email') || $(this).hasClass('username') || $(this).hasClass('email')
-  console.log(placeholder)
+  // console.log(placeholder)
   if (placeholder && placeholder.toLowerCase().match(/(username)|(email)/) || id) usernameArr.push($(this))
 })
 
-// console.log($email, $password);
 
 if ($email.length || $password.length) {
   console.log('sending')
@@ -27,7 +26,7 @@ if ($email.length || $password.length) {
 
 eventListener.on('loginRes', function (data) {
   data.logins.forEach(function (account) {
-    console.log(account);
+    // console.log(account);
     var lowerName = account.name.split(' ').join('').toLowerCase()
     var accountRe = new RegExp(lowerName)
     if (window.location.href.toLowerCase().match(accountRe) || (account.name.toLowerCase() == 'gmail' && window.location.href.toLowerCase().match(/google/))) {
