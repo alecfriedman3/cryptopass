@@ -657,6 +657,11 @@ body {
     text-align: left;
     width: 55%;
   }
+  textarea {
+    width: 75%;
+    margin-left: 30px;
+    margin-right: 30px;
+  }
 }
 
 .update-form {
@@ -678,7 +683,7 @@ body {
     width: 55%;
   }
   textarea {
-    margin-left: 30px;
-    margin-right: 30px;
+    width: 75%;
+    margin-right: 30px
   }
 }
