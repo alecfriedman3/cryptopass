@@ -85,11 +85,11 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 		$scope.displayPasswordField = false;
 		$scope.$evalAsync()
 	}
-	function accessGranted(encryptedMasterObj, masterPass){
+	function accessGranted(encryptedMasterObject, masterPass){
 		$scope.loading = false;
 		$scope.$evalAsync();
 		globalMasterPass = masterPass; // eslint-disable-line
-		masterObj = JSON.parse(utils.decrypt(encryptedMasterObj, masterPass));// eslint-disable-line
+		masterObj = JSON.parse(utils.decrypt(encryptedMasterObject, masterPass));// eslint-disable-line
 		console.log(masterObj);// eslint-disable-line
 		console.log('access granted');
 		$state.go('app.home')

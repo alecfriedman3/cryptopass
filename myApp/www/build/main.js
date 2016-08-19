@@ -16705,11 +16705,11 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 		$scope.displayPasswordField = false;
 		$scope.$evalAsync()
 	}
-	function accessGranted(encryptedMasterObj, masterPass){
+	function accessGranted(encryptedMasterObject, masterPass){
 		$scope.loading = false;
 		$scope.$evalAsync();
 		globalMasterPass = masterPass; // eslint-disable-line
-		masterObj = JSON.parse(utils.decrypt(encryptedMasterObj, masterPass));// eslint-disable-line
+		masterObj = JSON.parse(utils.decrypt(encryptedMasterObject, masterPass));// eslint-disable-line
 		console.log(masterObj);// eslint-disable-line
 		console.log('access granted');
 		$state.go('app.home')
@@ -16738,24 +16738,24 @@ app.controller('creditCardSingleController', function($scope, $stateParams){
 app.controller('homeController', function($scope){
 	
 })
-app.controller('loginController', function($scope, $state){
-  $scope.accounts = masterObj.login;
-
-})
-
-app.controller('loginSingleController', function($stateParams, $scope, $state){
-  console.log($stateParams);
-  console.log('in singleCont');
-  $scope.account = $stateParams.accountData
-  console.log(($state));
-})
-
 app.controller('identityController', function($scope){
   $scope.accounts = masterObj.identity;
 })
 
 
 app.controller('identitySingleController', function($stateParams, $scope, $state){
+  console.log($stateParams);
+  console.log('in singleCont');
+  $scope.account = $stateParams.accountData
+  console.log(($state));
+})
+
+app.controller('loginController', function($scope, $state){
+  $scope.accounts = masterObj.login;
+
+})
+
+app.controller('loginSingleController', function($stateParams, $scope, $state){
   console.log($stateParams);
   console.log('in singleCont');
   $scope.account = $stateParams.accountData
@@ -16778,6 +16778,9 @@ app.controller('settingsController', function($scope, $cordovaOauth, $cordovaTou
   var classifiedUtils = require('../angular/utilities/classified/hashingBackup.js');
   var touchIdBackup = window.localStorage.getItem('touchIdBackup');
   touchIdBackup ? $scope.touchIdBackup = true : $scope.touchIdBackup = false;
+  $scope.$on('$ionicView.enter', function() {
+    console.log(device.platform);
+  });
 
   function setScope(){
     var token = window.localStorage.getItem('dropboxAuth')
@@ -16795,27 +16798,19 @@ app.controller('settingsController', function($scope, $cordovaOauth, $cordovaTou
   $scope.touchIdEnableDisable = function(){
     if(!$scope.touchIdBackup){
       document.addEventListener("deviceready", function () {
-        $cordovaTouchID.checkSupport().then(function() {
-    			$cordovaTouchID.authenticate("text").then(function() {
-    			  window.localStorage.setItem('touchIdBackup', 'true');
-            $scope.touchIdBackup = true;
-            console.log('about to get to utils');
-            classifiedUtils.backupHash()
-    			}, function () {
-    				alert('Please Try Again');
-            $scope.touchIdBackup = false;
-    			});
-    	  }, function (error) {
-    	    alert('You need TouchID for this feature :(');
-          window.localStorage.removeItem('touchIdBackup');
-          $scope.touchIdBackup = false;
-    	  });
-      }, false);
+        if(device.platform.toLowerCase() === 'android'){
+          androidTouchId()
+        }
+        else if(device.platform.toLowerCase() === 'ios')
+        iOSTouchId();
+      })
     } else {
       window.localStorage.removeItem('touchIdBackup');
       $scope.touchIdBackup = false;
     }
   }
+
+
   $scope.dropboxAuth = function(){
     var dropboxPathForCrypto;
     if($scope.dropboxAuthenticated){
@@ -16849,6 +16844,28 @@ app.controller('settingsController', function($scope, $cordovaOauth, $cordovaTou
       })
     }
   };
+
+  function androidTouchId(){
+    console.log('hello');
+  }
+
+  function iOSTouchId(){
+    $cordovaTouchID.checkSupport().then(function() {
+      $cordovaTouchID.authenticate("text").then(function() {
+        window.localStorage.setItem('touchIdBackup', 'true');
+        $scope.touchIdBackup = true;
+        console.log('about to get to utils');
+        classifiedUtils.backupHash()
+      }, function () {
+        alert('Please Try Again');
+        $scope.touchIdBackup = false;
+    }, function (error) {
+      alert('You need TouchID for this feature :(');
+      window.localStorage.removeItem('touchIdBackup');
+      $scope.touchIdBackup = false;
+    })
+  }, false)
+}
 
 
   function cantFindCryptoPass(){

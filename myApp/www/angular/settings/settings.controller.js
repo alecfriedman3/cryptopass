@@ -3,6 +3,9 @@ app.controller('settingsController', function($scope, $cordovaOauth, $cordovaTou
   var classifiedUtils = require('../angular/utilities/classified/hashingBackup.js');
   var touchIdBackup = window.localStorage.getItem('touchIdBackup');
   touchIdBackup ? $scope.touchIdBackup = true : $scope.touchIdBackup = false;
+  $scope.$on('$ionicView.enter', function() {
+    console.log(device.platform);
+  });
 
   function setScope(){
     var token = window.localStorage.getItem('dropboxAuth')
@@ -20,27 +23,19 @@ app.controller('settingsController', function($scope, $cordovaOauth, $cordovaTou
   $scope.touchIdEnableDisable = function(){
     if(!$scope.touchIdBackup){
       document.addEventListener("deviceready", function () {
-        $cordovaTouchID.checkSupport().then(function() {
-    			$cordovaTouchID.authenticate("text").then(function() {
-    			  window.localStorage.setItem('touchIdBackup', 'true');
-            $scope.touchIdBackup = true;
-            console.log('about to get to utils');
-            classifiedUtils.backupHash()
-    			}, function () {
-    				alert('Please Try Again');
-            $scope.touchIdBackup = false;
-    			});
-    	  }, function (error) {
-    	    alert('You need TouchID for this feature :(');
-          window.localStorage.removeItem('touchIdBackup');
-          $scope.touchIdBackup = false;
-    	  });
-      }, false);
+        if(device.platform.toLowerCase() === 'android'){
+          androidTouchId()
+        }
+        else if(device.platform.toLowerCase() === 'ios')
+        iOSTouchId();
+      })
     } else {
       window.localStorage.removeItem('touchIdBackup');
       $scope.touchIdBackup = false;
     }
   }
+
+
   $scope.dropboxAuth = function(){
     var dropboxPathForCrypto;
     if($scope.dropboxAuthenticated){
@@ -74,6 +69,28 @@ app.controller('settingsController', function($scope, $cordovaOauth, $cordovaTou
       })
     }
   };
+
+  function androidTouchId(){
+    console.log('hello');
+  }
+
+  function iOSTouchId(){
+    $cordovaTouchID.checkSupport().then(function() {
+      $cordovaTouchID.authenticate("text").then(function() {
+        window.localStorage.setItem('touchIdBackup', 'true');
+        $scope.touchIdBackup = true;
+        console.log('about to get to utils');
+        classifiedUtils.backupHash()
+      }, function () {
+        alert('Please Try Again');
+        $scope.touchIdBackup = false;
+    }, function (error) {
+      alert('You need TouchID for this feature :(');
+      window.localStorage.removeItem('touchIdBackup');
+      $scope.touchIdBackup = false;
+    })
+  }, false)
+}
 
 
   function cantFindCryptoPass(){
