@@ -1,6 +1,6 @@
 # CryptoPass
 
-A suite of applications for your password encryption needs.
+A suite of applications for your password encryption needs. We encrypt and store your data locally, and we have no access to any of your data. We do NOT have a database, we do NOT store your master password, and we do NOT store any of your data anywhere remotely. Everything is stored on your machine only (and Dropbox if you choose to use it) and encrypted using your chosen master password.
 
 `git clone` or download a zip to your computer to get started!
 
