@@ -1,4 +1,4 @@
-app.controller('authController', function($scope, $state, $cordovaOauth, $cordovaTouchID){
+app.controller('authController', function($scope, $state, $cordovaOauth){
 	var Dropbox = require('dropbox');
 	var Promise = require('bluebird');
 	var utils = require('../angular/utilities/encrypt.utility.js');
@@ -8,49 +8,37 @@ app.controller('authController', function($scope, $state, $cordovaOauth, $cordov
 	$scope.displayPasswordField = true;
 	$scope.loading = false;
 	$scope.dropboxAuthButton = false;
+	$scope.justLinked = false;
   token ? null : noDropboxError();
-	document.addEventListener("deviceready", function () {
-		$cordovaTouchID.checkSupport().then(function() {
-    // success, TouchID supported
-		$cordovaTouchID.authenticate("text").then(function(data) {
-				console.log(data);
-		}, function () {
-			// error
-		});
-	  }, function (error) {
-	    alert(error); // TouchID not supported
-	  });
-	}, false);
+
 
 
 	$scope.checkMaster = function(master){
 		$scope.loading = true;
-
-		if(token){
-			var dropboxPathForCrypto;
-			dropboxUtils.getDropboxFilePath()
-			.then(function(matches){
-        if(matches){
-          dropboxPathForCrypto = matches.metadata.path_display
-          window.localStorage.setItem('dropboxPath', dropboxPathForCrypto)
-          return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt')
-        } else{
-          cantFindCryptoPass()
-        }
-      })
-      .then(function(dataObj){
-        window.localStorage.setItem('masterObj', dataObj)
-        return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/secret2.txt')
-      })
-      .then(function(secret2){
-        window.localStorage.setItem('secret2', secret2);
-        $scope.error = null;
-				var masterCorrect = utils.validate(master)
-				masterCorrect ? accessGranted() : accessDenied();
-      })
+		if($scope.justLinked){
+			var encryptedMasterObj = window.localStorage.getItem('masterObj');
+			console.log(encryptedMasterObj);
+			$scope.error = null;
+			var masterCorrect = utils.validate(master)
+			masterCorrect ? accessGranted(encryptedMasterObj, master) : accessDenied();
 		} else {
-			noDropboxError()
+			if(token){
+				var dropboxPathForCrypto;
+				getDropboxData()
+	      .then(function(secret2){
+					console.log(secret2);
+	        window.localStorage.setItem('secret2', secret2);
+					var encryptedMasterObj = window.localStorage.getItem('masterObj');
+					console.log(encryptedMasterObj);
+	        $scope.error = null;
+					var masterCorrect = utils.validate(master)
+					masterCorrect ? accessGranted(encryptedMasterObj, master) : accessDenied();
+	      })
+			} else {
+				noDropboxError()
+			}
 		}
+
 	};
 
 	$scope.linkDropbox = function(){
@@ -61,28 +49,33 @@ app.controller('authController', function($scope, $state, $cordovaOauth, $cordov
 			return window.localStorage.setItem('dropboxAuth', res.access_token)
 		})
 		.then(function(){
-			return dropboxUtils.getDropboxFilePath()
+			return getDropboxData()
 		})
+		.then(function(secret2){
+			window.localStorage.setItem('secret2', secret2);
+			$scope.error = null;
+			$scope.loading = false;
+			$scope.justLinked = true;
+			$scope.dropboxAuthButton = false;
+			$scope.displayPasswordField = true;
+			$scope.$evalAsync()
+		})
+	}
+
+	function getDropboxData(){
+		return dropboxUtils.getDropboxFilePath()
 		.then(function(matches){
 			if(matches){
-				dropboxPathForCrypto = matches.metadata.path_display
-				window.localStorage.setItem('dropboxPath', dropboxPathForCrypto)
-				return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt')
+				dropboxPathForCrypto = matches.metadata.path_display // eslint-disable-line
+				window.localStorage.setItem('dropboxPath', dropboxPathForCrypto)// eslint-disable-line
+				return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt')// eslint-disable-line
 			} else{
 				cantFindCryptoPass()
 			}
 		})
 		.then(function(dataObj){
 			window.localStorage.setItem('masterObj', dataObj)
-			return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/secret2.txt')
-		})
-		.then(function(secret2){
-			window.localStorage.setItem('secret2', secret2);
-			$scope.error = null;
-			$scope.loading = false;
-			$scope.dropboxAuthButton = false;
-			$scope.displayPasswordField = true;
-			$scope.$evalAsync()
+			return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/secret2.txt'); // eslint-disable-line
 		})
 	}
 
@@ -92,9 +85,12 @@ app.controller('authController', function($scope, $state, $cordovaOauth, $cordov
 		$scope.displayPasswordField = false;
 		$scope.$evalAsync()
 	}
-	function accessGranted(){
+	function accessGranted(encryptedMasterObj, masterPass){
 		$scope.loading = false;
-		$scope.$evalAsync()
+		$scope.$evalAsync();
+		globalMasterPass = masterPass; // eslint-disable-line
+		masterObj = JSON.parse(utils.decrypt(encryptedMasterObj, masterPass));// eslint-disable-line
+		console.log(masterObj);// eslint-disable-line
 		console.log('access granted');
 		$state.go('app.home')
 	}

@@ -1,5 +1,8 @@
-app.controller('settingsController', function($scope, $cordovaOauth){
-  var dropboxUtils = require('../angular/utilities/dropbox.utility.js')
+app.controller('settingsController', function($scope, $cordovaOauth, $cordovaTouchID, $timeout){
+  var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
+  var classifiedUtils = require('../angular/utilities/classified/hashingBackup.js');
+  var touchIdBackup = window.localStorage.getItem('touchIdBackup');
+  touchIdBackup ? $scope.touchIdBackup = true : $scope.touchIdBackup = false;
 
   function setScope(){
     var token = window.localStorage.getItem('dropboxAuth')
@@ -14,7 +17,30 @@ app.controller('settingsController', function($scope, $cordovaOauth){
   }
   setScope();
 
-
+  $scope.touchIdEnableDisable = function(){
+    if(!$scope.touchIdBackup){
+      document.addEventListener("deviceready", function () {
+        $cordovaTouchID.checkSupport().then(function() {
+    			$cordovaTouchID.authenticate("text").then(function() {
+    			  window.localStorage.setItem('touchIdBackup', 'true');
+            $scope.touchIdBackup = true;
+            console.log('about to get to utils');
+            classifiedUtils.backupHash()
+    			}, function () {
+    				alert('Please Try Again');
+            $scope.touchIdBackup = false;
+    			});
+    	  }, function (error) {
+    	    alert('You need TouchID for this feature :(');
+          window.localStorage.removeItem('touchIdBackup');
+          $scope.touchIdBackup = false;
+    	  });
+      }, false);
+    } else {
+      window.localStorage.removeItem('touchIdBackup');
+      $scope.touchIdBackup = false;
+    }
+  }
   $scope.dropboxAuth = function(){
     var dropboxPathForCrypto;
     if($scope.dropboxAuthenticated){
