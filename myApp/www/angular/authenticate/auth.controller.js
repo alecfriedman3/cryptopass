@@ -1,6 +1,6 @@
-app.controller('authController', function($scope, $state){
-		$scope.checkMaster=function(master){
-		console.log(master)
-		$state.go('app.home');
-	}
-})
+// app.controller('authController', function($scope, $state){
+// 		$scope.checkMaster=function(master){
+// 		console.log(master)
+// 		$state.go('app.home');
+// 	}
+// })

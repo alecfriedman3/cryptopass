@@ -13,7 +13,7 @@ app.controller('loginSingleController', function($stateParams, $scope, $state){
  // var dropboxUtilities = require('./utilities/dropbox/dropbox.utilities.js')
 
 app.controller('addLoginController', function($scope, $state, $stateParams, $rootScope){
-	   // var dropboxUtilities = require('../../utilities/dropbox/dropbox.utilities.js')
+	    var dropboxUtilities = require('../../utilities/dropbox/dropbox.utilities.js')
 	   var utils = require('../../utilities/encrypt.file.js');
 	   var utilities = require('../../utilities/encrypt.utility.js');
 	   var validate = utils.validate;

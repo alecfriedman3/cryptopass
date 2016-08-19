@@ -31,6 +31,8 @@ var app = angular.module('cryptoPass', [ 'ionic', 'ngCordovaOauth','ui.slider'])
     templateUrl: 'templates/menu.html',
     controller: 'AppCtrl'
   })
+ 
+
   .state('auth', {
       url: '/auth',
       views: {
@@ -40,6 +42,16 @@ var app = angular.module('cryptoPass', [ 'ionic', 'ngCordovaOauth','ui.slider'])
         }
       }
     })
+  //   .state('auth.firstLogin', {
+  //   url: '/auth/firstlogin',
+  //   views: {
+  //     'firstlogin': {
+  //       templateUrl: 'build/angular/authenticate/firstlogin.view.html',
+  //       controller: 'firstLoginController'
+  //     }
+  //   }
+    
+  // })
   .state('app.home', {
     url: '/home',
     views: {
