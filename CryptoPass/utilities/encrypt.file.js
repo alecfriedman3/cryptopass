@@ -66,18 +66,25 @@ fileWriter.decryptFile = function (masterPswd) {
 		console.log(dir, val, 'dir and val');
 		if (dir && dir.indexOf('mobileData.txt') != -1){
 			console.log('inside if with dir', dir);
-			return Promise.all([decrypted, fs.readFileAsync(val + '/Apps/CryptoPass/mobileData.txt')])
+			return Promise.all([decrypted, val, fs.readFileAsync(val + '/Apps/CryptoPass/mobileData.txt')])
 		}
-		return Promise.all([decrypted])
+		return Promise.all([decrypted, val])
 	})
-	.spread((decrypted, encryptedMobile) => {
+	.spread((decrypted, val, encryptedMobile) => {
 		console.log('in next spread', decrypted, encryptedMobile);
 		if (encryptedMobile){
 			var decryptedMobile = JSON.parse(decrypt(encryptedMobile.toString(), masterPswd))
-			return compareAndUpdate(decryptedMobile, decrypted)
+			return Promise.all([compareAndUpdate(decryptedMobile, decrypted), val])
 		}
-		else return decrypted
+		else return Promise.all([decrypted, val])
 	})
+	.spread((dataToWrite, val) => {
+		if(val){
+			return Promise.all([dataToWrite, fs.writeFileAsync(val + '/Apps/CryptoPass/data.txt'), fs.writeFileAsync(__dirname + '/data.txt')])
+		}
+		else return Promise.all([dataToWrite])
+	})
+	.spread(dataToWrite => dataToWrite)
 
 }
 

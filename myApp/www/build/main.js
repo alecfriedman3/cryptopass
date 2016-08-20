@@ -16450,6 +16450,20 @@ module.exports = {
 }
 
 },{"crypto-js":11}],56:[function(require,module,exports){
+var crypto = require('crypto-js');
+
+module.exports = {
+  idGenerator: function(obj){
+    var str = '';
+    for(var key in obj){
+      str += obj[key]
+    }
+    str += Date.now();
+    return crypto.SHA256(str).toString();
+  }
+}
+
+},{"crypto-js":11}],57:[function(require,module,exports){
 
 var compare = {
   compareAndMerge: function (merger, base){
@@ -16504,7 +16518,7 @@ var compare = {
 
 module.exports = compare;
 
-},{}],57:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 // Ionic Starter App
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
@@ -16746,43 +16760,6 @@ var app = angular.module('cryptoPass', ['ionic', 'ngCordova', 'ngCordovaOauth', 
   };
 })
 
-app.controller('creditCardController', function($scope){
-  $scope.accounts = masterObj.creditCard;
-})
-
-app.controller('creditCardSingleController', function($scope, $stateParams){
-  console.log($stateParams);
-  $scope.account = $stateParams.accountData;
-})
-
-
-app.controller('addcreditCardController', function($scope, $state, $stateParams, $rootScope){
-	   var utilities = require('../angular/utilities/encrypt.utility.js');
-     var encrypt = utilities.encrypt;
-     var decryptData = utilities.decrypt;
-
-  $scope.creditCard = {
-    name: null,
-    cardNumber: null,
-    ccv: null,
-    expiration: null,
-    firstName: null,
-    lastName: null,
-    type: null,
-  }
-
-  $scope.createCard = function() {
-    var newId = masterObj.creditCard.length ? masterObj.creditCard[masterObj.creditCard.length - 1].id + 1 : 1;
-    $scope.creditCard.id = newId
-    if ($scope.creditCard) masterObj.creditCard.push($scope.creditCard)
-    var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
-    socket.emit('addFromElectron', { data: encrypted })
-    $rootScope.$evalAsync()
-    $state.go('creditCard.single', { id: newId }, { reload: true })
-  }
-
-})
-
 
 app.controller('authController', function($scope, $state, $cordovaOauth){
 	var Dropbox = require('dropbox');
@@ -17011,6 +16988,50 @@ app.controller('recoverController', function($scope, $ionicModal){
   }
 
 
+
+})
+
+app.controller('creditCardController', function($scope){
+  $scope.accounts = masterObj.creditCard;
+})
+
+app.controller('creditCardSingleController', function($scope, $stateParams){
+  console.log($stateParams);
+  $scope.account = $stateParams.accountData;
+})
+
+
+app.controller('addcreditCardController', function($scope, $state, $stateParams, $rootScope){
+	   var utilities = require('../angular/utilities/encrypt.utility.js');
+     var encrypt = utilities.encrypt;
+     var decryptData = utilities.decrypt;
+     var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
+     var idGenerator = require('../angular/utilities/hash.utility.js').idGenerator;
+
+  $scope.creditCard = {
+    name: null,
+    cardNumber: null,
+    ccv: null,
+    expiration: null,
+    firstName: null,
+    lastName: null,
+    type: null,
+  }
+
+  $scope.createCard = function() {
+    var newId = idGenerator($scope.creditCard);
+    $scope.creditCard.id = newId
+    if ($scope.creditCard) masterObj.creditCard.push($scope.creditCard)
+    var encrypted = encrypt(JSON.stringify(masterObj), globalMasterPass)
+    dropboxUtils.fileUpload(encrypted, '/mobileData.txt')
+    .then(function(){
+      $rootScope.$evalAsync()
+      $state.go('creditCard.single', { id: newId }, { reload: true })
+    })
+    .catch(function(err){
+      console.log(err);
+    })
+  }
 
 })
 
@@ -17372,6 +17393,19 @@ module.exports = {
 	}
 }
 
+var crypto = require('crypto-js');
+
+module.exports = {
+  idGenerator: function(obj){
+    var str = '';
+    for(var key in obj){
+      str += obj[key]
+    }
+    str += Date.now();
+    return crypto.SHA256(str).toString();
+  }
+}
+
 
 var compare = {
   compareAndMerge: function (merger, base){
@@ -17447,4 +17481,4 @@ module.exports = {
 }
 
 
-},{"../angular/utilities/classified/hashingBackup.js":53,"../angular/utilities/dropbox.utility.js":54,"../angular/utilities/encrypt.utility.js":55,"../angular/utilities/object.compare.js":56,"bluebird":1,"crypto-js":11,"crypto-js/":11,"dropbox":40}]},{},[57]);
+},{"../angular/utilities/classified/hashingBackup.js":53,"../angular/utilities/dropbox.utility.js":54,"../angular/utilities/encrypt.utility.js":55,"../angular/utilities/hash.utility.js":56,"../angular/utilities/object.compare.js":57,"bluebird":1,"crypto-js":11,"crypto-js/":11,"dropbox":40}]},{},[58]);
