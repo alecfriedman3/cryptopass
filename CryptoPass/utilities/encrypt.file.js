@@ -2,8 +2,7 @@
 var utils = require('./encrypt.utility.js')
 var encrypt = utils.encrypt;
 var decrypt = utils.decrypt;
-let compareAndMerge = require('./object.compare').compareAndMerge;
-let compareAndDelete = require('./object.compare').compareAndDelete;
+let compareAndUpdate = require('./object.compare').compareAndUpdate;
 var Promise = require('bluebird');
 var fs = Promise.promisifyAll(require('fs'));
 var fileWriter = {};
@@ -70,7 +69,7 @@ fileWriter.decryptFile = function (masterPswd) {
 	.spread((decrypted, encryptedMobile) => {
 		if (encryptedMobile){
 			var decryptedMobile = JSON.parse(decrypt(encryptedMobile.toString(), masterPswd))
-			return compareAndDelete(decryptedMobile, compareAndMerge(decryptedMobile, decrypted))
+			return compareAndUpdate(decryptedMobile, decrypted)
 		}
 		else return decrypted
 	})
