@@ -28,7 +28,7 @@ app.controller('singleIdentityController', function($scope, $stateParams, $state
 })
 
 app.controller('addIdentityController', function($scope, $state, $stateParams, $rootScope) {
-
+  var settings = require('electron-settings')
   $scope.identity = {
   	name: null,
   	data: null
@@ -40,10 +40,13 @@ app.controller('addIdentityController', function($scope, $state, $stateParams, $
     $scope.identity.createdAt = moment().format('MMMM Do YYYY, h:mm:ss a');
     $scope.identity.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
     if ($scope.identity) masterObj.identity.push($scope.identity)
-    var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
-    socket.emit('addFromElectron', { data: encrypted })
-    $rootScope.$evalAsync()
-    $state.go('identity.single', { id: newId }, {reload: true})
+    settings.get('dropboxPath')
+    .then(path => {
+      var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
+      socket.emit('addFromElectron', { data: encrypted, dropboxPath: path })
+      $rootScope.$evalAsync()
+      $state.go('identity.single', { id: newId }, {reload: true})
+    })
   }
 
 })
