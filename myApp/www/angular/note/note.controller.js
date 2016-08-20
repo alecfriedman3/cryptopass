@@ -8,20 +8,14 @@ app.controller('noteSingleController', function($stateParams, $scope, $state){
   $scope.account = $stateParams.accountData
   console.log(($state));
  })
-  
+
 
 
 app.controller('addNoteController', function($scope, $state, $stateParams, $rootScope) {
-  var utils = require('../../utilities/encrypt.file.js');
-	   var utilities = require('../../utilities/encrypt.utility.js');
-	   // var validate = utils.validate;
-	   // var decryptFile = utils.decryptFile;
-    //    var encryptFile = utils.encryptFile;
-    //    var encrypt = utilities.encrypt;
-    //    var decryptData = utilities.decrypt;
-    //    var getDataEncrypted = utils.getDataEncrypted
-       var createRandom = require('../../utilities/password-utilities/pass.gen').createRandom
-       // var generateSecret = utils.generateSecret;
+	   var utilities = require('../angular/utilities/encrypt.utility.js');
+     var encrypt = utilities.encrypt;
+     var decryptData = utilities.decrypt;
+
    $scope.note = {
   	name: null,
   	data: null
