@@ -2,6 +2,7 @@ app.controller('settingsController', function($scope, $cordovaOauth, $cordovaTou
   var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
   var classifiedUtils = require('../angular/utilities/classified/hashingBackup.js');
   var touchIdBackup = window.localStorage.getItem('touchIdBackup');
+
   var encryptUtil = require('../angular/utilities/encrypt.utility.js');
 
   touchIdBackup ? $scope.touchIdBackup = true : $scope.touchIdBackup = false;
@@ -118,9 +119,11 @@ app.controller('settingsController', function($scope, $cordovaOauth, $cordovaTou
     console.log(hash, 'in encrypt and write func');
     console.log(masterObj); //eslint-disable-line
     var encryptedBackup = encryptUtil.encrypt(JSON.stringify(masterObj), hash); //eslint-disable-line
+    console.log('decryptBackupData', encryptUtil.decrypt(encryptedBackup, hash));
     dropboxUtils.fileUpload(encryptedBackup, '/dataBackup.txt')
     .then(function(data){
       console.log(data, 'uploaded');
+
     })
     .catch(function(err){console.log(err);})
   }

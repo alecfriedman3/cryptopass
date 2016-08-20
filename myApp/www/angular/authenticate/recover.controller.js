@@ -1,5 +1,4 @@
 app.controller('recoverController', function($scope, $ionicModal){
-
   var classifiedUtils = require('../angular/utilities/classified/hashingBackup.js');
   var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
   var encryptUtil = require('../angular/utilities/encrypt.utility.js');
@@ -51,15 +50,19 @@ app.controller('recoverController', function($scope, $ionicModal){
   function startRecoverProcess(hash){
     //pull backup file down
     var dropboxPath = window.localStorage.getItem('dropboxPath');
-
+    console.log(dropboxPath);
     dropboxUtils.getDataObjectFromDropbox(dropboxPath, '/dataBackup.txt')
     .then(function(dataObj){
+      console.log(dataObj, 'dataObj in start');
       decryptBackupData(dataObj, hash)
     })
   }
 
   function decryptBackupData(encryptedData, hash){
     var decryptedBackupData = encryptUtil.decrypt(encryptedData, hash);
+    console.log(decryptedBackupData, 'decryptedBackupData');
+    masterObj = JSON.parse(decryptedBackupData);
+    console.log(masterObj, 'decrypted from backup');
     $ionicModal.fromTemplateUrl('angular/authenticate/resetPassword.view.html', {
       scope: $scope,
       animation: 'slide-in-up'
@@ -67,6 +70,30 @@ app.controller('recoverController', function($scope, $ionicModal){
       $scope.modal = modal;
       $scope.modal.show()
     });
+  }
+
+  function updateSecret2(newPassword){
+    var secret1 = encryptUtil.secret1;
+    var secret2 = encryptUtil.encrypt(secret1, newPassword);
+    dropboxUtils.fileUpload(secret2, '/secret2.txt')
+    .then(function(successObj){
+      encryptMasterObjectWithNewPassword(newPassword)
+      $scope.modal.hide()
+    })
+    .catch(function(){
+      console.log(err);
+    })
+  }
+
+  function encryptMasterObjectWithNewPassword(newPassword){
+    var encryptedData = encryptUtil.encrypt(JSON.stringify(masterObj), newPassword)
+    dropboxUtils.fileUpload(encryptedData, '/data.txt')
+    .then(function(successObj){
+      console.log('success', successObj);
+    })
+    .catch(function(err){
+      console.log(err);
+    })
   }
 
 
