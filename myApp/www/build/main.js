@@ -37951,14 +37951,14 @@ fileWriter.validate = function (masterPw) {
 fileWriter.encryptFile = function (data, masterPswd) {
 	// upon exiting application, encrypt data and write to file
 	var encrypted = encrypt(JSON.stringify(data), masterPswd)
-	fs.writeFileSync(__dirname + '/data.txt', encrypted)
+	fs.writeFileSync(__dirname + '/mobileData.txt', encrypted)
 
 }
 
 fileWriter.decryptFile = function (masterPswd) {
 	// validate password, then decrypt data and return an object that we can use in our application
 	if (!fileWriter.validate(masterPswd)) throw new Error('Incorrect Master Password');
-	var encrypted = fs.readFileSync(__dirname + '/data.txt').toString()
+	var encrypted = fs.readFileSync(__dirname + '/mobileData.txt').toString()
 	var decrypted = decrypt(encrypted, masterPswd)
 	return JSON.parse(decrypted)
 
@@ -38429,7 +38429,7 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 			if(matches){
 				dropboxPathForCrypto = matches.metadata.path_display // eslint-disable-line
 				window.localStorage.setItem('dropboxPath', dropboxPathForCrypto)// eslint-disable-line
-				return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt')// eslint-disable-line
+				return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/mobileData.txt')// eslint-disable-line
 			} else{
 				cantFindCryptoPass()
 			}
@@ -38556,7 +38556,7 @@ app.controller('recoverController', function($scope, $ionicModal){
 
   function encryptMasterObjectWithNewPassword(newPassword){
     var encryptedData = encryptUtil.encrypt(JSON.stringify(masterObj), newPassword)
-    dropboxUtils.fileUpload(encryptedData, '/data.txt')
+    dropboxUtils.fileUpload(encryptedData, '/mobileData.txt')
     .then(function(successObj){
       console.log('success', successObj);
     })
@@ -38799,7 +38799,7 @@ app.controller('settingsController', function($scope, $cordovaOauth, $cordovaTou
           dropboxPathForCrypto = matches.metadata.path_display
           window.localStorage.setItem('dropboxPath', dropboxPathForCrypto)
           setScope()
-          return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt')
+          return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/mobileData.txt')
         } else{
           cantFindCryptoPass()
         }
@@ -38934,7 +38934,7 @@ app.factory('DropboxSync', function(){
           if(matches){
             dropboxPathForCrypto = matches.metadata.path_display
             window.localStorage.setItem('dropboxPath', dropboxPathForCrypto)
-            return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt')
+            return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/mobileData.txt')
           } else{
             throw new Error('Can\'t find Dropbox Path :(')
           }

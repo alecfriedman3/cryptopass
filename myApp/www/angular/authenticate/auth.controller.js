@@ -69,7 +69,7 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 			if(matches){
 				dropboxPathForCrypto = matches.metadata.path_display // eslint-disable-line
 				window.localStorage.setItem('dropboxPath', dropboxPathForCrypto)// eslint-disable-line
-				return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt')// eslint-disable-line
+				return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/mobileData.txt')// eslint-disable-line
 			} else{
 				cantFindCryptoPass()
 			}

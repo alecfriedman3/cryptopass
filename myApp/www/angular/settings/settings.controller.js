@@ -58,7 +58,7 @@ app.controller('settingsController', function($scope, $cordovaOauth, $cordovaTou
           dropboxPathForCrypto = matches.metadata.path_display
           window.localStorage.setItem('dropboxPath', dropboxPathForCrypto)
           setScope()
-          return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt')
+          return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/mobileData.txt')
         } else{
           cantFindCryptoPass()
         }

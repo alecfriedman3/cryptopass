@@ -10,7 +10,7 @@ app.factory('DropboxSync', function(){
           if(matches){
             dropboxPathForCrypto = matches.metadata.path_display
             window.localStorage.setItem('dropboxPath', dropboxPathForCrypto)
-            return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt')
+            return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/mobileData.txt')
           } else{
             throw new Error('Can\'t find Dropbox Path :(')
           }
