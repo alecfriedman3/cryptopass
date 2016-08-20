@@ -23,6 +23,17 @@ app.controller('cryptoCtrl', function($scope, $rootScope) {
   console.log('started angular')
   $scope.authenticate = false;
 
+  chrome.extension.sendMessage({eventName: 'getValid'})
+  eventListener.on('sendValid', function (data){
+    $scope.authenticate = data.valid
+    $scope.accounts = data.accountInfo
+    $scope.$digest()
+  })
+  eventListener.on('validTimeout', function (data){
+    $scope.authenticate = false;
+    $scope.$digest()
+  })
+
   $scope.authenticatePassword = function() {
     // need to validate password from chrome
     chrome.extension.sendMessage({master: $scope.master, eventName: 'authentication'})
@@ -35,7 +46,12 @@ app.controller('cryptoCtrl', function($scope, $rootScope) {
 
   eventListener.on('accountInfo', function (data) {
     $scope.accounts = data.data
+    $scope.$digest()
   })
+
+  $scope.autoFill = function (name){
+    chrome.extension.sendMessage({eventName: 'backgroundToFill', name: name})
+  }
 
 })
 
@@ -48,6 +64,7 @@ chrome.extension.onMessage.addListener(function (req, sender, sendRes) {
 $(document).ready(function() {
   console.log('ready');
 
+// open any hrefs to new logins in new tabs
 window.addEventListener('click',function(e){
   if(e.target.href!==undefined){
     chrome.tabs.create({url:e.target.href})

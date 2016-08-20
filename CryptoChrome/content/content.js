@@ -1,7 +1,8 @@
 
 var eventListener = new EventListener();
-
+console.log('ran content script again')
 chrome.extension.onMessage.addListener(function (req, sender, sendRes){
+  console.log('received a request!')
   if (!eventListener[req.eventName]) return
   eventListener.emit(req.eventName, req);
 })
@@ -21,16 +22,17 @@ var $usernames = $('input[type="text"]').each(function (){
 
 if ($email.length || $password.length) {
   console.log('sending')
-  chrome.extension.sendMessage({eventName: 'logins'})
+  chrome.extension.sendMessage({eventName: 'logins', currentUrl: window.location.href.toLowerCase()})
 }
 
 eventListener.on('loginRes', function (data) {
+
   data.logins.forEach(function (account) {
     // console.log(account);
-    var lowerName = account.name.split(' ').join('').toLowerCase()
-    var accountRe = new RegExp(lowerName)
-    if (window.location.href.toLowerCase().match(accountRe) || (account.name.toLowerCase() == 'gmail' && window.location.href.toLowerCase().match(/google/))) {
-      console.log('got a match');
+    // var lowerName = account.name.split(' ').join('').toLowerCase()
+    // var accountRe = new RegExp(lowerName)
+    // if (window.location.href.toLowerCase().match(accountRe) || (account.name.toLowerCase() == 'gmail' && window.location.href.toLowerCase().match(/google/))) {
+    //   console.log('got a match');
       if ($password.length){
         $password.val(account.password);
       }
@@ -42,7 +44,17 @@ eventListener.on('loginRes', function (data) {
           input.val(account.username)
         })
       }
-    }
+    // }
   })
+})
+
+eventListener.on('autoFill', function (data){
+  console.log('autofill!!!!!!!!!!!')
+  var forms = $('form')
+  for (var i = 0; i < forms.length; i++){
+    // forms[i].submit()
+    console.log(forms, forms[i])
+  }
+  console.log('still executing after url change')
 })
 
