@@ -24,7 +24,7 @@ var compare = {
     for (var key in merger){
       for (var i = 0; i < merger[key].length; i++){
         for (var j = 0; j < base[key].length; j++){
-          if (merger[key][i].deleted && base[key][j].name == merger[key][i].name && merger[key][i].id == base[key][j].id && merger[key][i].lastUpdated > base[key][j].lastUpdated){
+          if (merger[key][i].deleted && base[key][j].name == merger[key][i].name && merger[key][i].id == base[key][j].id){
             base[key].splice(j, 1)
           }
         }

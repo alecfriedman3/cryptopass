@@ -16476,7 +16476,9 @@ var compare = {
     for (var key in merger){
       for (var i = 0; i < merger[key].length; i++){
         for (var j = 0; j < base[key].length; j++){
-          if (merger[key][i].deleted && base[key][j].name == merger[key][i].name && merger[key][i].id == base[key][j].id && merger[key][i].lastUpdated > base[key][j].lastUpdated){
+          console.log(merger[key][i]);
+          if (merger[key][i].deleted && base[key][j].name == merger[key][i].name && merger[key][i].id == base[key][j].id){
+            console.log('WE ARE IN THE IF', merger[key][i], base[key][j]);
             base[key].splice(j, 1)
           }
         }
@@ -16740,6 +16742,7 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 	var utils = require('../angular/utilities/encrypt.utility.js');
 	var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
   var compareAndUpdate = require('../angular/utilities/object.compare.js').compareAndUpdate;
+	// window.localStorage.clear()
 	var token = window.localStorage.getItem('dropboxAuth');
 
 	$scope.displayPasswordField = true;
@@ -17115,6 +17118,156 @@ app.controller('addNoteController', function($scope, $state, $stateParams, $root
   }
  })
 
+var Dropbox = require('dropbox');
+var dbx = new Dropbox({ clientId: 'pg8nt8sn9h5yidb' });
+module.exports = {
+  getAndSetAccessToken: function(){
+    var token = window.localStorage.getItem('dropboxAuth');
+    dbx.setAccessToken(token)
+  },
+  getDropboxFilePath: function(){
+    this.getAndSetAccessToken()
+    console.log('in here');
+    return dbx.filesSearch({path: '/Apps', query: 'CryptoPass'})
+    .then(function(res){
+      console.log('matches', res.matches);
+      return res.matches[0];
+    })
+    .catch(function(err){console.log('w have an error', err)})
+  },
+  getDataObjectFromDropbox: function(cryptoPath, file){
+    this.getAndSetAccessToken()
+    console.log('in get data obj');
+    return new Promise(function(resolve, reject){
+      dbx.filesGetTemporaryLink({path: cryptoPath + file})
+      .then(function(linkObj){
+        console.log(linkObj, 'linkObj');
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", linkObj.link, true);
+        xhr.onreadystatechange = function(e) {
+          if (xhr.readyState === 4){
+            console.log(xhr.responseText);
+            resolve(xhr.responseText.replace(/"/g, ''))
+          }else{
+            console.log(xhr);
+          }
+        }
+        xhr.send(null)
+      })
+      .catch(function(err){reject(err)})
+    })
+  },
+  fileUpload: function(encryptedData, pathName){
+      this.getAndSetAccessToken()
+      var dbPath = window.localStorage.getItem('dropboxPath');
+      var fileToUpload = typeof encryptedData === 'string' ? encryptedData : JSON.stringify(encryptedData)
+      return dbx.filesUpload({path: dbPath + pathName, contents: fileToUpload, mode: 'overwrite'})
+  }
+
+}
+
+app.factory('DropboxSync', function(){
+  var dropboxUtils = require('../angular/utilities/dropbox.utility.js')
+  var utils = require('../angular/utilities/encrypt.utility.js')
+  return {
+    sync: function(){
+      var dropboxPathForCrypto;
+
+      return dropboxUtils.getDropboxFilePath()
+        .then(function(matches){
+          if(matches){
+            dropboxPathForCrypto = matches.metadata.path_display
+            window.localStorage.setItem('dropboxPath', dropboxPathForCrypto)
+            return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/mobileData.txt')
+          } else{
+            throw new Error('Can\'t find Dropbox Path :(')
+          }
+        })
+        .then(function(dataObj){
+          console.log('in last then');
+          window.localStorage.setItem('masterObjEncrypted', dataObj)
+          var encryptedMasterObj = window.localStorage.getItem('masterObjEncrypted')
+          console.log('globalmaster', globalMasterPass);
+          masterObj = JSON.parse(utils.decrypt(encryptedMasterObj, globalMasterPass));
+          console.dir(masterObj);
+          // return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/secret2.txt')
+        })
+    }
+  }
+})
+
+var crypto = require('crypto-js');
+
+//changed from aes192 to aes256
+
+module.exports = {
+	encrypt: function (data, password){
+		console.log('in utils encrypt');
+		var cipher = crypto.AES.encrypt(data, password);
+		console.log(cipher, 'this is cipher');
+		return cipher.toString()
+	},
+	decrypt: function (enData, password){
+		var bytes = crypto.AES.decrypt(enData.toString(), password);
+		var plaintext = bytes.toString(crypto.enc.Utf8);
+		return plaintext
+	},
+	secret1: 'HelloIAmDogIDoge?',
+	validate: function (masterPw) {
+		var enSecret = window.localStorage.getItem('secret2');
+	  try {
+			//adds new line randomly? have to trim()
+	    var check = this.decrypt(enSecret, masterPw).trim();
+	  } catch (error) {
+	    return false;
+	  }
+	  return check === this.secret1;
+	}
+}
+
+
+var compare = {
+  compareAndMerge: function (merger, base){
+    for(var key in merger){
+      for (var i = 0; i < merger[key].length; i++){
+        // if the base object does not contain the merge, and the merge is not deleted, add the merge
+        if (!base[key].filter(function (obj) { return obj.id == merger[key][i].id}).length /*&& !merger[key][i].deleted*/){
+          base[key].push(merger[key][i])
+          continue
+        }
+        for (var j = 0; j < base[key].length; j++){
+          if (base[key][j].name == merger[key][i].name && merger[key][i].id == base[key][j].id /*&& !merger[key][i].deleted*/){
+            // if the merging object was updated more frequently, overwrite it in the base
+            if (merger[key][i].lastUpdated > base[key][j].lastUpdated){
+              base[key][j] = merger[key][i]
+            }
+          }
+        }
+      }
+    }
+    return base
+  },
+  compareAndDelete: function (merger, base){
+    for (var key in merger){
+      for (var i = 0; i < merger[key].length; i++){
+        for (var j = 0; j < base[key].length; j++){
+          console.log(merger[key][i]);
+          if (merger[key][i].deleted && base[key][j].name == merger[key][i].name && merger[key][i].id == base[key][j].id){
+            console.log('WE ARE IN THE IF', merger[key][i], base[key][j]);
+            base[key].splice(j, 1)
+          }
+        }
+      }
+    }
+    return base
+  },
+  compareAndUpdate: function (merger, base){
+    return compare.compareAndDelete(merger, compare.compareAndMerge(merger, base))
+  }
+}
+
+module.exports = compare;
+
 app.controller('settingsController', function($scope, $cordovaOauth, $cordovaTouchID, $timeout){
   var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
   var classifiedUtils = require('../angular/utilities/classified/hashingBackup.js');
@@ -17250,154 +17403,6 @@ app.controller('settingsController', function($scope, $cordovaOauth, $cordovaTou
     $scope.error = "We can't find your CryptoPass folder.  Please make sure it's in your Dropbox Account"
   }
 })
-
-var Dropbox = require('dropbox');
-var dbx = new Dropbox({ clientId: 'pg8nt8sn9h5yidb' });
-module.exports = {
-  getAndSetAccessToken: function(){
-    var token = window.localStorage.getItem('dropboxAuth');
-    dbx.setAccessToken(token)
-  },
-  getDropboxFilePath: function(){
-    this.getAndSetAccessToken()
-    console.log('in here');
-    return dbx.filesSearch({path: '/Apps', query: 'CryptoPass'})
-    .then(function(res){
-      console.log('matches', res.matches);
-      return res.matches[0];
-    })
-    .catch(function(err){console.log('w have an error', err)})
-  },
-  getDataObjectFromDropbox: function(cryptoPath, file){
-    this.getAndSetAccessToken()
-    console.log('in get data obj');
-    return new Promise(function(resolve, reject){
-      dbx.filesGetTemporaryLink({path: cryptoPath + file})
-      .then(function(linkObj){
-        console.log(linkObj, 'linkObj');
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", linkObj.link, true);
-        xhr.onreadystatechange = function(e) {
-          if (xhr.readyState === 4){
-            console.log(xhr.responseText);
-            resolve(xhr.responseText.replace(/"/g, ''))
-          }else{
-            console.log(xhr);
-          }
-        }
-        xhr.send(null)
-      })
-      .catch(function(err){reject(err)})
-    })
-  },
-  fileUpload: function(encryptedData, pathName){
-      this.getAndSetAccessToken()
-      var dbPath = window.localStorage.getItem('dropboxPath');
-      var fileToUpload = typeof encryptedData === 'string' ? encryptedData : JSON.stringify(encryptedData)
-      return dbx.filesUpload({path: dbPath + pathName, contents: fileToUpload, mode: 'overwrite'})
-  }
-
-}
-
-app.factory('DropboxSync', function(){
-  var dropboxUtils = require('../angular/utilities/dropbox.utility.js')
-  var utils = require('../angular/utilities/encrypt.utility.js')
-  return {
-    sync: function(){
-      var dropboxPathForCrypto;
-
-      return dropboxUtils.getDropboxFilePath()
-        .then(function(matches){
-          if(matches){
-            dropboxPathForCrypto = matches.metadata.path_display
-            window.localStorage.setItem('dropboxPath', dropboxPathForCrypto)
-            return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/mobileData.txt')
-          } else{
-            throw new Error('Can\'t find Dropbox Path :(')
-          }
-        })
-        .then(function(dataObj){
-          console.log('in last then');
-          window.localStorage.setItem('masterObjEncrypted', dataObj)
-          var encryptedMasterObj = window.localStorage.getItem('masterObjEncrypted')
-          console.log('globalmaster', globalMasterPass);
-          masterObj = JSON.parse(utils.decrypt(encryptedMasterObj, globalMasterPass));
-          console.dir(masterObj);
-          // return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/secret2.txt')
-        })
-    }
-  }
-})
-
-var crypto = require('crypto-js');
-
-//changed from aes192 to aes256
-
-module.exports = {
-	encrypt: function (data, password){
-		console.log('in utils encrypt');
-		var cipher = crypto.AES.encrypt(data, password);
-		console.log(cipher, 'this is cipher');
-		return cipher.toString()
-	},
-	decrypt: function (enData, password){
-		var bytes = crypto.AES.decrypt(enData.toString(), password);
-		var plaintext = bytes.toString(crypto.enc.Utf8);
-		return plaintext
-	},
-	secret1: 'HelloIAmDogIDoge?',
-	validate: function (masterPw) {
-		var enSecret = window.localStorage.getItem('secret2');
-	  try {
-			//adds new line randomly? have to trim()
-	    var check = this.decrypt(enSecret, masterPw).trim();
-	  } catch (error) {
-	    return false;
-	  }
-	  return check === this.secret1;
-	}
-}
-
-
-var compare = {
-  compareAndMerge: function (merger, base){
-    for(var key in merger){
-      for (var i = 0; i < merger[key].length; i++){
-        // if the base object does not contain the merge, and the merge is not deleted, add the merge
-        if (!base[key].filter(function (obj) { return obj.id == merger[key][i].id}).length /*&& !merger[key][i].deleted*/){
-          base[key].push(merger[key][i])
-          continue
-        }
-        for (var j = 0; j < base[key].length; j++){
-          if (base[key][j].name == merger[key][i].name && merger[key][i].id == base[key][j].id /*&& !merger[key][i].deleted*/){
-            // if the merging object was updated more frequently, overwrite it in the base
-            if (merger[key][i].lastUpdated > base[key][j].lastUpdated){
-              base[key][j] = merger[key][i]
-            }
-          }
-        }
-      }
-    }
-    return base
-  },
-  compareAndDelete: function (merger, base){
-    for (var key in merger){
-      for (var i = 0; i < merger[key].length; i++){
-        for (var j = 0; j < base[key].length; j++){
-          if (merger[key][i].deleted && base[key][j].name == merger[key][i].name && merger[key][i].id == base[key][j].id && merger[key][i].lastUpdated > base[key][j].lastUpdated){
-            base[key].splice(j, 1)
-          }
-        }
-      }
-    }
-    return base
-  },
-  compareAndUpdate: function (merger, base){
-    return compare.compareAndDelete(merger, compare.compareAndMerge(merger, base))
-  }
-}
-
-module.exports = compare;
 
 var crypto = require('crypto-js/');
 
