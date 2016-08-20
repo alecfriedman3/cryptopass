@@ -76,7 +76,7 @@ input:focus::-webkit-input-placeholder { color:transparent; }
   position: relative;
 	width: 500px;
 	margin: 0 auto;
-	margin-top: 40px;
+	margin-top: 150px;
   z-index: 10;
   input {
     cursor: text;
@@ -101,13 +101,20 @@ input:focus::-webkit-input-placeholder { color:transparent; }
 }
 
 //Lock Stuff
-.lock-logo{
+
+.logo-and-lock{
   text-align: center;
-  margin-top: -130px;
+}
+.lock-logo{
+  display: inline-block;
+  text-align: center;
+  margin-top: 150px;
+
   h1{
-    color: white;
-    font-weight: 900;
-    font-size: 40px;
+
+    color: rgb(52, 148, 132);
+    font-weight: 200;
+    font-size: 100px;
   }
 
   z-index: 2;
@@ -115,13 +122,14 @@ input:focus::-webkit-input-placeholder { color:transparent; }
 
 }
 .icon-lock {
+  display: inline-block;
   z-index: 1;
-  width: 600px;
-  height: 600px;
+  width: 100px;
+  height: 100px;
   position: relative;
   overflow: hidden;
-  margin-left: 25px;
-  margin-top: -50px !important;
+  margin-left: 0px !important;
+  margin-bottom: 27px !important;
   margin: 0 auto;
 }
 
