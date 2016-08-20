@@ -39,8 +39,9 @@ module.exports = {
   },
   fileUpload: function(encryptedData, pathName){
       this.getAndSetAccessToken()
-      var dbPath = window.localStorage.getItem('dropboxPath')
-      return dbx.filesUpload({path: dbPath + pathName, contents: JSON.stringify(encryptedData), mode: 'overwrite'})
+      var dbPath = window.localStorage.getItem('dropboxPath');
+      var fileToUpload = typeof encryptedData === 'string' ? encryptedData : JSON.stringify(encryptedData)
+      return dbx.filesUpload({path: dbPath + pathName, contents: fileToUpload, mode: 'overwrite'})
   }
 
 }

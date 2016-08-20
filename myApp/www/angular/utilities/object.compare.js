@@ -1,5 +1,5 @@
 
-module.exports = {
+var compare = {
   compareAndMerge: function (merger, base){
     for(var key in merger){
       for (var i = 0; i < merger[key].length; i++){
@@ -32,8 +32,9 @@ module.exports = {
     }
     return base
   },
-  compareAndUpdate: function (merger, baser){
-    return this.compareAndDelete(merger, this.compareAndMerge(merger, base))
+  compareAndUpdate: function (merger, base){
+    return compare.compareAndDelete(merger, compare.compareAndMerge(merger, base))
   }
 }
 
+module.exports = compare;

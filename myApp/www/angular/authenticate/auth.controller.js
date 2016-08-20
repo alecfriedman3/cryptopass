@@ -4,7 +4,7 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 	var Promise = require('bluebird');
 	var utils = require('../angular/utilities/encrypt.utility.js');
 	var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
-  var compareAndUpdate = require('../angular/utilities/object.compare.js');
+  var compareAndUpdate = require('../angular/utilities/object.compare.js').compareAndUpdate;
 	var token = window.localStorage.getItem('dropboxAuth');
 
 	$scope.displayPasswordField = true;
@@ -22,7 +22,7 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 			console.log(encryptedMasterObj);
 			$scope.error = null;
 			var masterCorrect = utils.validate(master)
-			masterCorrect ? accessGranted(encryptedMasterObj, master) : accessDenied();
+			masterCorrect ? accessGranted(encryptedMasterObj, encryptedMasterObj, master) : accessDenied();
 		} else {
 			if(token){
 				var dropboxPathForCrypto;
@@ -34,7 +34,9 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
           var encryptedDesktopObj = window.localStorage.getItem('desktopMasterObj');
           return Promise.all([encryptedMobileObj, encryptedDesktopObj])
         })
-        .spread(function (mobileDataEncrypted, desktopEncrytped){
+        .then(function (arr){
+					var mobileDataEncrypted = arr[0]
+					var desktopEncrytped = arr[1]
 	        $scope.error = null;
 					var masterCorrect = utils.validate(master)
 					masterCorrect ? accessGranted(desktopEncrytped, mobileDataEncrypted, master) : accessDenied();
@@ -54,7 +56,7 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 			return window.localStorage.setItem('dropboxAuth', res.access_token)
 		})
 		.then(function(){
-			return getDropboxData()
+			return getDropboxData(true)
 		})
 		.then(function(secret2){
 			window.localStorage.setItem('secret2', secret2);
@@ -70,20 +72,24 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
     })
 	}
 
-	function getDropboxData(){
+	function getDropboxData(bool){
 		return dropboxUtils.getDropboxFilePath()
 		.then(function(matches){
+			console.log('outside if matches', matches);
 			if(matches){
 				dropboxPathForCrypto = matches.metadata.path_display // eslint-disable-line
+				console.log(dropboxPathForCrypto, 'this is db path');
 				window.localStorage.setItem('dropboxPath', dropboxPathForCrypto)// eslint-disable-line
-				return Promise.all([dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/mobileData.txt'), dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt')])// eslint-disable-line
+				return Promise.all([bool ? dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt') : dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/mobileData.txt'), dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt')])// eslint-disable-line
 			} else{
+				console.log('we hit the else', matches);
 				throw new Error('Can\'t find CryptoPass')
 			}
 		})
-		.spread(function(mobileDataObj, desktopDataObj){
-      window.localStorage.setItem('desktopMasterObj', desktopDataObj)
-			window.localStorage.setItem('masterObj', mobileDataObj)
+		.then(function(arr){
+			console.log(arr);
+      window.localStorage.setItem('desktopMasterObj', arr[1])
+			window.localStorage.setItem('masterObj', arr[0])
 			return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/secret2.txt'); // eslint-disable-line
 		})
 	}
@@ -94,16 +100,19 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 		$scope.displayPasswordField = false;
 		$scope.$evalAsync()
 	}
-	function accessGranted(desktopEncrytped, mobileDataEncrypted, masterPass){
+	function accessGranted(desktopEncrypted, mobileDataEncrypted, masterPass){
 		$scope.loading = false;
 		$scope.$evalAsync();
 		globalMasterPass = masterPass; // eslint-disable-line
-		var desktopMasterObj = JSON.parse(utils.decrypt(desktopEncrytped, masterPass));// eslint-disable-line
+		var desktopMasterObj = JSON.parse(utils.decrypt(desktopEncrypted, masterPass));// eslint-disable-line
     var mobileMasterObj = JSON.parse(utils.decrypt(mobileDataEncrypted, masterPass));// eslint-disable-line
-    masterObj = compareAndUpdate(desktopMasterObj, mobileMasterObj)
-		console.log(masterObj);// eslint-disable-line
-		console.log('access granted');
-		$state.go('app.home')
+    masterObj = compareAndUpdate(desktopMasterObj, mobileMasterObj);
+		dropboxUtils.fileUpload(utils.encrypt(JSON.stringify(masterObj), masterPass), '/mobileData.txt')
+		.then(function(){
+			console.log('access granted and mobileData updated');
+			$state.go('app.home')
+		})
+		.catch(function(err){console.log(err)})
 	}
 
 	function accessDenied(){

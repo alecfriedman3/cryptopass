@@ -24,6 +24,9 @@ app.controller('authController', function($scope, $state, $rootScope){
 				$rootScope.$evalAsync()
 				$state.go('home')
 			})
+			.catch(function(err){
+				console.log(err);
+			})
 		}
 	}
 });
