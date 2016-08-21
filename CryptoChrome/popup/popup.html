@@ -7,36 +7,28 @@
 
   <h1 style="text-align: center; border-bottom: 1px solid black;">CryptoPass</h1>
 
-  <div style="width: 80%; margin: 0 auto; margin-top: 20px; text-align: center" ng-hide="authenticate">
-		<form ng-submit="authenticatePassword()">
+  <div style="width: 80%; margin: 0 auto; margin-top: 20px; text-align: center">
+		<!-- <form ng-submit="authenticatePassword()">
 			<div >
 				<input class="form-control auth-form-input" type="password" placeholder="Master Password" ng-model="master">
 			</div>
 			<button type="submit" style="margin-top: 5px;"><span>Validate</span></button>
-		</form>
+		</form> -->
+    <ui-view></ui-view>
 	</div>
 
-	<div ng-show="authenticate">
+<!-- 	<div ng-show="authenticate">
   <ul class="dropdownUL">
       <li class="parentCategories" ng-repeat="account in accounts"><p> {{account.category}} </p>
         <ul class="individual">
-        <!-- put an ng-click on these hrefs which also auto submits forms possibly -->
           <li ng-repeat="item in account.items" ng-click="autoFill(item.name)"><span> {{item.name}} </span></li>
         </ul>
       </li>
   </ul>
-    <!-- <div>
-      <ul>
-        <li ng-repeat='account in accounts'>
-          <button>{{account.name}}</button>
-        </li>
-      </ul>
-    </div> -->
-  </div>
-
-
+  </div> -->
 
 	<!-- <script type="text/javascript" src="../node_modules/angular/angular.js" defer></script> -->
+  <!-- <script type="text/javascript" src="../node_modules/angular-ui-router/release/angular-ui-router.min.js"></script> -->
   <script src="../node_modules/jquery/dist/jquery.min.js" defer></script>
   <script src="../node_modules/socket.io-client/socket.io.js" defer></script>
 	<script type="text/javascript" src="utils.js" defer></script>

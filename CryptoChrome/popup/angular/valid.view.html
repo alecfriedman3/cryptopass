@@ -1,0 +1,18 @@
+<div>
+    <ul class="dropdownUL">
+        <li class="parentCategories" ng-repeat="account in accounts">
+            <p> {{account.category}} </p>
+            <ul class="individual">
+                <!-- put an ng-click on these hrefs which also auto submits forms possibly -->
+                <li ng-repeat="item in account.items" ng-click="autoFill(item.name)"><span> {{item.name}} </span></li>
+            </ul>
+        </li>
+    </ul>
+    <!-- <div>
+      <ul>
+        <li ng-repeat='account in accounts'>
+          <button>{{account.name}}</button>
+        </li>
+      </ul>
+    </div> -->
+</div>

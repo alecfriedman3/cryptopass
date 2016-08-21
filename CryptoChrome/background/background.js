@@ -84,8 +84,10 @@ socket.on('responseChromeValidated', function(data) {
     accountInfo[key].category = key
   }
   console.log(accountInfo, 'accountInfo')
-  chrome.extension.sendMessage({data: accountInfo, eventName: 'accountInfo'})
   chrome.extension.sendMessage({valid: valid, eventName: 'validation'})
+  setTimeout(function (){
+    chrome.extension.sendMessage({data: accountInfo, eventName: 'accountInfo'})
+  }, 500)
 })
 
 socket.on('chromeClearData', function (){
@@ -116,8 +118,8 @@ eventListener.on('backgroundToFill', function (data){
 
 
 // every 5 minutes check, if you have been inactive for 15 minutes clear data
-setTimeout(function (){
-  if (new Date() > date + 900000){
+setInterval(function (){
+  if (new Date() - date > 900000){
     masterObj = masterPass = valid = null;
     chrome.extension.sendMessage({eventName: 'validTimeout'})
   }
