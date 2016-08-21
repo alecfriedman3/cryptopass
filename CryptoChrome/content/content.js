@@ -50,11 +50,47 @@ eventListener.on('loginRes', function (data) {
 
 eventListener.on('autoFill', function (data){
   console.log('autofill!!!!!!!!!!!')
-  var forms = $('form')
-  for (var i = 0; i < forms.length; i++){
-    // forms[i].submit()
-    console.log(forms, forms[i])
-  }
-  console.log('still executing after url change')
+  var arr = []
+
+  arr.push($('a:contains("Sign In")'))
+  arr.push($('p:contains("Sign In")'))
+  arr.push($('div:contains("Sign In")'))
+  arr.push($('button:contains("Sign In")'))
+
+  arr.push($('a:contains("Sign in")'))
+  arr.push($('p:contains("Sign in")'))
+  arr.push($('div:contains("Sign in")'))
+  arr.push($('button:contains("Sign in")'))
+
+  arr.push($('a:contains("Log In")'))
+  arr.push($('p:contains("Log In")'))
+  arr.push($('button:contains("Log In")'))
+
+  arr.push($('a:contains("Log in")'))
+  arr.push($('p:contains("Log in")'))
+  arr.push($('button:contains("Log in")'))
+
+  arr.push($('a:contains("Login")'))
+  arr.push($('p:contains("Login")'))
+  arr.push($('button:contains("Login")'))
+
+// autosubmit is going to be very difficult
+
+  // arr.forEach(function (login){
+  //   login.each(function (){
+  //     console.log($(this))
+  //       $(this).trigger('click')
+  //   })
+  // })
+  // $('*').each(function (){
+  //   $(this).trigger('click')
+  // })
+
+  // var forms = $('form')
+  // for (var i = 0; i < forms.length; i++){
+  //   // forms[i].submit()
+  //   console.log(forms, forms[i])
+  // }
+
 })
 
