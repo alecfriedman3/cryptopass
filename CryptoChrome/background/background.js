@@ -25,7 +25,7 @@ eventListener.on('authentication', function (req) {
 })
 
 chrome.extension.onMessage.addListener(function (req, sender, sendRes){
-  date = new Date()
+  updateTime()
   if (!eventListener[req.eventName]) return
 	eventListener.emit(req.eventName, req);
 })
@@ -76,9 +76,9 @@ socket.on('responseChromeValidated', function(data) {
     accountInfo[key] = accountInfo[key] || {}
     accountInfo[key].items = currentAccount.map(function (acc){
       if (key == 'login'){
-        return {name: acc.name, url: acc.website}
+        return {name: acc.name, url: acc.website, deleted: acc.deleted || null}
       } else{
-        return {name: acc.name}
+        return {name: acc.name, deleted: acc.deleted || null}
       }
     })
     accountInfo[key].category = key

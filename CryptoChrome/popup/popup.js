@@ -14,18 +14,19 @@ chrome.extension.onMessage.addListener(function(req, sender, sendRes) {
 
 app.controller('cryptoCtrl', function($scope, $rootScope, $state) {
   console.log('started angular')
-    // $scope.authenticate = false;
+
   chrome.extension.sendMessage({ eventName: 'getValid' })
 
   eventListener.on('sendValid', function(data) {
-    // $scope.authenticate = data.valid
+    $rootScope.accounts = data.accountInfo
+
     if (data.valid) {
-      $state.go('valid', data.accountInfo)
+      $state.go('valid')
     } else {
       $state.go('auth')
     }
-    // $scope.$digest()
   })
+
   eventListener.on('validTimeout', function(data) {
     $state.go('auth')
   })
@@ -37,15 +38,21 @@ app.config(function($stateProvider) {
       url: '/',
       templateUrl: 'angular/auth.view.html',
       controller: function($scope, $state) {
+        $scope.error = null;
 
         $scope.authenticatePassword = function() {
           // need to validate password from chrome
           chrome.extension.sendMessage({ master: $scope.master, eventName: 'authentication' })
           eventListener.on('validation', function(data) {
-              if (data.valid) {
-                $state.go('valid')
-              }
-            })
+            if (data.valid) {
+              $state.go('valid')
+            } else {
+              $scope.error = true;
+              setTimeout(function() {
+                $scope.error = null;
+              }, 3000)
+            }
+          })
         }
 
       }
@@ -53,12 +60,11 @@ app.config(function($stateProvider) {
     .state('valid', {
       url: '/valid',
       templateUrl: 'angular/valid.view.html',
-      // params: {
-      //   accounts: null
-      // },
-      controller: function($scope, $state) {
-        // $scope.accounts = $state.params.accounts
-        console.log($scope.accounts)
+      controller: function($scope, $state, $rootScope) {
+        if ($rootScope.accounts) {
+          $scope.accounts = $rootScope.accounts;
+          $rootScope.accounts = null
+        }
 
         $scope.autoFill = function(name) {
           chrome.extension.sendMessage({ eventName: 'backgroundToFill', name: name })
@@ -68,6 +74,7 @@ app.config(function($stateProvider) {
           $scope.accounts = data.data
           $scope.$digest()
         })
+
       }
     })
 })

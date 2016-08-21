@@ -21,11 +21,11 @@ ul {
   display: inline-block;
   position: relative;
   float: left;
-  width: 23%;
+  width: 24%;
   text-align: center;
   text-transform: uppercase;
-  font-size: 10px;
-  margin: 2px;
+  font-size: 8px;
+  margin: 0;
   border: black solid .5px;
   background: #1bc2a2;
 }
@@ -41,10 +41,9 @@ ul li span {
 }
 ul li span:hover { background: #2c3e50; }
 
-
 li:hover > ul {
   display: block;
-  position: absolute;
+  /*position: absolute;*/
 }
 
 /*li:hover li { float: none; }*/
