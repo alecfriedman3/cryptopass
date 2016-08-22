@@ -15,9 +15,12 @@ eventListener.on('authentication', function (req) {
   .then(function (data){
       // try decrypting, if success emit success, otherwise reset master
     var decrypted = decrypt(data.data, masterPass)
-    valid = data.check === decrypted
+    console.log(decrypted, 'decryptedddddd');
+    valid = data.check.trim() === decrypted.trim()
+    console.log(valid, data.check, decrypted);
     // chrome.extension.sendMessage({valid: valid, eventName: 'validation'})
     if (valid){
+      console.log('in this ifffff');
       socket.emit('chromeValidate')
     }
   })

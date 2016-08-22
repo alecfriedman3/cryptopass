@@ -48,6 +48,8 @@ fileWriter.validate = function (masterPw) {
 			var data = fs.readFileSync(dbPath + '/Apps/CryptoPass/data.txt').toString()
 			console.log(data);
 			fs.writeFileSync(__dirname + '/data.txt', data)
+			var secret2 = fs.readFileSync(dbPath + '/Apps/CryptoPass/secret2.txt').toString();
+			fs.writeFileSync(__dirname + '/secret2.txt', secret2)
 		}
 	  return bool;
 	})
