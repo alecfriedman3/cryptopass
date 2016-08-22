@@ -1,5 +1,4 @@
 var EventListener = require('../event.listener')
-
 var socket = io.connect('http://localhost:9999', { reconnect: true });
 var angular = require('angular');
 var uiRouter = require('angular-ui-router')
@@ -46,12 +45,13 @@ app.config(function($stateProvider) {
           eventListener.on('validation', function(data) {
             if (data.valid) {
               $state.go('valid')
-            } else {
-              $scope.error = true;
-              setTimeout(function() {
-                $scope.error = null;
-              }, 3000)
+              return
             }
+            $scope.error = true;
+            $scope.$digest()
+            setTimeout(function() {
+              $scope.error = null;
+            }, 3000)
           })
         }
 
@@ -61,13 +61,19 @@ app.config(function($stateProvider) {
       url: '/valid',
       templateUrl: 'angular/valid.view.html',
       controller: function($scope, $state, $rootScope) {
+        $scope.username = null;
+        $.get('http://localhost:9999/username')
+        .then(function (name){
+          $scope.username = name;
+          $rootScope.$evalAsync()
+        })
         if ($rootScope.accounts) {
           $scope.accounts = $rootScope.accounts;
           $rootScope.accounts = null
         }
 
-        $scope.autoFill = function(name) {
-          chrome.extension.sendMessage({ eventName: 'backgroundToFill', name: name })
+        $scope.autoFill = function(name, category) {
+          chrome.extension.sendMessage({ eventName: 'backgroundToFill', name: name, category: category.toLowerCase() })
         }
 
         eventListener.on('accountInfo', function(data) {

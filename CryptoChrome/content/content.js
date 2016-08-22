@@ -28,11 +28,6 @@ if ($email.length || $password.length) {
 eventListener.on('loginRes', function (data) {
 
   data.logins.forEach(function (account) {
-    // console.log(account);
-    // var lowerName = account.name.split(' ').join('').toLowerCase()
-    // var accountRe = new RegExp(lowerName)
-    // if (window.location.href.toLowerCase().match(accountRe) || (account.name.toLowerCase() == 'gmail' && window.location.href.toLowerCase().match(/google/))) {
-    //   console.log('got a match');
       if ($password.length){
         $password.val(account.password);
       }
@@ -50,29 +45,35 @@ eventListener.on('loginRes', function (data) {
 
 eventListener.on('autoFill', function (data){
   console.log('autofill!!!!!!!!!!!')
-  var arr = []
 
-  arr.push($('a:contains("Sign In")'))
-  arr.push($('p:contains("Sign In")'))
-  arr.push($('div:contains("Sign In")'))
-  arr.push($('button:contains("Sign In")'))
+  if (data.category == 'logins'){
+    $('input[type="submit"]').each(function (){
+      $(this).trigger('click')
+    })
+  }
+  // var arr = []
 
-  arr.push($('a:contains("Sign in")'))
-  arr.push($('p:contains("Sign in")'))
-  arr.push($('div:contains("Sign in")'))
-  arr.push($('button:contains("Sign in")'))
+  // arr.push($('a:contains("Sign In")'))
+  // arr.push($('p:contains("Sign In")'))
+  // arr.push($('div:contains("Sign In")'))
+  // arr.push($('button:contains("Sign In")'))
 
-  arr.push($('a:contains("Log In")'))
-  arr.push($('p:contains("Log In")'))
-  arr.push($('button:contains("Log In")'))
+  // arr.push($('a:contains("Sign in")'))
+  // arr.push($('p:contains("Sign in")'))
+  // arr.push($('div:contains("Sign in")'))
+  // arr.push($('button:contains("Sign in")'))
 
-  arr.push($('a:contains("Log in")'))
-  arr.push($('p:contains("Log in")'))
-  arr.push($('button:contains("Log in")'))
+  // arr.push($('a:contains("Log In")'))
+  // arr.push($('p:contains("Log In")'))
+  // arr.push($('button:contains("Log In")'))
 
-  arr.push($('a:contains("Login")'))
-  arr.push($('p:contains("Login")'))
-  arr.push($('button:contains("Login")'))
+  // arr.push($('a:contains("Log in")'))
+  // arr.push($('p:contains("Log in")'))
+  // arr.push($('button:contains("Log in")'))
+
+  // arr.push($('a:contains("Login")'))
+  // arr.push($('p:contains("Login")'))
+  // arr.push($('button:contains("Login")'))
 
 // autosubmit is going to be very difficult
 

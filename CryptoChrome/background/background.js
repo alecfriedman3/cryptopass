@@ -6,6 +6,7 @@ socket.on('connect', function() {
 var masterObj, masterPass, valid, accountInfo = {};
 var eventListener = new EventListener();
 var date = new Date()
+var nameFormat = require('../utilities/name.format.js')
 
 eventListener.on('authentication', function (req) {
   masterPass = req.master
@@ -31,7 +32,6 @@ chrome.extension.onMessage.addListener(function (req, sender, sendRes){
 })
 
 eventListener.on('logins', function (data) {
-  console.log('responding');
   // send only login information that could match the current website.
   // Do not want to send all information every time we visit a site in case the site is malicious
   var possibleLogins = [];
@@ -52,19 +52,18 @@ eventListener.on('getValid', function (data){
 })
 
 socket.on('electronAdd', function(data) {
-  console.log('electronAdd socket fired and caught');
   masterObj = JSON.parse(decrypt(data.data, masterPass))
   for (var key in masterObj){
     var currentAccount = masterObj[key];
     accountInfo[key] = accountInfo[key] || {}
     accountInfo[key].items = currentAccount.map(function (acc){
       if (key == 'login'){
-        return {name: acc.name, url: acc.website}
+        return {name: acc.name, url: acc.website, deleted: acc.deleted || null}
       } else{
-        return {name: acc.name}
+        return {name: acc.name, deleted: acc.deleted || null}
       }
     })
-    accountInfo[key].category = key
+    accountInfo[key].category = nameFormat(key)
   }
   chrome.extension.sendMessage({data: accountInfo, eventName: 'accountInfo'})
 })
@@ -81,9 +80,8 @@ socket.on('responseChromeValidated', function(data) {
         return {name: acc.name, deleted: acc.deleted || null}
       }
     })
-    accountInfo[key].category = key
+    accountInfo[key].category = nameFormat(key)
   }
-  console.log(accountInfo, 'accountInfo')
   chrome.extension.sendMessage({valid: valid, eventName: 'validation'})
   setTimeout(function (){
     chrome.extension.sendMessage({data: accountInfo, eventName: 'accountInfo'})
@@ -104,16 +102,19 @@ eventListener.on('backgroundToFill', function (data){
   var toLogIn = masterObj.login.filter(function (account){
     return account.name === data.name
   })[0]
-  console.log(toLogIn, window.location.href)
-  chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-      chrome.tabs.update(tabs[0].id, {url: toLogIn.website})
-  })
+  var time = 0;
+  if (data.category == 'logins'){
+    chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+        chrome.tabs.update(tabs[0].id, {url: toLogIn.website})
+    })
+    time = 2000;
+  }
+
   setTimeout(function (){
     chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-      console.log(tabs)
-      chrome.tabs.sendMessage(tabs[0].id, {eventName: 'autoFill', account: toLogIn})
+      chrome.tabs.sendMessage(tabs[0].id, {eventName: 'autoFill', account: toLogIn, category: data.category})
     })
-  }, 2000)
+  }, time)
 })
 
 

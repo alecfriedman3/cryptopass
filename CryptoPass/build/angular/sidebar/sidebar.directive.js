@@ -87,7 +87,7 @@ app.directive('sidebar', function($state){
   }
 })
 
-function nameFormat (name) { // I would take this out of the link function since it does not deal with scope, just strings
+function nameFormat (name) {
   if (name.toLowerCase() === "home") return "Home"
   name = name[0].toLowerCase()+name.substring(1)
   var re = /[A-Z]/g

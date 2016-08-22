@@ -4,6 +4,7 @@ var app = require('express')();
 var chalk = require('chalk');
 var Promise = require('bluebird');
 var fs = Promise.promisifyAll(require('fs'));
+var username = require('username')
 
 var server = http.createServer(app)
 
@@ -13,6 +14,13 @@ app.get('/secret', function (req, res, next){
   	.spread((enSecretData, secretData) => {
   		res.send({data: enSecretData.toString(), check: secretData.toString()})
   	}).catch(console.error.bind(console))
+})
+
+app.get('/username', function (req, res, next){
+  username()
+  .then(function (name){
+    res.send(name)
+  })
 })
 
 var io = require('socket.io')(server)

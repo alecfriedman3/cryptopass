@@ -6,12 +6,12 @@ ul {
   background: #1bc2a2;
 }
 
+.dropdownUl {
+  margin-right: -10px;
+}
 
 /*ul li {
-  display: block;
-  position: relative;
-  float: left;
-  background: #1bc2a2;
+  position: absolute;
 }*/
 
 .float{
@@ -24,7 +24,7 @@ ul {
   width: 24%;
   text-align: center;
   text-transform: uppercase;
-  font-size: 8px;
+  font-size: 12px;
   margin: 0;
   border: black solid .5px;
   background: #1bc2a2;
@@ -43,10 +43,33 @@ ul li span:hover { background: #2c3e50; }
 
 li:hover > ul {
   display: block;
-  /*position: absolute;*/
+  position: absolute;
+  width: 90%;
+  text-transform: none;
 }
 
 /*li:hover li { float: none; }*/
 /*li:hover a { background: #1bc2a2; }*/
 /*li:hover li a:hover { background: #2c3e50; }*/
 .main-navigation li ul li { border-top: 0; }
+
+
+.auth-input {
+  text-align: center;
+  width: 75%;
+  cursor: text;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid rgb(52, 148, 132);
+  border-radius: 0;
+  background-color: transparent;
+  margin-bottom: 30px;
+}
+
+.bar {
+  border: solid rgba(45, 149, 145, 0.9) .5px;
+  margin-bottom: 10px;
+  margin-top: -15px;
+  opacity: .4
+}

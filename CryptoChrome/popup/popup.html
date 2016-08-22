@@ -3,26 +3,14 @@
 <head>
   <link rel="stylesheet" href="popup.css">
 </head>
-<body style="width: 450px; margin: 0; color: rgb(181, 221, 219);" ng-app="cryptoPass" ng-controller="cryptoCtrl"> <!-- backgroubnd-color: rgba(45, 149, 145, 0.9) -->
+<body style="font-family:'Helvatica'; width: 450px; height: 200px; margin: 0; color: #ffffff" ng-app="cryptoPass" ng-controller="cryptoCtrl"> <!-- backgroubnd-color: rgba(45, 149, 145, 0.9) -->
 
   <!-- <h1 style="text-align: center; border-bottom: 1px solid black;">CryptoPass</h1> -->
 
-  <div style="padding: 0; text-align: center">
+  <div style="text-align: center">
     <ui-view></ui-view>
 	</div>
 
-<!-- 	<div ng-show="authenticate">
-  <ul class="dropdownUL">
-      <li class="parentCategories" ng-repeat="account in accounts"><p> {{account.category}} </p>
-        <ul class="individual">
-          <li ng-repeat="item in account.items" ng-click="autoFill(item.name)"><span> {{item.name}} </span></li>
-        </ul>
-      </li>
-  </ul>
-  </div> -->
-
-	<!-- <script type="text/javascript" src="../node_modules/angular/angular.js" defer></script> -->
-  <!-- <script type="text/javascript" src="../node_modules/angular-ui-router/release/angular-ui-router.min.js"></script> -->
   <script src="../node_modules/jquery/dist/jquery.min.js" defer></script>
   <script src="../node_modules/socket.io-client/socket.io.js" defer></script>
 	<script type="text/javascript" src="utils.js" defer></script>
