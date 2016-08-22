@@ -13,11 +13,14 @@ app.controller('loginSingleController', function($stateParams, $scope, $state){
  // var dropboxUtilities = require('./utilities/dropbox/dropbox.utilities.js')
 
 app.controller('addLoginController', function($scope, $state, $stateParams, $rootScope){
+
 	    var dropboxUtilities = require('../angular/utilities/dropbox.utility.js')
 	   var utilities = require('../angular/utilities/encrypt.utility.js');
        var encrypt = utilities.encrypt;
        var decryptData = utilities.decrypt;
        var createRandom = require('../angular/utilities/password-utilities/pass.gen').createRandom
+      //  var createRandom = require('../angular/utilities/password-utilities/pass.gen').createRandom
+
 
 		$scope.login = {
 		name: null,

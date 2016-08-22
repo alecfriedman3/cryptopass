@@ -35,7 +35,7 @@ app.controller('addNoteController', function($scope, $state, $stateParams, $root
   }
 
   $scope.createNote = function() {
-    var newId = masterObj.note.length ? masterObj.note[masterObj.note.length - 1].id + 1 : 1;
+    var newId = idGenerator($scope.note);
     $scope.note.id = newId
     $scope.note.createdAt = moment().format('MMMM Do YYYY, h:mm:ss a');
     $scope.note.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');

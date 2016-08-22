@@ -1,7 +1,11 @@
-<form ng-submit="createNote()">
-	<div class="form-group">
-		<input ng-model="note.name" placeholder="Note Title" class="form-control">
-		<textarea rows="4" ng-model="note.data" placeholder="note info" class="form-control"></textarea>
-		<button class="btn btn-positive" type="submit">Submit</button>
-	</div>
-</form>
+<div class="single-view add-form">
+  <h1>Add a New Note</h1>
+  <form ng-submit="createNote()">
+  	<div class="form-group">
+  		<input ng-model="note.name" placeholder="Note Title" class="form-control">
+  		<textarea rows="4" ng-model="note.data" placeholder="note info" class="form-control"></textarea>
+      </br>
+  		<button class="btn btn-positive" type="submit">Submit</button>
+  	</div>
+  </form>
+</div>

@@ -29,6 +29,7 @@ app.controller('singleLoginController', function($scope, $stateParams, Clipboard
   		if (account.id===$scope.account.id) {
         account.username = $scope.newAccount.username
         account.website = $scope.newAccount.website
+        if (account.website.search(/http/) == -1) account.website = 'http://'+account.website
   			account.password = $scope.password1 || account.password;
         account.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
   		}
@@ -78,10 +79,11 @@ app.controller('addLoginController', function($scope, $state, $stateParams, $roo
     if ($scope.login.password !== $scope.login.password2) {
       alert("Passwords do not match!");
     } else {
-  		var newId = masterObj.login.length ? masterObj.login[masterObj.login.length - 1].id + 1 : 1;
+      var newId = idGenerator($scope.login)
       $scope.login.createdAt = moment().format('MMMM Do YYYY, h:mm:ss a');
       $scope.login.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
   		$scope.login.id = newId
+      if ($scope.login.website.search(/http/) == -1) $scope.login.website = 'http://'+$scope.login.website
   		masterObj.login.push($scope.login)
       settings.get('dropboxPath')
       .then(path => {

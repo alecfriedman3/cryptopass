@@ -53,14 +53,6 @@ module.exports = {
       });
     })
   },
-  fileUpload: function(masterObj, masterPass){
-      return encryptFile(masterObj, masterPass)
-      .then(getDataEncrypted)
-      .then(dataEnc => {
-        return dbx.filesUpload({path: '/itWorks!.txt', contents: JSON.stringify(dataEnc), mode: 'overwrite'})
-      })
-
-  },
   checkForAuthenticatedUser: function(){
     return new Promise(function(resolve, reject){
       if(window.localStorage.dropboxAuthToken) resolve(window.localStorage.dropboxAuthToken)

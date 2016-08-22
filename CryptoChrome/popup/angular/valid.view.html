@@ -1,0 +1,13 @@
+<div>
+  <h1 style="color: #2CC3B5; font-weight:100; ">Welcome {{username}} </h1>
+  <div class="bar"></div>
+    <ul class="dropdownUL">
+        <li class="parentCategories" ng-repeat="account in accounts">
+            <p> {{account.category}} </p>
+            <ul class="individual">
+                <!-- put an ng-click on these hrefs which also auto submits forms possibly -->
+                <li ng-repeat="item in account.items" ng-hide="item.deleted" ng-click="autoFill(item.name, account.category, item.username)"><span> <span> {{item.name}}  </span> {{item.username || null}} </span></li>
+            </ul>
+        </li>
+    </ul>
+</div>

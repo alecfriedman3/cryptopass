@@ -28,7 +28,7 @@ module.exports = {
           if (xhr.readyState === 4){
             console.log(xhr.responseText);
             resolve(xhr.responseText.replace(/"/g, ''))
-          }else{
+          } else{
             console.log(xhr);
           }
         }
@@ -37,5 +37,11 @@ module.exports = {
       .catch(function(err){reject(err)})
     })
   },
+  fileUpload: function(encryptedData, pathName){
+      this.getAndSetAccessToken()
+      var dbPath = window.localStorage.getItem('dropboxPath');
+      var fileToUpload = typeof encryptedData === 'string' ? encryptedData : JSON.stringify(encryptedData)
+      return dbx.filesUpload({path: dbPath + pathName, contents: fileToUpload, mode: 'overwrite'})
+  }
 
 }

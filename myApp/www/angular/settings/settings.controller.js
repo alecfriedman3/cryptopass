@@ -1,14 +1,19 @@
 app.controller('settingsController', function($scope, $cordovaOauth, $cordovaTouchID, $timeout){
   var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
   var classifiedUtils = require('../angular/utilities/classified/hashingBackup.js');
-  var touchIdBackup = window.localStorage.getItem('touchIdBackup');
-  touchIdBackup ? $scope.touchIdBackup = true : $scope.touchIdBackup = false;
+
+
+  var encryptUtil = require('../angular/utilities/encrypt.utility.js');
+
   $scope.$on('$ionicView.enter', function() {
-    console.log(device.platform);
+    console.log(device.platform); // eslint-disable-line
   });
 
   function setScope(){
+    var touchIdBackup = window.localStorage.getItem('touchIdBackup');
+    console.log(touchIdBackup, 'touchIdBackup');
     var token = window.localStorage.getItem('dropboxAuth')
+    touchIdBackup ? $scope.touchIdBackup = true : $scope.touchIdBackup = false;
       if(token){
         $scope.dropboxAuthenticated = true;
         $scope.buttonText = "Disconnect From Dropbox";
@@ -23,11 +28,11 @@ app.controller('settingsController', function($scope, $cordovaOauth, $cordovaTou
   $scope.touchIdEnableDisable = function(){
     if(!$scope.touchIdBackup){
       document.addEventListener("deviceready", function () {
-        if(device.platform.toLowerCase() === 'android'){
+        if(device.platform.toLowerCase() === 'android'){ // eslint-disable-line
           androidTouchId()
         }
-        else if(device.platform.toLowerCase() === 'ios')
-        iOSTouchId();
+        else if(device.platform.toLowerCase() === 'ios') // eslint-disable-line
+          iOSTouchId();
       })
     } else {
       window.localStorage.removeItem('touchIdBackup');
@@ -54,7 +59,7 @@ app.controller('settingsController', function($scope, $cordovaOauth, $cordovaTou
           dropboxPathForCrypto = matches.metadata.path_display
           window.localStorage.setItem('dropboxPath', dropboxPathForCrypto)
           setScope()
-          return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt')
+          return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/mobileData.txt')
         } else{
           cantFindCryptoPass()
         }
@@ -71,7 +76,27 @@ app.controller('settingsController', function($scope, $cordovaOauth, $cordovaTou
   };
 
   function androidTouchId(){
-    console.log('hello');
+    console.log(FingerprintAuth); // eslint-disable-line
+    FingerprintAuth.isAvailable( // eslint-disable-line
+      function isAvailableSuccess(result) {
+          console.log("FingerprintAuth available: " + JSON.stringify(result));
+          if (result.isAvailable) {
+              FingerprintAuth.show({ // eslint-disable-line
+                  clientId: "CryptoPass",
+                  clientSecret: "secretekey"
+              }, function(){
+                //success handler
+                window.localStorage.setItem('touchIdBackup', true)
+                var hash = classifiedUtils.backupHash();
+                // var hash = '4aee3459aa2f31093d2de2458'
+                console.log(hash);
+                encryptAndWriteBackUp(hash)
+              }, function(){
+                //error handler - access denied
+                console.log('denied');
+              });
+          }
+      }, function(){console.log('log not available for FingerprintAu');});
   }
 
   function iOSTouchId(){
@@ -84,13 +109,26 @@ app.controller('settingsController', function($scope, $cordovaOauth, $cordovaTou
       }, function () {
         alert('Please Try Again');
         $scope.touchIdBackup = false;
-    }, function (error) {
-      alert('You need TouchID for this feature :(');
-      window.localStorage.removeItem('touchIdBackup');
-      $scope.touchIdBackup = false;
+      }, function (error) {
+        alert('You need TouchID for this feature :(');
+        window.localStorage.removeItem('touchIdBackup');
+        $scope.touchIdBackup = false;
+      })
+    }, false)
+  }
+
+  function encryptAndWriteBackUp(hash){
+    console.log(hash, 'in encrypt and write func');
+    console.log(masterObj); //eslint-disable-line
+    var encryptedBackup = encryptUtil.encrypt(JSON.stringify(masterObj), hash); //eslint-disable-line
+    console.log('decryptBackupData', encryptUtil.decrypt(encryptedBackup, hash));
+    dropboxUtils.fileUpload(encryptedBackup, '/dataBackup.txt')
+    .then(function(data){
+      console.log(data, 'uploaded');
+
     })
-  }, false)
-}
+    .catch(function(err){console.log(err);})
+  }
 
 
   function cantFindCryptoPass(){
