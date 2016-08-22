@@ -1,9 +1,13 @@
+<div class="banner">
+  <div class="sub-banner">
+    <h1>Add a New Note</h1>
+  </div>
+</div>
 <div class="single-view add-form">
-  <h1>Add a New Note</h1>
   <form ng-submit="createNote()">
-  	<div class="form-group">
-  		<input ng-model="note.name" placeholder="Note Title" class="form-control">
-  		<textarea rows="4" ng-model="note.data" placeholder="note info" class="form-control"></textarea>
+  	<div class="form-group inner-single">
+  		<input ng-model="note.name" placeholder="Note Title" class="">
+  		<textarea rows="4" ng-model="note.data" placeholder="Enter your note here:" class=""></textarea>
       </br>
   		<button class="btn btn-positive" type="submit">Submit</button>
   	</div>
