@@ -87,9 +87,9 @@ app.controller('recoverController', function($scope, $ionicModal){
 
   function encryptMasterObjectWithNewPassword(newPassword){
     var encryptedData = encryptUtil.encrypt(JSON.stringify(masterObj), newPassword)
-    dropboxUtils.fileUpload(encryptedData, '/mobileData.txt')
-    .then(function(successObj){
-      console.log('success', successObj);
+    return Promise.all([dropboxUtils.fileUpload(encryptedData, '/mobileData.txt'), dropboxUtils.fileUpload(encryptedData, '/data.txt')])
+    .then(function(arr){
+      console.log('success', arr);
     })
     .catch(function(err){
       console.log(err);
