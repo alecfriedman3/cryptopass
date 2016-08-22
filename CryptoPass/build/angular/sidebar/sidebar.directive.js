@@ -22,26 +22,38 @@ app.directive('sidebarItem', function($state, $stateParams){
             window.sessionStorage.removeItem(stateParent)
           }
         }
-        masterObj[stateParent].forEach((info, i) => {
-          if (info.id == id) {
-            masterObj[stateParent].splice(i,1);
+        settings.get('dropboxPath')
+        .then(path => {
+          if (!path){
+            masterObj[stateParent].forEach((info, i) => {
+              if (info.id == id) {
+                masterObj[stateParent].splice(i, 1);
+              }
+            })
+          } else {
+            masterObj[stateParent].forEach((info, i) => {
+              if (info.id == id) {
+                masterObj[stateParent][i].deleted = true;
+                masterObj[stateParent][i].lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
+              }
+            })
           }
-        })
-        var encrypted = encrypt(JSON.stringify(masterObj),masterPass);
-        socket.emit('addFromElectron',{data:encrypted});
+          var encrypted = encrypt(JSON.stringify(masterObj),masterPass);
+          socket.emit('addFromElectron',{data:encrypted, dropboxPath: path});
 
-        if (masterObj[stateParent].length){
-          if ($stateParams.id == id){
-            var minIdx = Math.min.apply(null, masterObj[stateParent].filter(obj => obj.id != id).map(obj => obj.id))
-            $state.go(stateParent + '.single', {id: minIdx}, {reload: true})
-            return
-          } else{
-            $state.go(stateParent + '.single', {id: $stateParams.id}, {reload: true})
-            return
+          if (masterObj[stateParent].filter(obj => !obj.deleted).length){
+            if ($stateParams.id == id){
+              var minIdx = masterObj[stateParent].filter(obj => obj.id != id && !obj.deleted)[0].id
+              $state.go(stateParent + '.single', {id: minIdx}, {reload: true})
+              return
+            } else{
+              $state.go(stateParent + '.single', {id: $stateParams.id}, {reload: true})
+              return
+            }
           }
-        }
-        // else go to the eventual state with no info
-        $state.go(stateParent);
+          // else go to the eventual state with no info
+          $state.go(stateParent);
+        })
       }
     }
   }
@@ -87,7 +99,7 @@ app.directive('sidebar', function($state){
   }
 })
 
-function nameFormat (name) { // I would take this out of the link function since it does not deal with scope, just strings
+function nameFormat (name) {
   if (name.toLowerCase() === "home") return "Home"
   name = name[0].toLowerCase()+name.substring(1)
   var re = /[A-Z]/g

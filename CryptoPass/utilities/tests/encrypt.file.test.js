@@ -72,7 +72,6 @@ describe('Encrypting and Decrypting Files', function (){
       fs.unlinkSync(__dirname + '/../secret2.txt')
   		fs.unlinkSync(__dirname + '/../' + fileName)
       rimraf(__dirname + '/Apps', function(err, data){
-        console.log(err, data);
         done();
       });
   		secret = fs.readFileSync(__dirname + '/../secret1.txt').toString()

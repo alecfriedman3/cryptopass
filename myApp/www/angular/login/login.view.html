@@ -1,0 +1,11 @@
+<ion-view view-title="Logins">
+  <ion-content>
+  <h1 ui-sref="app.loginAdd">Add</h1>
+    </br>
+    <div ui-sref="app.loginSingle({id: account.id, accountData: account})" ng-repeat="account in accounts">
+
+      <h1>{{account.name}}</h1>
+
+    </div>
+  </ion-content>
+</ion-view>

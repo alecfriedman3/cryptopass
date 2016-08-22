@@ -5,6 +5,11 @@ var chalk = require('chalk');
 var Promise = require('bluebird');
 var fs = Promise.promisifyAll(require('fs'));
 
+var username = require('username')
+
+// var settings = require('electron-settings');
+
+
 var server = http.createServer(app)
 
 app.get('/secret', function (req, res, next){
@@ -13,6 +18,13 @@ app.get('/secret', function (req, res, next){
   	.spread((enSecretData, secretData) => {
   		res.send({data: enSecretData.toString(), check: secretData.toString()})
   	}).catch(console.error.bind(console))
+})
+
+app.get('/username', function (req, res, next){
+  username()
+  .then(function (name){
+    res.send(name)
+  })
 })
 
 var io = require('socket.io')(server)
@@ -48,14 +60,11 @@ io.on('connection', function (socket){
   		// send the newly encrypted file back to chrome extension
     	io.emit('electronAdd', {data: file.toString()})
     	// encrypt to dropbox
-  		return settings.get('dropboxPath')
+  		if(data.dropboxPath){
+	  		return fs.writeFileAsync(data.dropboxPath + '/Apps/CryptoPass/data.txt', file.toString());
+			}
   	})
-  	.then(val => {
-  		if(val) {
-  			return fs.writeFileAsync(val + '/Apps/CryptoPass/data.txt', encrypted);
-  		}
-  	})
-  	.catch(console.error.bind(console))
+  	.catch(console.log.bind(console))
   })
 
 

@@ -1,0 +1,19 @@
+<form ng-submit="authenticatePassword()">
+
+  <div class="icon-lock">
+    <div class="lock-top-1" style="background-color: #2CC3B5"></div>
+    <div class="lock-top-2"></div>
+    <div class="lock-body" style="background-color: #2CC3B5"></div>
+    <div class="lock-hole"></div>
+  </div>
+
+  <div class="lock-logo">
+    <p>CryptoChrome</p>
+  </div>
+
+    <div class="lockbottom">
+        <input class="auth-input" type="password" placeholder="Master Password" ng-model="master">
+    </div>
+    <button type="submit" style="margin-top: 5px;"><span>Validate</span></button>
+    <div ng-show="error"><h4>Incorrect Master Password</h4></div>
+</form>
