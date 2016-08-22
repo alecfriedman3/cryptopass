@@ -17,6 +17,7 @@
     "gulp-sass": "^2.0.4",
     "gulp-sequence": "^0.4.5",
     "gulp-sourcemaps": "^1.6.0",
+    "ios-deploy": "^1.8.6",
     "random-js": "^1.0.8",
     "run-sequence": "^1.2.2",
     "vinyl-source-stream": "^1.1.0"
