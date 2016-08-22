@@ -16401,7 +16401,7 @@ module.exports = {
           if (xhr.readyState === 4){
             console.log(xhr.responseText);
             resolve(xhr.responseText.replace(/"/g, ''))
-          }else{
+          } else{
             console.log(xhr);
           }
         }
@@ -16841,9 +16841,11 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 			console.log('outside if matches', matches);
 			if(matches){
 				dropboxPathForCrypto = matches.metadata.path_display // eslint-disable-line
+				// dropboxPathForCrypto = matches
 				console.log(dropboxPathForCrypto, 'this is db path');
 				window.localStorage.setItem('dropboxPath', dropboxPathForCrypto)// eslint-disable-line
-				return Promise.all([bool ? dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt') : dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/mobileData.txt'), dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt')])// eslint-disable-line
+				var ownDataFileExist = bool ? dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt') : dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/mobileData.txt')
+				return Promise.all([ownDataFileExist, dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt')])// eslint-disable-line
 			} else{
 				console.log('we hit the else', matches);
 				throw new Error('Can\'t find CryptoPass')
@@ -16855,6 +16857,7 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 			window.localStorage.setItem('masterObj', arr[0])
 			return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/secret2.txt'); // eslint-disable-line
 		})
+		.catch(function(err){console.log(err);})
 	}
 
 	function noDropboxError(){
@@ -16978,9 +16981,9 @@ app.controller('recoverController', function($scope, $ionicModal){
 
   function encryptMasterObjectWithNewPassword(newPassword){
     var encryptedData = encryptUtil.encrypt(JSON.stringify(masterObj), newPassword)
-    dropboxUtils.fileUpload(encryptedData, '/mobileData.txt')
-    .then(function(successObj){
-      console.log('success', successObj);
+    return Promise.all([dropboxUtils.fileUpload(encryptedData, '/mobileData.txt'), dropboxUtils.fileUpload(encryptedData, '/data.txt')])
+    .then(function(arr){
+      console.log('success', arr);
     })
     .catch(function(err){
       console.log(err);
@@ -17316,7 +17319,7 @@ module.exports = {
           if (xhr.readyState === 4){
             console.log(xhr.responseText);
             resolve(xhr.responseText.replace(/"/g, ''))
-          }else{
+          } else{
             console.log(xhr);
           }
         }

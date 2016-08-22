@@ -79,9 +79,11 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 			console.log('outside if matches', matches);
 			if(matches){
 				dropboxPathForCrypto = matches.metadata.path_display // eslint-disable-line
+				// dropboxPathForCrypto = matches
 				console.log(dropboxPathForCrypto, 'this is db path');
 				window.localStorage.setItem('dropboxPath', dropboxPathForCrypto)// eslint-disable-line
-				return Promise.all([bool ? dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt') : dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/mobileData.txt'), dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt')])// eslint-disable-line
+				var ownDataFileExist = bool ? dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt') : dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/mobileData.txt')
+				return Promise.all([ownDataFileExist, dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt')])// eslint-disable-line
 			} else{
 				console.log('we hit the else', matches);
 				throw new Error('Can\'t find CryptoPass')
@@ -93,6 +95,7 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 			window.localStorage.setItem('masterObj', arr[0])
 			return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/secret2.txt'); // eslint-disable-line
 		})
+		.catch(function(err){console.log(err);})
 	}
 
 	function noDropboxError(){

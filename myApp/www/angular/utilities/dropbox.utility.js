@@ -28,7 +28,7 @@ module.exports = {
           if (xhr.readyState === 4){
             console.log(xhr.responseText);
             resolve(xhr.responseText.replace(/"/g, ''))
-          }else{
+          } else{
             console.log(xhr);
           }
         }
