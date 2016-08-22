@@ -205,6 +205,100 @@ input {
   display: none;
 }
 
+.small-logo-and-lock{
+  text-align: center;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+.small-lock-logo{
+  display: inline-block;
+  text-align: center;
+  margin-top: 10px;
+
+  h1{
+
+    color: rgb(52, 148, 132);
+    font-weight: 200;
+    font-size: 20px;
+  }
+
+  z-index: 2;
+  position: relative;
+
+}
+.small-icon-lock {
+  display: inline-block;
+  z-index: 1;
+  width: 20px;
+  height: 20px;
+  position: relative;
+  overflow: hidden;
+  margin-left: 0px !important;
+  margin-bottom: 7px !important;
+  margin: 0 auto;
+}
+
+.small-icon-lock .small-lock-top-1 {
+  width: 40%;
+  height: 40%;
+  position: absolute;
+  left: 50%;
+  margin-left: -20%;
+  top: 14%;
+  background-color: #000;
+  border-radius: 40%;
+}
+
+.small-icon-lock .small-lock-top-2 {
+  width: 24%;
+  height: 40%;
+  position: absolute;
+  left: 50%;
+  margin-left: -12%;
+  top: 22%;
+  background-color: #FFF;
+  border-radius: 25%;
+}
+
+.small-icon-lock .small-lock-body {
+  width: 60%;
+  height: 48%;
+  position: absolute;
+  left: 50%;
+  margin-left: -30%;
+  bottom: 11%;
+  background-color: #000;
+  border-radius: 15%;
+}
+
+.small-icon-lock .small-lock-hole {
+  width: 16%;
+  height: 16%;
+  position: absolute;
+  left: 50%;
+  margin-left: -8%;
+  top: 51%;
+  border-radius: 100%;
+  background-color: #FFF;
+}
+
+.small-icon-lock .small-lock-hole:after {
+  content: "";
+  width: 43%;
+  height: 78%;
+  position: absolute;
+  left: 50%;
+  margin-left: -20%;
+  top: 100%;
+  background-color: inherit;
+}
+
+//Shows weird box? Display none to hide it
+.small-icon-lock:before{
+  display: none;
+}
+
 // End Lock Stuff
 
 sidebar{
