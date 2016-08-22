@@ -32,9 +32,9 @@ fileWriter.validate = function (masterPw) {
 		}
 	})
 	.then(en2Secret => {
+		if (!en2Secret) return bool
 		en2Secret = en2Secret.toString()
 		console.log(en2Secret, 'en2Secret');
-		if (!en2Secret) return bool
 		try {
 	    var newCheck = decrypt(en2Secret, masterPw).trim();
 			console.log(newCheck);
