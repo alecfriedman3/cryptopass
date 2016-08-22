@@ -1,3 +1,7 @@
+body {
+    font-family: 'BlinkMacSystemFont', Helvetica, Arial, sans-serif !important;
+    font-weight: 100 !important;
+}
 /*//Lock Stuff*/
 .lock-logo{
   text-align: center;
@@ -95,6 +99,18 @@ ul {
   background: #1bc2a2;
 }
 
+.welcome{
+  margin-bottom: 20px;
+  margin-top: 10px;
+  color: #2CC3B5;
+  font-weight:100;
+}
+
+.data-list-elements{
+  text-align: left;
+  border-top: 1px solid white;
+  padding: 1px;
+}
 .dropdownUl {
   margin-right: -10px;
 }
@@ -112,10 +128,8 @@ ul {
   float: left;
   width: 24%;
   text-align: center;
-  text-transform: uppercase;
-  font-size: 12px;
-  margin: 0;
-  border: black solid .5px;
+  font-size: 14px;
+  margin: 1px;
   background: #1bc2a2;
 }
 
@@ -124,7 +138,7 @@ li ul { display: none; }
 ul li span {
   padding: 2px;
   display: block;
-  border: solid black 1px;
+  border: none;
   white-space: nowrap;
   color: #fff;
 }
@@ -137,7 +151,8 @@ ul li span:hover { background: #2c3e50; }
 li:hover > ul {
   display: block;
   position: absolute;
-  width: 90%;
+  min-width: 150%;
+  width: auto;
   text-transform: none;
 }
 
@@ -151,18 +166,8 @@ li:hover > ul {
   text-align: center;
   width: 75%;
   cursor: text;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  border-bottom: 1px solid rgb(52, 148, 132);
+
   border-radius: 0;
   background-color: transparent;
   margin-bottom: 30px;
-}
-
-.bar {
-  border: solid rgba(45, 149, 145, 0.9) .5px;
-  margin-bottom: 10px;
-  margin-top: -15px;
-  opacity: .4
 }
