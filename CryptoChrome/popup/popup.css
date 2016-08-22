@@ -6,10 +6,12 @@
   position: relative;
 }
 
-.lock-logo h1 {
+.lock-logo p {
     color: white;
     font-weight: 900;
-    font-size: 40px;
+    font-size: 15px;
+    padding-top: 75px;
+    padding-bottom: 15px
 }
 
 .icon-lock {
