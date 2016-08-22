@@ -7,6 +7,7 @@ var masterObj, masterPass, valid, accountInfo = {};
 var eventListener = new EventListener();
 var date = new Date()
 var nameFormat = require('../utilities/name.format.js')
+var filterUsername = null;
 
 eventListener.on('authentication', function (req) {
   masterPass = req.master
@@ -42,6 +43,7 @@ eventListener.on('logins', function (data) {
       possibleLogins.push(account)
     }
   })
+  if (filterUsername) possibleLogins = possibleLogins.filter(function (acc){ return acc.username === filterUsername})
   chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
     chrome.tabs.sendMessage(tabs[0].id, {eventName: 'loginRes', logins: possibleLogins})
   })
@@ -58,7 +60,7 @@ socket.on('electronAdd', function(data) {
     accountInfo[key] = accountInfo[key] || {}
     accountInfo[key].items = currentAccount.map(function (acc){
       if (key == 'login'){
-        return {name: acc.name, url: acc.website, deleted: acc.deleted || null}
+        return {name: acc.name, username: acc.username, url: acc.website, deleted: acc.deleted || null}
       } else{
         return {name: acc.name, deleted: acc.deleted || null}
       }
@@ -75,7 +77,7 @@ socket.on('responseChromeValidated', function(data) {
     accountInfo[key] = accountInfo[key] || {}
     accountInfo[key].items = currentAccount.map(function (acc){
       if (key == 'login'){
-        return {name: acc.name, url: acc.website, deleted: acc.deleted || null}
+        return {name: acc.name, username: acc.username, url: acc.website, deleted: acc.deleted || null}
       } else{
         return {name: acc.name, deleted: acc.deleted || null}
       }
@@ -100,20 +102,26 @@ function updateTime(){
 //attempting to send info to
 eventListener.on('backgroundToFill', function (data){
   var toLogIn = masterObj.login.filter(function (account){
-    return account.name === data.name
+    return account.name === data.name && account.username == data.username
   })[0]
   var time = 0;
   if (data.category == 'logins'){
+    var autoUrl = toLogIn.website;
+    if (data.name.toLowerCase() == 'gmail' || data.name.toLowerCase() == 'google'){
+      autoUrl = 'https://accounts.google.com/ServiceLogin'
+    }
     chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-        chrome.tabs.update(tabs[0].id, {url: toLogIn.website})
+        chrome.tabs.update(tabs[0].id, {url: autoUrl})
     })
-    time = 2000;
+    time = 1000;
+    filterUsername = data.username
   }
 
   setTimeout(function (){
     chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {eventName: 'autoFill', account: toLogIn, category: data.category})
+      chrome.tabs.sendMessage(tabs[0].id, {eventName: 'autoFill', accountName: toLogIn.name.toLowerCase(), category: data.category})
     })
+    filterUsername = null
   }, time)
 })
 

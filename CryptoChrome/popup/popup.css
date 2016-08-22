@@ -33,11 +33,15 @@ ul {
 li ul { display: none; }
 
 ul li span {
+  padding: 2px;
   display: block;
-  padding: 1em;
-  text-decoration: none;
+  border: solid black 1px;
   white-space: nowrap;
   color: #fff;
+}
+ul li span span {
+  padding: none;
+  border: none;
 }
 ul li span:hover { background: #2c3e50; }
 

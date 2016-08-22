@@ -72,8 +72,8 @@ app.config(function($stateProvider) {
           $rootScope.accounts = null
         }
 
-        $scope.autoFill = function(name, category) {
-          chrome.extension.sendMessage({ eventName: 'backgroundToFill', name: name, category: category.toLowerCase() })
+        $scope.autoFill = function(name, category, username) {
+          chrome.extension.sendMessage({ eventName: 'backgroundToFill', name: name, username: username || null, category: category.toLowerCase() })
         }
 
         eventListener.on('accountInfo', function(data) {
