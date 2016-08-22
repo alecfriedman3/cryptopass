@@ -24,10 +24,8 @@
   <div class="update-form" ng-show="updateInfo">
     <form ng-submit="changeInfo()">
       <div class="">
-        <label>Primary Account Holder:</label>
-        <input type="text" class="" ng-model="fullName">
+        <input type="text" placeholder="Primary Account Holder" ng-model="fullName">
       </div>
-      <label>Card Type</label>
       <select class="" ng-model="updateCard">
         <option>Select Card Type</option>
         <option>Visa</option>
@@ -37,20 +35,16 @@
       </select>
       </br>
       <div class="">
-        <label>Card Name:</label>
-        <input type="text" class="" ng-model="newAccount.name">
+        <input type="text" placeholder="Card Name" ng-model="newAccount.name">
       </div>
       <div class="">
-        <label>Credit Card Number:</label>
-        <input type="text" class="" ng-model="newAccount.cardNumber">
+        <input type="text" placeholder="Credit Card Number" ng-model="newAccount.cardNumber">
       </div>
       <div class="">
-        <label>Expiration Date:</label>
-        <input type="text" class="" ng-model="newAccount.expiration">
+        <input type="text" placeholder="Expiration Date, e.g. 12/2020" ng-model="newAccount.expiration">
       </div>
       <div class="">
-        <label>CCV:</label>
-        <input type="text" class="" ng-model="newAccount.ccv">
+        <input type="text" placeholder="CCV, e.g. 123" ng-model="newAccount.ccv">
       </div>
       <div class="form-actions">
         <button type="submit" class="btn btn-form btn-positive">Update</button>

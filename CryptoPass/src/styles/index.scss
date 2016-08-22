@@ -688,11 +688,11 @@ body {
 }
 
 .inner-single {
-  h1, h2, h3, h4, h5 {
+  h1, h2, h3, h4, h5, p {
     margin-left: 30px;
   }
   h3 {
-    margin-top: 37px;
+    margin-top: 41px;
   }
   h5 {
   margin-bottom: 10px;
@@ -734,7 +734,14 @@ body {
     width: 75%;
     margin-left: 30px;
     margin-right: 30px;
+    border: 1px solid rgb(52, 148, 132);
+    border-right: none;
+    border-left: none;
   }
+}
+
+.add-form :first-child {
+  margin-top: 41px;
 }
 
 .update-form {
@@ -742,10 +749,12 @@ body {
   input {
     display: block;
     width: 55%;
+    margin: 15px auto 15px auto;
   }
   select {
     display: block;
     width: 55%;
+    margin: 30px auto 0 auto;
   }
   button {
       text-align: center;
@@ -757,8 +766,16 @@ body {
   }
   textarea {
     width: 75%;
-    margin-right: 30px
+    display: block;
+    margin: 0 auto;
+    border: 1px solid rgb(52, 148, 132);
+    border-right: none;
+    border-left: none;
   }
+}
+
+.update-form :first-child {
+  margin-top: 41px;
 }
 
 .banner {

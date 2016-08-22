@@ -17,13 +17,9 @@
 
   <div class="update-form" ng-show="updateInfo">
     <form ng-submit="changeInfo()">
-      <div class="form-group">
-        <label>Note Name:</label>
-        <input type="text" class="" ng-model="newNote.name">
-      </div>
-      <div class="form-group">
-        <label>Information to Update: </label>
-        <textarea rows="4" type="text" class="" ng-model="newNote.data"></textarea>
+      <div class="form-group inner-single">
+        <input ng-model="newNote.name" placeholder="Note Title" class="">
+        <textarea rows="4" ng-model="newNote.data" placeholder="Update your note here:" class=""></textarea>
       </div>
       <div class="form-actions">
         <button type="submit" class="btn btn-form btn-positive">OK</button>
