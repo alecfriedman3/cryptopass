@@ -1,18 +1,19 @@
 app.controller('settingsController', function($scope, $cordovaOauth, $cordovaTouchID, $timeout){
   var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
   var classifiedUtils = require('../angular/utilities/classified/hashingBackup.js');
-  var touchIdBackup = window.localStorage.getItem('touchIdBackup');
+
 
   var encryptUtil = require('../angular/utilities/encrypt.utility.js');
-
-  touchIdBackup ? $scope.touchIdBackup = true : $scope.touchIdBackup = false;
 
   $scope.$on('$ionicView.enter', function() {
     console.log(device.platform); // eslint-disable-line
   });
 
   function setScope(){
+    var touchIdBackup = window.localStorage.getItem('touchIdBackup');
+    console.log(touchIdBackup, 'touchIdBackup');
     var token = window.localStorage.getItem('dropboxAuth')
+    touchIdBackup ? $scope.touchIdBackup = true : $scope.touchIdBackup = false;
       if(token){
         $scope.dropboxAuthenticated = true;
         $scope.buttonText = "Disconnect From Dropbox";
@@ -85,6 +86,7 @@ app.controller('settingsController', function($scope, $cordovaOauth, $cordovaTou
                   clientSecret: "secretekey"
               }, function(){
                 //success handler
+                window.localStorage.setItem('touchIdBackup', true)
                 var hash = classifiedUtils.backupHash();
                 // var hash = '4aee3459aa2f31093d2de2458'
                 console.log(hash);
