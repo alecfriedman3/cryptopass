@@ -602,33 +602,18 @@ body {
 }
 
 .single-view {
-  width: auto;
-  margin: 10px auto;
-  border: solid turquoise 1px;
-  background-color: lightgray;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
 
-.single-header {
-  font-weight: 300;
-  letter-spacing: 1px;
-  font-family: georgia;
-  color: #323232;
-  font-variant: small-caps;
 }
 
 .inner-single {
-  width: 30em;
-  text-align: left;
-  color: rgb(50, 50, 50);
-  margin: 0 auto;
-  h3 {
-    font-variant: small-caps;
-    font-weight: 400;
-    font-style: italic
+  h5 {
+  margin-bottom: 10px;
+    button {
+      float: right;
+    }
   }
-  .categories {
-    font-style: oblique;
+  .update-info {
+    margin-bottom: 20px;
   }
 }
 
@@ -685,5 +670,27 @@ body {
   textarea {
     width: 75%;
     margin-right: 30px
+  }
+}
+
+.banner {
+  background-color: rgba(45, 149, 145, 0.9);
+  margin: -15px -15px 10px;
+  height: 67px;
+  color: rgb(181, 221, 219);
+  padding-top: 10px;
+  text-align: center;
+  .sub-banner {
+    width: 150px;
+    margin: 0 auto;
+  }
+  h1 {
+    display: inline-block;
+    margin: 0 auto;
+    float: left;
+  }
+  img {
+    float: left;
+    margin-right: 5px;
   }
 }
