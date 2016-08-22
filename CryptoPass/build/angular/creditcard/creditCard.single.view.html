@@ -9,7 +9,7 @@
 
 <!--     <h1 class="single-header">{{account.name}}</h1> -->
 
-  <div class="inner-single" ng-hide="updateInfo">
+  <div class="form-group inner-single" ng-hide="updateInfo">
     <h3>Account Details:</h3>
     <h4 class="highlightable"><span class="categories">Card Holder:</span> {{account.firstName}} {{account.lastName}}</h4>
     <h5 class="highlightable"><span class="categories">Credit Card Type:</span> {{account.type}}</h5>
@@ -23,12 +23,12 @@
 
   <div class="update-form" ng-show="updateInfo">
     <form ng-submit="changeInfo()">
-      <div class="form-group">
+      <div class="">
         <label>Primary Account Holder:</label>
-        <input type="text" class="form-control" ng-model="fullName">
+        <input type="text" class="" ng-model="fullName">
       </div>
       <label>Card Type</label>
-      <select class="form-control" ng-model="updateCard">
+      <select class="" ng-model="updateCard">
         <option>Select Card Type</option>
         <option>Visa</option>
         <option>Mastercard</option>
@@ -36,21 +36,21 @@
         <option>Discover</option>
       </select>
       </br>
-      <div class="form-group">
+      <div class="">
         <label>Card Name:</label>
-        <input type="text" class="form-control" ng-model="newAccount.name">
+        <input type="text" class="" ng-model="newAccount.name">
       </div>
-      <div class="form-group">
+      <div class="">
         <label>Credit Card Number:</label>
-        <input type="text" class="form-control" ng-model="newAccount.cardNumber">
+        <input type="text" class="" ng-model="newAccount.cardNumber">
       </div>
-      <div class="form-group">
+      <div class="">
         <label>Expiration Date:</label>
-        <input type="text" class="form-control" ng-model="newAccount.expiration">
+        <input type="text" class="" ng-model="newAccount.expiration">
       </div>
-      <div class="form-group">
+      <div class="">
         <label>CCV:</label>
-        <input type="text" class="form-control" ng-model="newAccount.ccv">
+        <input type="text" class="" ng-model="newAccount.ccv">
       </div>
       <div class="form-actions">
         <button type="submit" class="btn btn-form btn-positive">Update</button>

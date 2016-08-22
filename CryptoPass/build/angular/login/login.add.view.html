@@ -1,12 +1,16 @@
+<div class="banner">
+  <div class="sub-banner">
+  <h1>Add a New Account</h1>
+	</div>
+</div>
 <div class="single-view add-form">
-	<h1>Add a New Account</h1>
 	<form ng-submit="createLogin()">
-		<div class="form-group">
-			<input ng-model="login.name" placeholder="Website name (e.g Facebook, gmail, Twitter)" class="form-control">
-			<input ng-model="login.username" placeholder="Username" class="form-control">
-			<input ng-model="login.password" placeholder="password" class="form-control">
-			<input ng-model="login.password2" placeholder="password" class="form-control">
-			<input ng-model="login.website" placeholder="website" class="form-control">
+		<div class="form-group inner-single">
+			<input ng-model="login.name" placeholder="Website name (e.g Facebook, gmail, Twitter)" class="">
+			<input ng-model="login.username" placeholder="Username" class="">
+			<input ng-model="login.password" placeholder="password" class="">
+			<input ng-model="login.password2" placeholder="password" class="">
+			<input ng-model="login.website" placeholder="website" class="">
 			<button class="btn btn-positive" type="submit">Submit</button>
 		</div>
 	</form>
