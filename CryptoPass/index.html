@@ -39,9 +39,11 @@
 
     </script>
 		<script>
+			var idGenerator = require('./utilities/hash.utility.js').idGenerator
 			var dropboxUtilities = require('./utilities/dropbox/dropbox.utilities.js')
 			var utils = require('./utilities/encrypt.file.js');
 			var utilities = require('./utilities/encrypt.utility.js');
+			var dropboxUpdateForIonic = utils.dropboxUpdateForIonic
 			var moment = require('moment');
 			var validate = utils.validate;
 			var decryptFile = utils.decryptFile;

@@ -56,15 +56,18 @@ app.controller('addCreditCardController', function($scope, $state, $stateParams,
   }
 
   $scope.createCard = function() {
-    var newId = masterObj.creditCard.length ? masterObj.creditCard[masterObj.creditCard.length - 1].id + 1 : 1;
+    var newId = idGenerator($scope.creditCard)
     $scope.creditCard.id = newId
     $scope.creditCard.createdAt = moment().format('MMMM Do YYYY, h:mm:ss a');
     $scope.creditCard.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
     if ($scope.creditCard) masterObj.creditCard.push($scope.creditCard)
-    var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
-    socket.emit('addFromElectron', { data: encrypted })
-    $rootScope.$evalAsync()
-    $state.go('creditCard.single', { id: newId }, { reload: true })
+    settings.get('dropboxPath')
+    .then(path => {
+      var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
+      socket.emit('addFromElectron', { data: encrypted, dropboxPath: path })
+      $rootScope.$evalAsync()
+      $state.go('creditCard.single', { id: newId }, { reload: true })
+    })
   }
 
 })
