@@ -47,6 +47,9 @@ eventListener.on('autoFill', function(data) {
     $('input[type="submit"]').each(function() {
       $(this).trigger('click')
     })
+    if (data.accountName == 'facebook'){
+      $('#loginbutton').trigger('click')
+    }
     if (data.accountName == 'google' || data.accountName == 'gmail') {
       setTimeout(function() {
         $('input[type="submit"]').each(function() {
