@@ -110,13 +110,13 @@ eventListener.on('backgroundToFill', function (data){
     if (data.name.toLowerCase() == 'gmail' || data.name.toLowerCase() == 'google'){
       autoUrl = 'https://accounts.google.com/ServiceLogin'
     }
+    time = 2000;
+    filterUsername = data.username
     chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
         chrome.tabs.update(tabs[0].id, {url: autoUrl})
     })
-    time = 1000;
-    filterUsername = data.username
   }
-
+// try moving the set timeout into the chrome tabs query to ensure async happens in proper order
   setTimeout(function (){
     chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {eventName: 'autoFill', accountName: toLogIn.name.toLowerCase(), category: data.category})
