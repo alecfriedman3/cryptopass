@@ -14,12 +14,29 @@ module.exports = fileWriter;
 fileWriter.validate = function (masterPw) {
 	var secret = fs.readFileSync(__dirname + '/secret1.txt').toString();
 	var enSecret = fs.readFileSync(__dirname + '/secret2.txt').toString();
+	var bool;
   try {
     var check = decrypt(enSecret, masterPw);
   } catch (error) {
-    return false;
+    bool = false;
   }
-  return check === secret;
+  bool = check === secret;
+
+	return settings.get('dropboxPath')
+	.then(val => {
+		if (val){
+			return fs.readFileAsync(val + '/Apps/CryptoPass/secret2.txt')
+		}
+	})
+	.then(en2Secret => {
+		if (!en2Secret) return bool
+		try {
+	    var newCheck = decrypt(en2Secret, masterPw);
+	  } catch (error) {
+	    bool = false;
+	  }
+	  return bool = newCheck === secret;
+	})
 }
 
 fileWriter.encryptFile = function (data, masterPswd) {
