@@ -6,15 +6,17 @@
 <div class="single-view add-form">
 	<form ng-submit="createLogin()">
 		<div class="form-group inner-single">
-			<input ng-model="login.name" placeholder="Website name (e.g Facebook, gmail, Twitter)" class="">
+			<input ng-model="login.name" placeholder="Website name (e.g Facebook, Gmail)" class="">
 			<input ng-model="login.username" placeholder="Username" class="">
-			<input ng-model="login.password" placeholder="password" class="">
-			<input ng-model="login.password2" placeholder="password" class="">
-			<input ng-model="login.website" placeholder="website" class="">
+			<input ng-model="login.password" placeholder="Password" style="float: left; margin-left: 135px; margin-top: 4px; margin-bottom: 15px;">
+			<div>
+        <span class="icon icon-key" ng-click="generate()" style="margin-top: 8px; float: left; margin-left: 5px; cursor: pointer; padding: 5px;"></span>
+      </div>
+			<input ng-model="login.password2" placeholder="Password" class="">
+			<input ng-model="login.website" placeholder="Website" class="">
 			<button class="btn btn-positive" type="submit">Submit</button>
 		</div>
 	</form>
-			<button class="btn btn-primary" ng-click="generate()" ng-show="!gen"> Generate Random Password</button>
 			<div class="sliders" ng-show="gen">
 				<h3>Length</h3><slider floor="8" ceiling="20" step="1" precision="1" ng-model="leng" translate="currencyFormatting"></slider>
 				<h3>Symbols</h3><slider floor="0" ceiling="{{leng - nums}}" step="1" precision="1" ng-model="syms" translate="currencyFormatting"></slider>

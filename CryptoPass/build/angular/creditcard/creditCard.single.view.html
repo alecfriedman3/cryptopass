@@ -11,7 +11,7 @@
 
   <div class="form-group inner-single" ng-hide="updateInfo">
     <h3>Account Details:</h3>
-    <h4 class="highlightable"><span class="categories">Card Holder:</span> {{account.firstName}} {{account.lastName}}</h4>
+    <h5 class="highlightable"><span class="categories">Card Holder:</span> {{account.firstName}} {{account.lastName}}</h5>
     <h5 class="highlightable"><span class="categories">Credit Card Type:</span> {{account.type}}</h5>
     <h5 class="highlightable"><span class="categories">Account Number:</span> {{account.cardNumber}} <button class="copy-button btn btn-default" ng-click="copyText(account.cardNumber)">Copy</button></h5>
     <h5 class="highlightable"><span class="categories">Expiration Date:</span> {{account.expiration}}</h5>
@@ -26,14 +26,6 @@
       <div class="">
         <input type="text" placeholder="Primary Account Holder" ng-model="fullName">
       </div>
-      <select class="" ng-model="updateCard">
-        <option>Select Card Type</option>
-        <option>Visa</option>
-        <option>Mastercard</option>
-        <option>American Express</option>
-        <option>Discover</option>
-      </select>
-      </br>
       <div class="">
         <input type="text" placeholder="Card Name" ng-model="newAccount.name">
       </div>
@@ -46,6 +38,13 @@
       <div class="">
         <input type="text" placeholder="CCV, e.g. 123" ng-model="newAccount.ccv">
       </div>
+      <select class="" ng-model="updateCard">
+        <option>Select Card Type</option>
+        <option>Visa</option>
+        <option>Mastercard</option>
+        <option>American Express</option>
+        <option>Discover</option>
+      </select>
       <div class="form-actions">
         <button type="submit" class="btn btn-form btn-positive">Update</button>
       </div>

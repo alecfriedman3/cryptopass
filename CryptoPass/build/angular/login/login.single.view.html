@@ -28,7 +28,12 @@
         <input type="text" placeholder="Website/url" ng-model="newAccount.website">
       </div>
       <div class="form-group">
-        <input ng-model="password1" type="text" placeholder="Password">
+        <div>
+          <input ng-model="password1" type="text" placeholder="Password" style="float: left; margin-left: 130px; margin-top: 15px; margin-bottom: 30px;">
+        </div>
+        <div>
+          <span class="icon icon-key" ng-click="generate()" style="margin-top: 20px; float: left; margin-left: 5px; cursor: pointer; padding: 5px;"></span>
+        </div>
       </div>
       <div class="form-group">
         <input ng-model="password2" type="text" placeholder="Confirm Password">
@@ -39,7 +44,6 @@
     </form>
     <button type="submit" class="btn btn-warning" ng-click="showForm()">Cancel</button>
 
-    <button class="btn btn-primary" ng-click="generate()" ng-show="!gen"> Generate Random Password</button>
     <div ng-show="gen">
       <h3>Length</h3><slider floor="8" ceiling="20" step="1" precision="1" ng-model="leng" translate="currencyFormatting"></slider>
       <h3>Symbols</h3><slider floor="0" ceiling="{{leng - nums}}" step="1" precision="1" ng-model="syms" translate="currencyFormatting"></slider>
