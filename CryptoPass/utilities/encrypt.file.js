@@ -101,3 +101,19 @@ fileWriter.getDataEncrypted = function (){
 		return buffer.toString()
 	})
 }
+
+fileWriter.dropboxUpdateForIonic = function (enData){
+	return settings.get('dropboxPath')
+	.then(val => {
+		if (val){
+			return fs.readdirAsync(val + '/Apps/CryptoPass')
+		}
+	})
+	.then(dir => {
+		if (dir.indexOf('mobileData.txt') !== -1){
+			return Promise.all([fs.writeFileAsync(val + '/Apps/CryptoPass/mobileData.txt'), fs.writeFileAsync(val + '/Apps/CryptoPass/data.txt')])
+		}
+		return Promise.all([fs.writeFileAsync(val + '/Apps/CryptoPass/data.txt')])
+	})
+	.catch(err => console.error(err))
+}

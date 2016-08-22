@@ -22,6 +22,9 @@ app.controller('settingsController', function($scope, $stateParams, $timeout){
           encryptFile(masterObj, newPassword1)
           .then(() => decryptFile(newPassword1))
           .then(() => {
+            // re-encrypt both dropbox files, if they exist
+            var dropboxEncrypt = encrypt(masterObj, newPassword1)
+            dropboxUpdateForIonic(dropboxEncrypt);
           	masterPass = newPassword1;
             $scope.success = "Successfully updated password!";
             $scope.changingMasterPass = false
