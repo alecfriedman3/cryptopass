@@ -17864,40 +17864,6 @@ app.controller('addLoginController', function($scope, $state, $stateParams, $roo
 
 })
 
-app.controller('noteController', function($scope){
-  $scope.accounts = masterObj.note;
-})
-
-app.controller('noteSingleController', function($stateParams, $scope, $state){
-  console.log($stateParams);
-  console.log('in singleCont');
-  $scope.account = $stateParams.accountData
-  console.log(($state));
- })
-
-
-
-app.controller('addNoteController', function($scope, $state, $stateParams, $rootScope) {
-	   var utilities = require('../angular/utilities/encrypt.utility.js');
-     var encrypt = utilities.encrypt;
-     var decryptData = utilities.decrypt;
-
-   $scope.note = {
-  	name: null,
-  	data: null
-  }
-
-  $scope.createNote = function() {
-    var newId = masterObj.note.length ? masterObj.note[masterObj.note.length - 1].id + 1 : 1;
-    $scope.note.id = newId
-    if ($scope.note) masterObj.note.push($scope.note)
-    var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
-    socket.emit('addFromElectron', { data: encrypted })
-    $rootScope.$evalAsync()
-    $state.go('note.single', { id: newId }, {reload: true})
-  }
- })
-
 app.controller('settingsController', function($scope, $cordovaOauth, $cordovaTouchID, $timeout){
   var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
   var classifiedUtils = require('../angular/utilities/classified/hashingBackup.js');
@@ -18035,6 +18001,40 @@ app.controller('settingsController', function($scope, $cordovaOauth, $cordovaTou
     $scope.error = "We can't find your CryptoPass folder.  Please make sure it's in your Dropbox Account"
   }
 })
+
+app.controller('noteController', function($scope){
+  $scope.accounts = masterObj.note;
+})
+
+app.controller('noteSingleController', function($stateParams, $scope, $state){
+  console.log($stateParams);
+  console.log('in singleCont');
+  $scope.account = $stateParams.accountData
+  console.log(($state));
+ })
+
+
+
+app.controller('addNoteController', function($scope, $state, $stateParams, $rootScope) {
+	   var utilities = require('../angular/utilities/encrypt.utility.js');
+     var encrypt = utilities.encrypt;
+     var decryptData = utilities.decrypt;
+
+   $scope.note = {
+  	name: null,
+  	data: null
+  }
+
+  $scope.createNote = function() {
+    var newId = masterObj.note.length ? masterObj.note[masterObj.note.length - 1].id + 1 : 1;
+    $scope.note.id = newId
+    if ($scope.note) masterObj.note.push($scope.note)
+    var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
+    socket.emit('addFromElectron', { data: encrypted })
+    $rootScope.$evalAsync()
+    $state.go('note.single', { id: newId }, {reload: true})
+  }
+ })
 
 var Dropbox = require('dropbox');
 var dbx = new Dropbox({ clientId: 'pg8nt8sn9h5yidb' });

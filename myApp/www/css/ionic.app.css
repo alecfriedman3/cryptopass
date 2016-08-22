@@ -9896,3 +9896,7 @@ a.button {
 
 .icon-lock:before {
   display: none; }
+
+.item {
+  background-color: #349484;
+  color: #349484; }
