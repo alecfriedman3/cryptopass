@@ -29,7 +29,7 @@ app.controller('singleLoginController', function($scope, $stateParams, Clipboard
   		if (account.id===$scope.account.id) {
         account.username = $scope.newAccount.username
         account.website = $scope.newAccount.website
-        if (account.website.search(/http/) == -1) account.website = 'http://'+account.website
+        if ($scope.newAccount.website && account.website.search(/http/) == -1) account.website = 'http://'+account.website
   			account.password = $scope.password1 || account.password;
         account.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
   		}
@@ -83,7 +83,7 @@ app.controller('addLoginController', function($scope, $state, $stateParams, $roo
       $scope.login.createdAt = moment().format('MMMM Do YYYY, h:mm:ss a');
       $scope.login.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
   		$scope.login.id = newId
-      if ($scope.login.website.search(/http/) == -1) $scope.login.website = 'http://'+$scope.login.website
+      if ($scope.login.website && $scope.login.website.search(/http/) == -1) $scope.login.website = 'http://'+$scope.login.website
   		masterObj.login.push($scope.login)
       settings.get('dropboxPath')
       .then(path => {
