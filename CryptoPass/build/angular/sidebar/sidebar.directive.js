@@ -27,7 +27,7 @@ app.directive('sidebarItem', function($state, $stateParams){
           if (!path){
             masterObj[stateParent].forEach((info, i) => {
               if (info.id == id) {
-                masterObj[stateParent][i].splice(i, 1);
+                masterObj[stateParent].splice(i, 1);
               }
             })
           } else {
