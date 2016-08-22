@@ -56,6 +56,7 @@ app.controller('singleLoginController', function($scope, $stateParams, Clipboard
 
 app.controller('addLoginController', function($scope, $state, $stateParams, $rootScope){
 	//Let's also add a website field
+  var settings = require('electron-settings');
 	$scope.login = {
 		name: null,
 		username: null,
@@ -77,15 +78,18 @@ app.controller('addLoginController', function($scope, $state, $stateParams, $roo
     if ($scope.login.password !== $scope.login.password2) {
       alert("Passwords do not match!");
     } else {
-  		var newId = masterObj.login.length ? masterObj.login[masterObj.login.length - 1].id + 1 : 1;
+      var newId = idGenerator($scope.login)
       $scope.login.createdAt = moment().format('MMMM Do YYYY, h:mm:ss a');
       $scope.login.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
   		$scope.login.id = newId
   		masterObj.login.push($scope.login)
-  		var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
-  		socket.emit('addFromElectron', {data: encrypted})
-  		$rootScope.$evalAsync()
-  		$state.go('login.single', {id: newId}, {reload: true})
+      settings.get('dropboxPath')
+      .then(path => {
+        var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
+        socket.emit('addFromElectron', {data: encrypted, dropboxPath: path})
+        $rootScope.$evalAsync()
+        $state.go('login.single', {id: newId}, {reload: true})
+      })
     }
 	}
 

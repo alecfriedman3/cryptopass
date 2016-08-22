@@ -1,0 +1,25 @@
+
+
+
+<ion-view title="Note" id="page6">
+    <ion-content padding="true" class="has-header">
+        <h4 id="logins-heading3" style="color:#53BCEE;text-align:center;">Add</h4>
+        <form  ng-submit="createNote()">
+          <div class="form-group">
+          
+             <label class="item item-input " id="logins-input2">
+                <span class="input-label">Name</span>
+                <input ng-model="note.name" type="text" placeholder="">
+            </label>
+            <label class="item item-input " id="logins-input2">
+                <span class="input-label">Info</span>
+                <input ng-model="note.data" type="text" placeholder="">
+            </label>
+            </br>
+            <button class="btn btn-positive" type="submit" style="color:#53BCEE;margin-left:150px;">Submit</button>
+          </div>
+        </form>
+      
+          
+           </ion-content>
+</ion-view>
