@@ -22,7 +22,7 @@ app.controller('authController', function($scope, $state, $rootScope){
 		})
 		.then(function (obj){
 			if (!obj) return
-			masterObj = obj
+			masterObj = obj;
 			masterPass = master;
 			$rootScope.validated = true;
 			$rootScope.$evalAsync()

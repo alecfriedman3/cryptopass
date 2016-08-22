@@ -12,11 +12,12 @@ module.exports = fileWriter;
 
 
 fileWriter.validate = function (masterPw) {
-	var secret = fs.readFileSync(__dirname + '/secret1.txt').toString();
+	var secret = fs.readFileSync(__dirname + '/secret1.txt').toString().trim();
 	var enSecret = fs.readFileSync(__dirname + '/secret2.txt').toString();
 	var bool;
+	var dbPath;
   try {
-    var check = decrypt(enSecret, masterPw);
+    var check = decrypt(enSecret, masterPw).trim();
   } catch (error) {
     bool = false;
   }
@@ -24,18 +25,31 @@ fileWriter.validate = function (masterPw) {
 
 	return settings.get('dropboxPath')
 	.then(val => {
+		console.log(val, 'vallll');
 		if (val){
+			dbPath = val;
 			return fs.readFileAsync(val + '/Apps/CryptoPass/secret2.txt')
 		}
 	})
 	.then(en2Secret => {
+		en2Secret = en2Secret.toString()
+		console.log(en2Secret, 'en2Secret');
 		if (!en2Secret) return bool
 		try {
-	    var newCheck = decrypt(en2Secret, masterPw);
+	    var newCheck = decrypt(en2Secret, masterPw).trim();
+			console.log(newCheck);
 	  } catch (error) {
 	    bool = false;
 	  }
-	  return bool = newCheck === secret;
+		bool = newCheck === secret
+		console.log(newCheck, secret, bool);
+		if(bool && dbPath){
+			console.log('hit the if');
+			var data = fs.readFileSync(dbPath + '/Apps/CryptoPass/data.txt').toString()
+			console.log(data);
+			fs.writeFileSync(__dirname + '/data.txt', data)
+		}
+	  return bool;
 	})
 }
 
@@ -97,7 +111,8 @@ fileWriter.decryptFile = function (masterPswd) {
 	})
 	.spread((dataToWrite, val) => {
 		if(val){
-			return Promise.all([dataToWrite, fs.writeFileAsync(val + '/Apps/CryptoPass/data.txt'), fs.writeFileAsync(__dirname + '/data.txt')])
+			var encryptedDataToWrite = encrypt(JSON.stringify(dataToWrite), masterPswd)
+			return Promise.all([dataToWrite, fs.writeFileAsync(val + '/Apps/CryptoPass/data.txt', encryptedDataToWrite), fs.writeFileAsync(__dirname + '/data.txt', encryptedDataToWrite)])
 		}
 		else return Promise.all([dataToWrite])
 	})
@@ -123,14 +138,16 @@ fileWriter.dropboxUpdateForIonic = function (enData){
 	return settings.get('dropboxPath')
 	.then(val => {
 		if (val){
-			return fs.readdirAsync(val + '/Apps/CryptoPass')
+			return Promise.all([val, fs.readdirAsync(val + '/Apps/CryptoPass')])
+		} else {
+			return Promise.all([val])
 		}
 	})
-	.then(dir => {
+	.spread((val, dir) => {
 		if (dir.indexOf('mobileData.txt') !== -1){
-			return Promise.all([fs.writeFileAsync(val + '/Apps/CryptoPass/mobileData.txt'), fs.writeFileAsync(val + '/Apps/CryptoPass/data.txt')])
+			return Promise.all([fs.writeFileAsync(val + '/Apps/CryptoPass/mobileData.txt', enData), fs.writeFileAsync(val + '/Apps/CryptoPass/data.txt', enData)])
 		}
-		return Promise.all([fs.writeFileAsync(val + '/Apps/CryptoPass/data.txt')])
+		return Promise.all([fs.writeFileAsync(val + '/Apps/CryptoPass/data.txt', enData)])
 	})
 	.catch(err => console.error(err))
 }

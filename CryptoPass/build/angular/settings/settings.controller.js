@@ -17,16 +17,16 @@ app.controller('settingsController', function($scope, $stateParams, $timeout){
     if(validate(currentPassword)){
       if(newPassword1.length >= 8){
         if(newPassword1 === newPassword2 && newPassword1 === newPassword3 && newPassword2 === newPassword3){
-          decryptFile(master)
+          decryptFile(masterPass)
           .then(function (obj){
-            masterObj = JSON.parse(obj)
+            masterObj = obj;
             generateSecret(newPassword1);
             socket.emit('electronNewMaster')
             return encryptFile(masterObj, newPassword1)
           })
           .then(() => {
             // re-encrypt both dropbox files, if they exist
-            var dropboxEncrypt = encrypt(masterObj, newPassword1)
+            var dropboxEncrypt = encrypt(JSON.stringify(masterObj), newPassword1)
             dropboxUpdateForIonic(dropboxEncrypt);
           	masterPass = newPassword1;
             $scope.success = "Successfully updated password!";
