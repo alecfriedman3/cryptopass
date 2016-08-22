@@ -7,7 +7,7 @@ var fs = Promise.promisifyAll(require('fs'));
 
 var username = require('username')
 
-var settings = require('electron-settings');
+// var settings = require('electron-settings');
 
 
 var server = http.createServer(app)
