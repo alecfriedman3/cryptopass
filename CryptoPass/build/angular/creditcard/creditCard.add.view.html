@@ -1,21 +1,26 @@
-  <div class="single-view add-form">
-  <h1>Add a New Account</h1>
-  <form ng-submit="createCard()">
-  	<div class="form-group">
-  		<input ng-model="creditCard.name" placeholder="Account name" class="form-control">
-  		<input ng-model="creditCard.cardNumber" placeholder="card number" class="form-control">
-  		<input ng-model="creditCard.ccv" placeholder="ccv" class="form-control">
-  		<input ng-model="creditCard.expiration" placeholder="expiration" class="form-control">
-  		<input ng-model="creditCard.firstName" placeholder="first name" class="form-control">
-  		<input ng-model="creditCard.lastName" placeholder="last name" class="form-control">
-  		 <label>Card Type</label>
-        <select class="form-control" ng-model="creditCard.type">
-          <option>Visa</option>
-          <option>Mastercard</option>
-          <option>American Express</option>
-          <option>Discover</option>
-        </select>
-  		<button class="btn btn-positive" type="submit">Submit</button>
-  	</div>
-  </form>
+<div class="banner">
+  <div class="sub-banner">
+    <h1>Add a New Account</h1>
+  </div>
+</div>
+<div class="single-view add-form">
+<form ng-submit="createCard()">
+	<div class="form-group">
+		<input ng-model="creditCard.name" placeholder="Account name" class="form-control">
+		<input ng-model="creditCard.cardNumber" placeholder="card number" class="form-control">
+		<input ng-model="creditCard.ccv" placeholder="ccv" class="form-control">
+		<input ng-model="creditCard.expiration" placeholder="expiration" class="form-control">
+		<input ng-model="creditCard.firstName" placeholder="first name" class="form-control">
+		<input ng-model="creditCard.lastName" placeholder="last name" class="form-control">
+		 <label>Card Type</label>
+      <select class="form-control" ng-model="creditCard.type">
+        <option>Visa</option>
+        <option>Mastercard</option>
+        <option>American Express</option>
+        <option>Discover</option>
+      </select>
+    </br>
+		<button class="btn btn-positive" type="submit">Submit</button>
+	</div>
+</form>
 </div>

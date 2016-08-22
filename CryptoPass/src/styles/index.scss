@@ -608,6 +608,7 @@ body {
 .inner-single {
   h5 {
   margin-bottom: 10px;
+  margin-left: 30px;
     button {
       float: right;
     }
@@ -630,8 +631,9 @@ body {
     margin: 5px auto;
   }
   select {
-    display: block;
-    width: 55%;
+
+    display: inline-block;
+    width: 30%;
     margin: -10px auto 20px auto;
   }
   button {
@@ -674,6 +676,7 @@ body {
 }
 
 .banner {
+  position: fixed;
   background-color: rgba(45, 149, 145, 0.9);
   margin: -15px -15px 10px;
   height: 67px;
