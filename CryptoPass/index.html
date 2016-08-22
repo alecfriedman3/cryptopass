@@ -4,6 +4,7 @@
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="photon/dist/css/photon.css">
 		<link rel="stylesheet" href="node_modules/angular-slider/slider.css">
+		<link rel="stylesheet" href="node_modules/angular/angular-csp.css">
 		<link rel="stylesheet" href="index.css">
 	</head>
 	<body ng-app="cryptoPass">
@@ -15,7 +16,7 @@
       <div class="window-content">
 				<ui-view></ui-view>
 
-				<div class="small-logo-and-lock ng-hide" ng-show="validated">
+				<div class="small-logo-and-lock ng-cloak ng-hide" ng-show="validated">
 				  <div class="small-lock-logo">
 				    <h1>CryptoPass</h1>
 				  </div>
