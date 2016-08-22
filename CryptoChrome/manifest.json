@@ -7,7 +7,8 @@
       "matches": [
         "<all_urls>"
       ],
-      "js": ["node_modules/jquery/dist/jquery.min.js", "utilities/dummy.js", "event.listener.js" ,"content/content.js"]
+      "js": ["node_modules/jquery/dist/jquery.min.js", "utilities/dummy.js", "event.listener.js" ,"content/content.js"],
+      "match_about_blank": true
     }
   ],
   "background": {
@@ -15,7 +16,7 @@
     "run_at": "document_end"
   },
   "browser_action": {
-    "default_icon": "icon.png",
+    "default_icon": "cryptoIcon.png",
     "default_popup": "popup/popup.html"
   }
 }

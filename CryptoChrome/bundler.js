@@ -6,8 +6,16 @@ child.stdout.on('data', function (data){
   console.log(data)
 })
 
+child.stderr.on('data', function (data){
+  console.error(data.toString())
+})
+
 var child2 = exec('browserify popup/popup.js -o popup/utils.js')
 
 child2.stdout.on('data', function (data){
   console.log(data)
+})
+
+child2.stderr.on('data', function (data){
+  console.error(data.toString())
 })
