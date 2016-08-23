@@ -11,20 +11,30 @@ app.controller('identitySingleController', function($stateParams, $scope, $state
 })
 
 app.controller('addIdentityController', function($scope, $state, $stateParams, $rootScope) {
+  var utilities = require('../angular/utilities/encrypt.utility.js');
+  var encrypt = utilities.encrypt;
+  var decryptData = utilities.decrypt;
+  var idGenerator = require('../angular/utilities/hash.utility.js').idGenerator;
+  var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
 
   $scope.identity = {
   	name: null,
   	data: null
   }
 
-  // $scope.createId = function() {
-  //   var newId = masterObj.identity.length ? masterObj.identity[masterObj.identity.length - 1].id + 1 : 1
-  //   $scope.identity.id = newId
-  //   if ($scope.identity) masterObj.identity.push($scope.identity)
-  //   var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
-  //   socket.emit('addFromElectron', { data: encrypted })
-  //   $rootScope.$evalAsync()
-  //   $state.go('identity.single', { id: newId }, {reload: true})
-  // }
+  $scope.createId = function() {
+    var newId = idGenerator($scope.identity);
+    $scope.identity.id = newId
+    if ($scope.identity) masterObj.identity.push($scope.identity)
+    var encrypted = encrypt(JSON.stringify(masterObj), globalMasterPass)
+    dropboxUtils.fileUpload(encrypted, '/mobileData.txt')
+    .then(function(){
+      $rootScope.$evalAsync()
+      $state.go('app.identity')
+    })
+    .catch(function(err){
+      console.log(err);
+    })
+  }
 
 })

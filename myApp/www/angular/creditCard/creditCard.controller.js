@@ -34,7 +34,7 @@ app.controller('addcreditCardController', function($scope, $state, $stateParams,
     dropboxUtils.fileUpload(encrypted, '/mobileData.txt')
     .then(function(){
       $rootScope.$evalAsync()
-      $state.go('creditCard.single', { id: newId }, { reload: true })
+      $state.go('app.creditCard')
     })
     .catch(function(err){
       console.log(err);
