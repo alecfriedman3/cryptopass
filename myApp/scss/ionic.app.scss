@@ -35,17 +35,29 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
   margin-left:12px;
   font-family: "Times New Roman", Georgia, Serif;
   font-size:18px;
- 
+ font-size:18px;
+   font-family: "Times New Roman", Georgia, Serif;
+   border-bottom: 1px solid rgb(52, 148, 132);
+     
+  width:230px;
+  cursor: text;
+  border-bottom: 1px solid rgb(52, 148, 132);
+  background-color: transparent;
+  text-align: center;
   
 }
 .highlightable {
-  font-size:18px;
-   font-family: "Times New Roman", Georgia, Serif;
- 
+  
+  
 }
 .createdUpdated {
-  
-    margin-left:12px;
+margin-left:12px;
+   border-bottom: 1px solid rgb(52, 148, 132);
+  width:230px;
+  cursor: text;
+  border-bottom: 1px solid rgb(52, 148, 132);
+  border-radius: 0;
+  background-color: transparent; 
   font-family: "Times New Roman", Georgia, Serif;
   font-size:18px;
 

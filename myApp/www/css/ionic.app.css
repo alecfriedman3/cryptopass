@@ -9825,14 +9825,24 @@ a.button {
 .categories {
   margin-left: 12px;
   font-family: "Times New Roman", Georgia, Serif;
-  font-size: 18px; }
-
-.highlightable {
   font-size: 18px;
-  font-family: "Times New Roman", Georgia, Serif; }
+  font-size: 18px;
+  font-family: "Times New Roman", Georgia, Serif;
+  border-bottom: 1px solid #349484;
+  width: 230px;
+  cursor: text;
+  border-bottom: 1px solid #349484;
+  background-color: transparent;
+  text-align: center; }
 
 .createdUpdated {
   margin-left: 12px;
+  border-bottom: 1px solid #349484;
+  width: 230px;
+  cursor: text;
+  border-bottom: 1px solid #349484;
+  border-radius: 0;
+  background-color: transparent;
   font-family: "Times New Roman", Georgia, Serif;
   font-size: 18px; }
 
