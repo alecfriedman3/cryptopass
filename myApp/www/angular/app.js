@@ -189,7 +189,7 @@ var app = angular.module('cryptoPass', ['ionic', 'ngCordova', 'ngCordovaOauth', 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/auth');
 })
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $state, $rootScope) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -228,4 +228,11 @@ var app = angular.module('cryptoPass', ['ionic', 'ngCordova', 'ngCordovaOauth', 
       $scope.closeLogin();
     }, 1000);
   };
+
+  $scope.addItem = function (){
+    var category = $state.current.name.split('.')[1].replace(/Add/g, '').replace(/Single/g, '');
+    console.log(category)
+    if (category == 'settings' || category == 'home') return
+    $state.go('app.' + category + 'Add')
+  }
 })
