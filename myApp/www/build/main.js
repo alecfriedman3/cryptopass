@@ -17496,9 +17496,17 @@ var app = angular.module('cryptoPass', ['ionic', 'ngCordova', 'ngCordovaOauth', 
   };
 })
 
-app.controller('homeController', function($scope){
-	
-})
+// var remote = require('electron').remote;
+// var clipboard = remote.clipboard;
+
+// app.factory('Clipboard', function(){
+//   return {
+//     copy: function(text){
+//       clipboard.writeText(text)
+//     }
+//   }
+// })
+
 
 app.controller('authController', function($scope, $state, $cordovaOauth){
 	var Dropbox = require('dropbox');
@@ -17735,36 +17743,6 @@ app.controller('recoverController', function($scope, $ionicModal){
 
 })
 
-app.controller('identityController', function($scope){
-  $scope.accounts = masterObj.identity;
-})
-
-
-app.controller('identitySingleController', function($stateParams, $scope, $state){
-  console.log($stateParams);
-  console.log('in singleCont');
-  $scope.account = $stateParams.accountData
-  console.log(($state));
-})
-
-app.controller('addIdentityController', function($scope, $state, $stateParams, $rootScope) {
-
-  $scope.identity = {
-  	name: null,
-  	data: null
-  }
-
-  // $scope.createId = function() {
-  //   var newId = masterObj.identity.length ? masterObj.identity[masterObj.identity.length - 1].id + 1 : 1
-  //   $scope.identity.id = newId
-  //   if ($scope.identity) masterObj.identity.push($scope.identity)
-  //   var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
-  //   socket.emit('addFromElectron', { data: encrypted })
-  //   $rootScope.$evalAsync()
-  //   $state.go('identity.single', { id: newId }, {reload: true})
-  // }
-
-})
 app.controller('creditCardController', function($scope){
   $scope.accounts = masterObj.creditCard;
 })
@@ -17772,6 +17750,43 @@ app.controller('creditCardController', function($scope){
 app.controller('creditCardSingleController', function($scope, $stateParams){
   console.log($stateParams);
   $scope.account = $stateParams.accountData;
+
+  $scope.account = masterObj.creditCard.filter(info => info.id == $stateParams.id)[0]
+  $scope.updateInfo = false;
+  var fullName = $scope.account.firstName + ' ' + $scope.account.lastName;
+  $scope.fullName = fullName;
+  $scope.updateCard = 'Select Card Type'
+  $scope.newAccount = angular.copy($scope.account)
+
+  // $scope.getImg = getImg;
+
+  $scope.showForm = function() {
+    $scope.updateInfo = !$scope.updateInfo;
+  }
+
+  $scope.changeInfo = function() {
+    for (var key in $scope.newAccount){
+      if ($scope.account[key] !== $scope.newAccount[key]){
+        $scope.account[key] = $scope.newAccount[key];
+      }
+    }
+    if ($scope.fullName !== fullName){
+      var name = $scope.fullName.split(' ')
+      $scope.account.firstName = name[0]
+      $scope.account.lastName = name[1]
+    }
+    if ($scope.updateCard !== 'Select Card Type'){
+      $scope.account.type = $scope.updateCard
+    }
+    $scope.account.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
+    var encrypted = encrypt(JSON.stringify(masterObj), masterPass);
+    socket.emit('addFromElectron', { data: encrypted });
+    $state.reload();
+  }
+
+  // $scope.copyText = function(text){
+  //   Clipboard.copy(text)
+  // }
 })
 
 
@@ -17809,6 +17824,39 @@ app.controller('addcreditCardController', function($scope, $state, $stateParams,
 
 })
 
+app.controller('homeController', function($scope){
+	
+})
+app.controller('identityController', function($scope){
+  $scope.accounts = masterObj.identity;
+})
+
+
+app.controller('identitySingleController', function($stateParams, $scope, $state){
+  console.log($stateParams);
+  console.log('in singleCont');
+  $scope.account = $stateParams.accountData
+  console.log(($state));
+})
+
+app.controller('addIdentityController', function($scope, $state, $stateParams, $rootScope) {
+
+  $scope.identity = {
+  	name: null,
+  	data: null
+  }
+
+  // $scope.createId = function() {
+  //   var newId = masterObj.identity.length ? masterObj.identity[masterObj.identity.length - 1].id + 1 : 1
+  //   $scope.identity.id = newId
+  //   if ($scope.identity) masterObj.identity.push($scope.identity)
+  //   var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
+  //   socket.emit('addFromElectron', { data: encrypted })
+  //   $rootScope.$evalAsync()
+  //   $state.go('identity.single', { id: newId }, {reload: true})
+  // }
+
+})
 app.controller('loginController', function($scope, $state){
   $scope.accounts = masterObj.login;
 
@@ -17865,10 +17913,10 @@ $scope.account = masterObj.login.filter(info => info.id == $stateParams.id)[0]
 		$scope.gen = !$scope.gen
 	}
 
-  $scope.copyText = function(text){
-    console.log('clicked in controller');
-    Clipboard.copy(text)
-  }
+  // $scope.copyText = function(text){
+  //   console.log('clicked in controller');
+  //   Clipboard.copy(text)
+  // }
 
 })
 

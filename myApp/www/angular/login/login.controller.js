@@ -54,10 +54,10 @@ $scope.account = masterObj.login.filter(info => info.id == $stateParams.id)[0]
 		$scope.gen = !$scope.gen
 	}
 
-  $scope.copyText = function(text){
-    console.log('clicked in controller');
-    Clipboard.copy(text)
-  }
+  // $scope.copyText = function(text){
+  //   console.log('clicked in controller');
+  //   Clipboard.copy(text)
+  // }
 
 })
 
