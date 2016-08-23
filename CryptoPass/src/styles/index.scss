@@ -695,9 +695,6 @@ body {
 }
 
 .inner-single {
-  h1, h2, h3, h4, h5, p {
-    margin-left: 30px;
-  }
   h3 {
     margin-top: 41px;
   }
@@ -733,10 +730,6 @@ body {
       text-align: center;
       margin-bottom: 5px;
   }
-  slider {
-    text-align: left;
-    width: 55%;
-  }
   textarea {
     width: 75%;
     margin-left: 30px;
@@ -766,10 +759,6 @@ body {
   button {
       text-align: center;
       margin-bottom: 5px;
-  }
-  slider {
-    text-align: left;
-    width: 55%;
   }
   textarea {
     width: 75%;
@@ -809,5 +798,11 @@ body {
     margin-right: 25px;
     font-size: xx-large;
     margin-top: 4px;
+  }
+}
+
+.sliders {
+  h3 {
+    text-align: center;
   }
 }

@@ -8,8 +8,9 @@ app.controller('singleLoginController', function($scope, $stateParams, Clipboard
   $scope.account = masterObj.login.filter(info => info.id == $stateParams.id)[0]
   $scope.updateInfo = false;
   $scope.newAccount = angular.copy($scope.account)
-  $scope.syms = '0.0'
-  $scope.nums = '0.0'
+  $scope.syms = '0'
+  $scope.nums = '0'
+  $scope.leng = "8"
   $scope.getImg = getImg;
 
   $scope.showForm = function () {
@@ -63,8 +64,9 @@ app.controller('singleLoginController', function($scope, $stateParams, Clipboard
 
 app.controller('addLoginController', function($scope, $state, $stateParams, $rootScope){
 	//Let's also add a website field
-    $scope.syms = '0.0'
-  $scope.nums = '0.0'
+    $scope.syms = '0'
+  $scope.nums = '0'
+  $scope.leng = '8'
   var settings = require('electron-settings');
 	$scope.login = {
 		name: null,
