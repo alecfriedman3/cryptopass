@@ -43,7 +43,7 @@ app.controller('addLoginController', function($scope, $state, $stateParams, $roo
 			console.log("blaaaaa")
 		$scope.login.id = newId
 		masterObj.login.push($scope.login)
-	
+
 		var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
 		console.log("third")
 		// update encrypted data

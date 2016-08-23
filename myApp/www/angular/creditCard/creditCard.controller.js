@@ -9,6 +9,7 @@ app.controller('creditCardSingleController', function($scope, $stateParams){
 
 
 app.controller('addcreditCardController', function($scope, $state, $stateParams, $rootScope){
+
 	   var utilities = require('../angular/utilities/encrypt.utility.js');
      var encrypt = utilities.encrypt;
      var decryptData = utilities.decrypt;

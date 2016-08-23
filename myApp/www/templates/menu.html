@@ -7,6 +7,13 @@
       <ion-nav-buttons side="left">
         <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
         </button>
+
+
+      </ion-nav-buttons>
+      <ion-nav-buttons side="right" >
+        <div class="buttons buttons-right">
+          <button class="button button-icon ion-compose" ng-click="addItem()"></button>
+        </div>
       </ion-nav-buttons>
     </ion-nav-bar>
 
@@ -20,19 +27,19 @@
     </ion-header-bar>
     <ion-content>
       <ion-list>
-        <ion-item menu-close ui-sref="app.login">
+        <ion-item class="sidebar-list" menu-close ui-sref="app.login">
           Logins
         </ion-item>
-        <ion-item menu-close ui-sref="app.creditCard">
+        <ion-item class="sidebar-list" menu-close ui-sref="app.creditCard">
           Credit Cards
         </ion-item>
-        <ion-item menu-close ui-sref="app.identity">
+        <ion-item class="sidebar-list" menu-close ui-sref="app.identity">
           Identities
         </ion-item>
-        <ion-item menu-close ui-sref="app.note">
+        <ion-item class="sidebar-list" menu-close ui-sref="app.note">
           Notes
         </ion-item>
-        <ion-item menu-close ui-sref="app.settings">
+        <ion-item class="sidebar-list" menu-close ui-sref="app.settings">
           Settings
         </ion-item>
       </ion-list>

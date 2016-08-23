@@ -5,3 +5,6 @@ CryptoPass/index.css
 CryptoPass/utilities/secret2.txt
 CryptoPass/utilities/data.txt
 CryptoChrome/**/utils.js
+myApp/www/build
+npm-debug.log
+**/npm-debug.log

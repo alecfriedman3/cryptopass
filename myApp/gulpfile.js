@@ -24,7 +24,11 @@ gulp.task('default', function(){
   gulp.start('build')
 
   gulp.watch('www/angular/**', function () {
-    runSeq('buildJS', 'browserify');
+    runSeq('buildJS', 'browserify', 'sass');
+  });
+
+  gulp.watch('scss/**', function () {
+    runSeq('buildJS', 'browserify', 'sass');
   });
 
 })
