@@ -28,7 +28,7 @@ app.controller('singleLoginController', function($scope, $stateParams, Clipboard
   		return;
   	}
   	masterObj.login.forEach(account =>{
-  		if (account.id===$scope.account.id) {
+  		if (account.id==$scope.newAccount.id) {
         account.username = $scope.newAccount.username
         account.website = $scope.newAccount.website
         if ($scope.newAccount.website && account.website.search(/http/) == -1) account.website = 'http://'+account.website
@@ -36,10 +36,14 @@ app.controller('singleLoginController', function($scope, $stateParams, Clipboard
         account.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
   		}
   	})
-  	var encrypted=encrypt(JSON.stringify(masterObj),masterPass);
-  	socket.emit('addFromElectron',{data:encrypted});
-  	$state.reload();
+    settings.get('dropboxPath')
+      .then(val => {
+        var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
+        socket.emit('addFromElectron', {data: encrypted, dropboxPath: val})
+        $state.reload()
+      })
   }
+
   $scope.generatePassword = function (len, syms, nums){
     if (+syms + +nums > +len){
       $scope.syms = '0';
@@ -108,9 +112,9 @@ app.controller('addLoginController', function($scope, $state, $stateParams, $roo
       if ($scope.login.website && $scope.login.website.search(/http/) == -1) $scope.login.website = 'http://'+$scope.login.website
   		masterObj.login.push($scope.login)
       settings.get('dropboxPath')
-      .then(path => {
+      .then(val => {
         var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
-        socket.emit('addFromElectron', {data: encrypted, dropboxPath: path})
+        socket.emit('addFromElectron', {data: encrypted, dropboxPath: val})
         $rootScope.$evalAsync()
         $state.go('login.single', {id: newId}, {reload: true})
       })

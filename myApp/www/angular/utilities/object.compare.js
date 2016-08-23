@@ -1,7 +1,7 @@
 
 var compare = {
   compareAndMerge: function (merger, base){
-    console.log(merger, base);
+    // console.log(merger, base);
     for(var key in merger){
       if(!merger[key].length){
         for (var j = 0; j < base[key].length; j++){
@@ -31,6 +31,7 @@ var compare = {
         }
       }
     }
+    // console.log('here lies the base, it\'s not acidic', base)
     return base
   },
   compareAndDelete: function (merger, base){
