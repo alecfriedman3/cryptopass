@@ -17496,6 +17496,50 @@ var app = angular.module('cryptoPass', ['ionic', 'ngCordova', 'ngCordovaOauth', 
   };
 })
 
+app.controller('creditCardController', function($scope){
+  $scope.accounts = masterObj.creditCard;
+})
+
+app.controller('creditCardSingleController', function($scope, $stateParams){
+  console.log($stateParams);
+  $scope.account = $stateParams.accountData;
+})
+
+
+app.controller('addcreditCardController', function($scope, $state, $stateParams, $rootScope){
+	   var utilities = require('../angular/utilities/encrypt.utility.js');
+     var encrypt = utilities.encrypt;
+     var decryptData = utilities.decrypt;
+     var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
+     var idGenerator = require('../angular/utilities/hash.utility.js').idGenerator;
+
+  $scope.creditCard = {
+    name: null,
+    cardNumber: null,
+    ccv: null,
+    expiration: null,
+    firstName: null,
+    lastName: null,
+    type: null,
+  }
+
+  $scope.createCard = function() {
+    var newId = idGenerator($scope.creditCard);
+    $scope.creditCard.id = newId
+    if ($scope.creditCard) masterObj.creditCard.push($scope.creditCard)
+    var encrypted = encrypt(JSON.stringify(masterObj), globalMasterPass)
+    dropboxUtils.fileUpload(encrypted, '/mobileData.txt')
+    .then(function(){
+      $rootScope.$evalAsync()
+      $state.go('creditCard.single', { id: newId }, { reload: true })
+    })
+    .catch(function(err){
+      console.log(err);
+    })
+  }
+
+})
+
 
 app.controller('authController', function($scope, $state, $cordovaOauth){
 	var Dropbox = require('dropbox');
@@ -17610,7 +17654,9 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
     masterObj = compareAndUpdate(desktopMasterObj, mobileMasterObj);
 		dropboxUtils.fileUpload(utils.encrypt(JSON.stringify(masterObj), masterPass), '/mobileData.txt')
 		.then(function(){
-			return dropboxUtils.fileUpload(utils.encrypt(JSON.stringify(masterObj), masterPass), '/dataBackup.txt')
+			var backupEnabled = window.localStorage.getItem('touchIdBackup');
+			console.log('backupenabled!!!!!!!!!', backupEnabled);
+			return Promise.all([backupEnabled ? dropboxUtils.fileUpload(utils.encrypt(JSON.stringify(masterObj), masterPass), '/dataBackup.txt') : null])
 		})
 		.then(function(){
 			console.log('access granted and mobileData updated');
@@ -17733,50 +17779,6 @@ app.controller('recoverController', function($scope, $ionicModal){
 
 })
 
-app.controller('creditCardController', function($scope){
-  $scope.accounts = masterObj.creditCard;
-})
-
-app.controller('creditCardSingleController', function($scope, $stateParams){
-  console.log($stateParams);
-  $scope.account = $stateParams.accountData;
-})
-
-
-app.controller('addcreditCardController', function($scope, $state, $stateParams, $rootScope){
-	   var utilities = require('../angular/utilities/encrypt.utility.js');
-     var encrypt = utilities.encrypt;
-     var decryptData = utilities.decrypt;
-     var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
-     var idGenerator = require('../angular/utilities/hash.utility.js').idGenerator;
-
-  $scope.creditCard = {
-    name: null,
-    cardNumber: null,
-    ccv: null,
-    expiration: null,
-    firstName: null,
-    lastName: null,
-    type: null,
-  }
-
-  $scope.createCard = function() {
-    var newId = idGenerator($scope.creditCard);
-    $scope.creditCard.id = newId
-    if ($scope.creditCard) masterObj.creditCard.push($scope.creditCard)
-    var encrypted = encrypt(JSON.stringify(masterObj), globalMasterPass)
-    dropboxUtils.fileUpload(encrypted, '/mobileData.txt')
-    .then(function(){
-      $rootScope.$evalAsync()
-      $state.go('creditCard.single', { id: newId }, { reload: true })
-    })
-    .catch(function(err){
-      console.log(err);
-    })
-  }
-
-})
-
 app.controller('identityController', function($scope){
   $scope.accounts = masterObj.identity;
 })
@@ -17806,9 +17808,6 @@ app.controller('addIdentityController', function($scope, $state, $stateParams, $
   //   $state.go('identity.single', { id: newId }, {reload: true})
   // }
 
-})
-app.controller('homeController', function($scope){
-	
 })
 app.controller('loginController', function($scope, $state){
   $scope.accounts = masterObj.login;
@@ -18037,6 +18036,9 @@ app.controller('settingsController', function($scope, $cordovaOauth, $cordovaTou
   }
 })
 
+app.controller('homeController', function($scope){
+	
+})
 var Dropbox = require('dropbox');
 var dbx = new Dropbox({ clientId: 'pg8nt8sn9h5yidb' });
 module.exports = {

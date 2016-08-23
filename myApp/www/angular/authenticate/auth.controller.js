@@ -112,7 +112,9 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
     masterObj = compareAndUpdate(desktopMasterObj, mobileMasterObj);
 		dropboxUtils.fileUpload(utils.encrypt(JSON.stringify(masterObj), masterPass), '/mobileData.txt')
 		.then(function(){
-			return dropboxUtils.fileUpload(utils.encrypt(JSON.stringify(masterObj), masterPass), '/dataBackup.txt')
+			var backupEnabled = window.localStorage.getItem('touchIdBackup');
+			console.log('backupenabled!!!!!!!!!', backupEnabled);
+			return Promise.all([backupEnabled ? dropboxUtils.fileUpload(utils.encrypt(JSON.stringify(masterObj), masterPass), '/dataBackup.txt') : null])
 		})
 		.then(function(){
 			console.log('access granted and mobileData updated');
