@@ -13,6 +13,12 @@ app.controller('singleLoginController', function($scope, $stateParams, Clipboard
   $scope.nums = '0'
   $scope.leng = "8"
 
+  $scope.type = 'password'
+  $scope.reveal = function (){
+    if ($scope.type == 'password') $scope.type = 'text';
+    else $scope.type = 'password'
+  }
+
   $scope.isActive = null;
 
 

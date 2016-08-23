@@ -13,7 +13,7 @@
     <h3>Login Details:</h3>
     <h5 ><span class="categories">Username:</span> {{account.username}} <button class="copy-button" ng-click="copyText(account.username, 'usrn')" ng-class="isActive == 'usrn' ? 'hasColor' : 'noColor'">Copy</button></h5>
 
-    <h5 class="highlightable"><span class="categories">Password:</span> {{account.password}} <button class="copy-button" ng-class="isActive == 'pswd' ? 'hasColor' : 'noColor'" ng-click="copyText(account.password, 'pswd')">Copy</button></h5>
+    <h5 class="highlightable"><span class="categories">Password:</span> <input style="margin: 0" type="{{type}}" value="{{account.password}}" readonly class="highlightable"> <span class="icon icon-eye" ng-click="reveal()"></span><button class="copy-button" ng-class="isActive == 'pswd' ? 'hasColor' : 'noColor'" ng-click="copyText(account.password, 'pswd')">Copy</button></h5>
 
     <h5 class="highlightable"><span class="categories">Website:</span> {{account.website}} <button class="copy-button" ng-click="copyText(account.password, 'webs')" ng-class="isActive == 'webs' ? 'hasColor' : 'noColor'">Copy</button></h5>
 <!--   <h5 class="highlightable"><span class="categories">Website:</span> {{account.website}} <button class="copy-button btn btn-default" ng-click="copyText(account.password)">Copy</button></h5> -->

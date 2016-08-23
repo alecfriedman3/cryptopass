@@ -3,7 +3,7 @@ app.controller('creditCardController', function($scope) {
 })
 
 
-app.controller('singleCreditCardController', function($scope, $stateParams, Clipboard, $state) {
+app.controller('singleCreditCardController', function($scope, $stateParams, Clipboard, $state, $timeout) {
   $scope.account = masterObj.creditCard.filter(info => info.id == $stateParams.id)[0]
   $scope.updateInfo = false;
   var fullName = $scope.account.firstName + ' ' + $scope.account.lastName;
@@ -12,6 +12,8 @@ app.controller('singleCreditCardController', function($scope, $stateParams, Clip
   $scope.newAccount = angular.copy($scope.account)
 
   $scope.getImg = getImg;
+
+  $scope.isActive = null
 
   $scope.showForm = function() {
     $scope.updateInfo = !$scope.updateInfo;
@@ -37,8 +39,14 @@ app.controller('singleCreditCardController', function($scope, $stateParams, Clip
     $state.reload();
   }
 
-  $scope.copyText = function(text){
-    Clipboard.copy(text)
+  $scope.copyText = function(text, className){
+    $scope.isActive = className;
+    console.log('clicked in controller');
+    Clipboard.copy(text);
+    $timeout(function(){
+      // $scope.isActive = !$scope.isActive;
+      $scope.isActive = null
+    }, 2000);
   }
 })
 
