@@ -3,6 +3,7 @@ var random = new Random(Random.engines.mt19937().autoSeed());
 
 module.exports = {
 	createRandom: function (length, symTotal, numTotal){
+		if (symTotal + numTotal > length) return
 		var chars = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ"
 		var syms = "!@#$%^&*()_-+={[}]|\"';:.>,</?"
 		var nums = "0123456789"
