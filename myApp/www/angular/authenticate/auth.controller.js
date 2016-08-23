@@ -116,7 +116,8 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 		dropboxUtils.fileUpload(utils.encrypt(JSON.stringify(masterObj), masterPass), '/mobileData.txt')
 		.then(function(){
 			console.log('backupenabled!!!!!!!!!', backupEnabled);
-			return Promise.all([backupEnabled ? dropboxUtils.fileUpload(utils.encrypt(JSON.stringify(masterObj), masterPass), '/dataBackup.txt') : null])
+      var hash = require('../angular/utilities/classified/hashingBackup.js').backupHash()
+			return Promise.all([backupEnabled ? dropboxUtils.fileUpload(utils.encrypt(JSON.stringify(masterObj), hash), '/dataBackup.txt') : null])
 		})
 		.then(function(){
 			console.log('access granted and mobileData updated');
