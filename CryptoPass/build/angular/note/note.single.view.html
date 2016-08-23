@@ -15,16 +15,17 @@
 
   </div>
 
-  <div class="update-form" ng-show="updateInfo">
+  <div class="add-form single-view" ng-show="updateInfo">
     <form ng-submit="changeInfo()">
       <div class="form-group inner-single">
         <input ng-model="newNote.name" placeholder="Note Title" class="">
         <textarea rows="4" ng-model="newNote.data" placeholder="Update your note here:" class=""></textarea>
       </div>
+      </br>
       <div class="form-actions">
-        <button type="submit" class="btn btn-form btn-positive">OK</button>
+        <button type="submit" class="btn btn-form btn-primary">OK</button>
+        <button type="button" class="btn btn-form btn-warning" ng-click="showForm()">Cancel</button>
       </div>
     </form>
-    <button class="btn btn-form btn-warning" ng-click="showForm()">Cancel</button>
   </div>
 </div>
