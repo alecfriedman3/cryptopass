@@ -7,6 +7,27 @@ app.controller('noteSingleController', function($stateParams, $scope, $state){
   console.log('in singleCont');
   $scope.account = $stateParams.accountData
   console.log(($state));
+
+  $scope.note = masterObj.note.filter(info => info.id == $stateParams.id)[0]
+  $scope.updateInfo = false;
+  $scope.newNote = angular.copy($scope.note)
+
+  // $scope.getImg = getImg
+
+  $scope.showForm = function () {
+    $scope.updateInfo = !$scope.updateInfo;
+  }
+
+  $scope.changeInfo = function (){
+    for (var key in $scope.newNote){
+      if ($scope.note[key] !== $scope.newNote[key]){
+        $scope.note[key] = $scope.newNote[key]
+      }
+    }
+    $scope.note.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
+    var encrypted = encrypt(JSON.stringify(masterObj), masterPass);
+    $state.reload();
+  }
  })
 
 
@@ -26,7 +47,6 @@ app.controller('addNoteController', function($scope, $state, $stateParams, $root
     $scope.note.id = newId
     if ($scope.note) masterObj.note.push($scope.note)
     var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
-    socket.emit('addFromElectron', { data: encrypted })
     $rootScope.$evalAsync()
     $state.go('note.single', { id: newId }, {reload: true})
   }
