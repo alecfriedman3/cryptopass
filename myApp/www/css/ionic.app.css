@@ -9822,6 +9822,9 @@ a.button {
   font-size: 30px;
   color: #349484; }
 
+.highlightable {
+  margin-left: 12px; }
+
 .categories {
   margin-left: 12px;
   font-family: "Times New Roman", Georgia, Serif;
@@ -9836,8 +9839,14 @@ a.button {
   background-color: transparent;
   text-align: center; }
 
+.detailTitle {
+  border-bottom: 1px solid #349484;
+  color: #349484;
+  width: 230px;
+  margin-left: 22px; }
+
 .createdUpdated {
-  margin-left: 12px;
+  margin-left: 22px;
   border-bottom: 1px solid #349484;
   width: 230px;
   cursor: text;
@@ -9872,6 +9881,9 @@ a.button {
   background-color: transparent;
   text-align: center;
   margin: 15px auto 15px auto; }
+
+.labelTitle {
+  color: #349484; }
 
 .okay {
   background-color: #1a75ff;

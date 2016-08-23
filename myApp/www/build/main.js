@@ -17886,12 +17886,26 @@ app.controller('identitySingleController', function($stateParams, $scope, $state
 })
 
 app.controller('addIdentityController', function($scope, $state, $stateParams, $rootScope) {
-
+// var settings = require('electron-settings')
   $scope.identity = {
   	name: null,
   	data: null
   }
 
+$scope.createId = function() {
+    // var newId = idGenerator($scope.identity)
+    // $scope.identity.id = newId
+    // $scope.identity.createdAt = moment().format('MMMM Do YYYY, h:mm:ss a');
+    // $scope.identity.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
+    // if ($scope.identity) masterObj.identity.push($scope.identity)
+    // settings.get('dropboxPath')
+    // .then(path => {
+    //   var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
+    //   socket.emit('addFromElectron', { data: encrypted, dropboxPath: path })
+    //   $rootScope.$evalAsync()
+    //   $state.go('identity.single', { id: newId }, {reload: true})
+    // })
+  }
 
 
 })
@@ -18367,26 +18381,6 @@ var compare = {
 
 module.exports = compare;
 
-var crypto = require('crypto-js/');
-
-module.exports = {
-  scramble: function(){
-    let uuid = device.uuid.split(''); //eslint-disable-line
-    let serial = device.serial.split(''); //eslint-disable-line
-    let array = uuid.concat(serial);
-    let key = '';
-    array.forEach(function(str){
-      if(parseInt(str)) str = str * 3;
-  	  else str += 'c'
-      key += str
-    })
-    return key
-  },
-  backupHash: function(){
-    return crypto.SHA256(this.scramble()).toString()
-  }
-}
-
 var Random = require("random-js");
 var random = new Random(Random.engines.mt19937().autoSeed());
 
@@ -18412,6 +18406,26 @@ module.exports = {
 		}
 		return pass.map(char => char && char !== 0? char : chars[random.integer(0, chars.length - 1)]).join('')
 	}
+}
+
+var crypto = require('crypto-js/');
+
+module.exports = {
+  scramble: function(){
+    let uuid = device.uuid.split(''); //eslint-disable-line
+    let serial = device.serial.split(''); //eslint-disable-line
+    let array = uuid.concat(serial);
+    let key = '';
+    array.forEach(function(str){
+      if(parseInt(str)) str = str * 3;
+  	  else str += 'c'
+      key += str
+    })
+    return key
+  },
+  backupHash: function(){
+    return crypto.SHA256(this.scramble()).toString()
+  }
 }
 
 

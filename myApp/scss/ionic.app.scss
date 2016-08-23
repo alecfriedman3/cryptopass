@@ -31,6 +31,9 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
   color:rgb(52, 148, 132);
 }
 
+.highlightable {
+  margin-left:12px;
+}
 .categories {
   margin-left:12px;
   font-family: "Times New Roman", Georgia, Serif;
@@ -46,9 +49,14 @@ margin-top:41px;
   text-align: center;
   
 }
-
+.detailTitle {
+     border-bottom: 1px solid rgb(52, 148, 132);
+     color:rgb(52, 148, 132);
+     width:230px;
+     margin-left:22px;
+}
 .createdUpdated {
-margin-left:12px;
+margin-left:22px;
    border-bottom: 1px solid rgb(52, 148, 132);
   width:230px;
   cursor: text;
@@ -87,6 +95,9 @@ margin-right:20px;
   margin: 15px auto 15px auto;
 }
 
+.labelTitle {
+  color:rgb(52, 148, 132);
+}
 
 .okay {
   background-color:#1a75ff;
