@@ -21,7 +21,7 @@
 
   </div>
 
-  <div class="update-form" ng-show="updateInfo">
+  <div class="add-form single-view" ng-show="updateInfo">
     <form ng-submit="changeInfo()">
       <div class="">
         <input type="text" placeholder="Primary Account Holder" ng-model="fullName">
@@ -45,11 +45,13 @@
         <option>American Express</option>
         <option>Discover</option>
       </select>
+      </br>
       <div class="form-actions">
-        <button type="submit" class="btn btn-form btn-positive">Update</button>
+        <button type="submit" class="btn btn-form btn-primary">Ok</button>
+        <button type="button" class="btn btn-warning" ng-click="showForm()">Cancel</button>
       </div>
     </form>
-    <button type="submit" class="btn btn-warning" ng-click="showForm()">Cancel</button>
+
 
   </div>
 </div>
