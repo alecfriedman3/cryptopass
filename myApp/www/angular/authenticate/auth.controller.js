@@ -7,12 +7,14 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
   var compareAndUpdate = require('../angular/utilities/object.compare.js').compareAndUpdate;
 	// window.localStorage.clear()
 	var token = window.localStorage.getItem('dropboxAuth');
+	var backupEnabled = window.localStorage.getItem('touchIdBackup');
 
+	backupEnabled ? $scope.showLostPasword = true : $scope.showLostPasword = false;
 	$scope.displayPasswordField = true;
 	$scope.loading = false;
 	$scope.dropboxAuthButton = false;
 	$scope.justLinked = false;
-  	token ? null : noDropboxError();
+  token ? null : noDropboxError();
 
 
 
@@ -114,7 +116,6 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
     masterObj = compareAndUpdate(desktopMasterObj, mobileMasterObj);
 		dropboxUtils.fileUpload(utils.encrypt(JSON.stringify(masterObj), masterPass), '/mobileData.txt')
 		.then(function(){
-			var backupEnabled = window.localStorage.getItem('touchIdBackup');
 			console.log('backupenabled!!!!!!!!!', backupEnabled);
 			return Promise.all([backupEnabled ? dropboxUtils.fileUpload(utils.encrypt(JSON.stringify(masterObj), masterPass), '/dataBackup.txt') : null])
 		})
