@@ -62,15 +62,35 @@ float: right;
 }
 
 .update-form {
-  background-color: rgb(230, 230, 230);
   padding-left:10px;
   text-align:center;
 }
-
-.form-control {
-  margin-left:75px;
+.form-group {
+     border-bottom: 1px solid rgb(52, 148, 132);
+     margin-left:75px;
   width:230px;
+  cursor: text;
+  border-bottom: 1px solid rgb(52, 148, 132);
+  border-radius: 0;
+  background-color: transparent;
+  text-align: center;
+  margin: 15px auto 15px auto;
 }
+
+
+.inpts {
+  cursor: text;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid rgb(52, 148, 132);
+  border-radius: 0;
+  background-color: transparent;
+  text-align: center;
+  margin: 15px auto 15px auto;
+}
+
+
 .logo-and-lock{
   text-align: center;
 }

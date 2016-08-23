@@ -1,11 +1,3 @@
-<!-- <ion-view view-title="{{account.name}}">
-  <ion-content>
-    <div>
-      <h3>{{account.username}}</h3>
-      <h6>{{account.password}}</h6>
-    </div>
-  </ion-content>
-</ion-view> -->
 
  <ion-view view-title={{account.name}}>
   <ion-content>
@@ -32,19 +24,19 @@
   <div class="update-form" ng-show="updateInfo">
     <form ng-submit="changeInfo()">
       <div class="form-group">
-        <label>{{account.name}} Username</label>
+        <label></label>
         <input type="text" class="form-control" ng-model="newAccount.username">
       </div>
       <div class="form-group">
-        <label>{{account.name}} Website</label>
+        <label class="inputs"></label>
         <input type="text" class="form-control" ng-model="newAccount.website">
       </div>
       <div class="form-group">
-        <label>Password</label>
+        <label></label>
         <input ng-model="password1" type="text" class="form-control" placeholder="Password">
       </div>
       <div class="form-group">
-        <label>Confirm Password</label>
+        <label></label>
         <input ng-model="password2" type="text" class="form-control" placeholder="Confirm Password">
       </div>
       <div class="form-actions">

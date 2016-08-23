@@ -9847,13 +9847,30 @@ a.button {
   float: right; }
 
 .update-form {
-  background-color: #e6e6e6;
   padding-left: 10px;
   text-align: center; }
 
-.form-control {
+.form-group {
+  border-bottom: 1px solid #349484;
   margin-left: 75px;
-  width: 230px; }
+  width: 230px;
+  cursor: text;
+  border-bottom: 1px solid #349484;
+  border-radius: 0;
+  background-color: transparent;
+  text-align: center;
+  margin: 15px auto 15px auto; }
+
+.inpts {
+  cursor: text;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid #349484;
+  border-radius: 0;
+  background-color: transparent;
+  text-align: center;
+  margin: 15px auto 15px auto; }
 
 .logo-and-lock {
   text-align: center; }
