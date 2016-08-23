@@ -1,4 +1,4 @@
-<ion-view view-title="{{account.name}}">
+<ion-view view-title="identity">
   <ion-content>
 
     <div class="single-view">
@@ -6,25 +6,25 @@
     <h2 class="nameTitle">{{identity.name}}</h2>
 
   <div class="inner-single" ng-hide="updateInfo">
-    <h3>Details:</h3>
+    <h3 class="detailTitle">Details:</h3>
     <h5 class="highlightable">{{identity.data}}</h5>
-    <button class="btn btn-large btn-default" ng-click="showForm()">Update Info</button>
+    <button class="btn btn-large btn-default updateButton" ng-click="showForm()">Update Info</button>
 
-    <h5>Created: {{identity.createdAt}}</h5>
-    <h5>Last Updated: {{identity.lastUpdated}}</h5>
+    <h5 class="createdUpdated">Created: {{identity.createdAt}}</h5>
+    <h5 class="createdUpdated">Last Updated: {{identity.lastUpdated}}</h5>
   </div>
 
   <div class="update-form" ng-show="updateInfo">
     <form ng-submit="changeInfo()">
       <div class="form-group">
-        <label>Information to Update:</label>
+        <label class="labelTitle">Information to Update:</label>
         <input type="text" class="form-control" ng-model="newAccount.data">
       </div>
       <div class="form-actions">
-        <button type="submit" class="btn btn-form btn-positive">Update</button>
+        <button type="submit" class="btn btn-form btn-positive okay">Update</button>
       </div>
     </form>
-    <button class="btn btn-warning" ng-click="showForm()">Cancel</button>
+    <button class="btn btn-warning cancel" ng-click="showForm()">Cancel</button>
   </div>
 </div>
 

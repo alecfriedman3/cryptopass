@@ -18381,6 +18381,26 @@ var compare = {
 
 module.exports = compare;
 
+var crypto = require('crypto-js/');
+
+module.exports = {
+  scramble: function(){
+    let uuid = device.uuid.split(''); //eslint-disable-line
+    let serial = device.serial.split(''); //eslint-disable-line
+    let array = uuid.concat(serial);
+    let key = '';
+    array.forEach(function(str){
+      if(parseInt(str)) str = str * 3;
+  	  else str += 'c'
+      key += str
+    })
+    return key
+  },
+  backupHash: function(){
+    return crypto.SHA256(this.scramble()).toString()
+  }
+}
+
 var Random = require("random-js");
 var random = new Random(Random.engines.mt19937().autoSeed());
 
@@ -18406,26 +18426,6 @@ module.exports = {
 		}
 		return pass.map(char => char && char !== 0? char : chars[random.integer(0, chars.length - 1)]).join('')
 	}
-}
-
-var crypto = require('crypto-js/');
-
-module.exports = {
-  scramble: function(){
-    let uuid = device.uuid.split(''); //eslint-disable-line
-    let serial = device.serial.split(''); //eslint-disable-line
-    let array = uuid.concat(serial);
-    let key = '';
-    array.forEach(function(str){
-      if(parseInt(str)) str = str * 3;
-  	  else str += 'c'
-      key += str
-    })
-    return key
-  },
-  backupHash: function(){
-    return crypto.SHA256(this.scramble()).toString()
-  }
 }
 
 
