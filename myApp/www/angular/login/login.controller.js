@@ -71,7 +71,6 @@ app.controller('addLoginController', function($scope, $state, $stateParams, $roo
        var encrypt = utilities.encrypt;
        var decryptData = utilities.decrypt;
        var createRandom = require('../angular/utilities/password-utilities/pass.gen').createRandom
-      //  var createRandom = require('../angular/utilities/password-utilities/pass.gen').createRandom
 
 
 		$scope.login = {
