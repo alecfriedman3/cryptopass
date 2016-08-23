@@ -8,7 +8,13 @@ app.controller('firstLoginController', function($scope, $state, $rootScope){
   $scope.master = null;
 
   $scope.setPassword = function (master){
-    if ($scope.master === $scope.master2 && $scope.master2 === $scope.master3) {
+    if ($scope.master.length<6 && $scope.master2.length<6 && $scope.master3.length<6){
+      alert("Hey! We want your password to be a little more secure! Please choose a password with at least 6 characters");
+
+    }
+
+    else {
+      if ($scope.master === $scope.master2 && $scope.master2 === $scope.master3) {
       utils.generateSecret(master);
       utils.encryptFile({login: [], creditCard: [], identity: [], note: [] }, master);
       settings.set('user', true).then(() => {
@@ -22,6 +28,7 @@ app.controller('firstLoginController', function($scope, $state, $rootScope){
       alert ("Your Passwords Do Not Match!");
     }
   }
+    }
 
   $scope.username;
 
