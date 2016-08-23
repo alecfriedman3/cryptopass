@@ -50,10 +50,5 @@
       <h3>Symbols</h3><input type="range" min="0" max="{{leng - nums}}" step="1" ng-model="syms" ng-change="generatePassword(leng, syms, nums)" translate="currencyFormatting"></input>
       <h3>Numbers</h3><input type="range" min="0" max="{{leng - syms}}" step="1" ng-model="nums" ng-change="generatePassword(leng, syms, nums)" translate="currencyFormatting"></input>
     </div>
-
-
-  </div>
-  <div ng-show="error">
-    <p>Passwords don't match! Please try again :) </p>
   </div>
 </div>
