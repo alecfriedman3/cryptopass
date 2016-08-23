@@ -13,7 +13,13 @@ app.controller('singleLoginController', function($scope, $stateParams, Clipboard
   $scope.nums = '0'
   $scope.leng = "8"
 
-  $scope.isActive='noColor';
+  $scope.type = 'password'
+  $scope.reveal = function (){
+    if ($scope.type == 'password') $scope.type = 'text';
+    else $scope.type = 'password'
+  }
+
+  $scope.isActive = null;
 
 
   $scope.getImg = getImg;
@@ -54,14 +60,14 @@ app.controller('singleLoginController', function($scope, $stateParams, Clipboard
 		$scope.gen = !$scope.gen
 	}
 
-  $scope.copyText = function(text){
-    $scope.isActive = !$scope.isActive;
+  $scope.copyText = function(text, className){
+    $scope.isActive = className;
     console.log('clicked in controller');
     Clipboard.copy(text);
     $timeout(function(){
       // $scope.isActive = !$scope.isActive;
-     $scope.isActive = 'noColor'
-  }, 3000);
+     $scope.isActive = null
+  }, 2000);
   }
 
 
