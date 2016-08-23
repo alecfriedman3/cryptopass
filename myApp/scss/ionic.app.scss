@@ -78,18 +78,15 @@ float: right;
 }
 
 
-.inpts {
-  cursor: text;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  border-bottom: 1px solid rgb(52, 148, 132);
-  border-radius: 0;
-  background-color: transparent;
-  text-align: center;
-  margin: 15px auto 15px auto;
+.okay {
+  background-color:#1a75ff;
+  padding:4px;
 }
-
+.cancel {
+  background-color:#ffb84d;
+  padding:7px;
+  margin-top:9px;
+}
 
 .logo-and-lock{
   text-align: center;

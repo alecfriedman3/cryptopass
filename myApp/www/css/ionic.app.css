@@ -9861,16 +9861,14 @@ a.button {
   text-align: center;
   margin: 15px auto 15px auto; }
 
-.inpts {
-  cursor: text;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  border-bottom: 1px solid #349484;
-  border-radius: 0;
-  background-color: transparent;
-  text-align: center;
-  margin: 15px auto 15px auto; }
+.okay {
+  background-color: #1a75ff;
+  padding: 4px; }
+
+.cancel {
+  background-color: #ffb84d;
+  padding: 7px;
+  margin-top: 9px; }
 
 .logo-and-lock {
   text-align: center; }
