@@ -105,7 +105,6 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 		$scope.$evalAsync()
 	}
 	function accessGranted(desktopEncrypted, mobileDataEncrypted, masterPass){
-		$scope.loading = false;
 		$scope.$evalAsync();
 		globalMasterPass = masterPass; // eslint-disable-line
 		var desktopMasterObj = JSON.parse(utils.decrypt(desktopEncrypted, masterPass));// eslint-disable-line
@@ -113,7 +112,13 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
     masterObj = compareAndUpdate(desktopMasterObj, mobileMasterObj);
 		dropboxUtils.fileUpload(utils.encrypt(JSON.stringify(masterObj), masterPass), '/mobileData.txt')
 		.then(function(){
+			var backupEnabled = window.localStorage.getItem('touchIdBackup');
+			console.log('backupenabled!!!!!!!!!', backupEnabled);
+			return Promise.all([backupEnabled ? dropboxUtils.fileUpload(utils.encrypt(JSON.stringify(masterObj), masterPass), '/dataBackup.txt') : null])
+		})
+		.then(function(){
 			console.log('access granted and mobileData updated');
+			$scope.loading = false;
 			$state.go('app.home')
 		})
 		.catch(function(err){console.log(err)})

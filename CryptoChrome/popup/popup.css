@@ -10,17 +10,20 @@ body {
     height: 400px;
     margin: 0;
 }
+.auth-form{
+  padding-top: 60px;
+}
 /*//Lock Stuff*/
 .lock-logo{
   text-align: center;
-  margin-top: -130px;
+  margin-top: -131px;
   z-index: 2;
   position: relative;
 }
 
 .lock-logo p {
     color: white;
-    font-weight: 900;
+    font-weight: 300;
     font-size: 15px;
     padding-top: 75px;
     padding-bottom: 15px
@@ -200,10 +203,35 @@ li:hover > ul:last-child li{
   text-align: center;
   width: 75%;
   cursor: text;
-
   border-radius: 0;
   background-color: transparent;
   margin-bottom: 30px;
+}
+
+.auth-input, input[type="text"]{
+  cursor: text;
+  background-color: transparent;
+  border-radius: 0;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid rgb(8, 138, 133);
+}
+
+input:focus::-webkit-input-placeholder { color:transparent; }
+.highlightable{
+  -webkit-user-select: text;
+}
+
+.auth-button{
+  background-color: transparent;
+  border: 1px solid rgb(8, 138, 133);
+  color: 1px solid rgb(8, 138, 133);
+}
+
+input:focus{
+  border-color: rgb(52, 148, 132);
+  box-shadow: 0px 17px 27px -20px rgba(0,0,0,1);
 }
 
 /*BOTTOM LOGO STUFF*/
