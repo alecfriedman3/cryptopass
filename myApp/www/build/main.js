@@ -17893,18 +17893,18 @@ app.controller('addIdentityController', function($scope, $state, $stateParams, $
   }
 
 $scope.createId = function() {
-    // var newId = idGenerator($scope.identity)
-    // $scope.identity.id = newId
-    // $scope.identity.createdAt = moment().format('MMMM Do YYYY, h:mm:ss a');
-    // $scope.identity.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
-    // if ($scope.identity) masterObj.identity.push($scope.identity)
-    // settings.get('dropboxPath')
-    // .then(path => {
-    //   var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
-    //   socket.emit('addFromElectron', { data: encrypted, dropboxPath: path })
-    //   $rootScope.$evalAsync()
-    //   $state.go('identity.single', { id: newId }, {reload: true})
-    // })
+    var newId = idGenerator($scope.identity)
+    $scope.identity.id = newId
+    $scope.identity.createdAt = moment().format('MMMM Do YYYY, h:mm:ss a');
+    $scope.identity.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
+    if ($scope.identity) masterObj.identity.push($scope.identity)
+    settings.get('dropboxPath')
+    .then(path => {
+      var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
+      socket.emit('addFromElectron', { data: encrypted, dropboxPath: path })
+      $rootScope.$evalAsync()
+      $state.go('identity.single', { id: newId }, {reload: true})
+    })
   }
 
 
