@@ -1,3 +1,4 @@
+
 <div class="banner">
   <div class="sub-banner">
     <img class="img-circle media-object pull-left" ng-src="{{getImg(account.name)}}" width="48" height="48" />
@@ -6,17 +7,20 @@
   </div>
 </div>
 
+
 <div class="single-view">
   <div class="inner-single" ng-hide="updateInfo">
     <h3>Login Details:</h3>
-    <h5 class="highlightable"><span class="categories">Username:</span> {{account.username}} <button class="copy-button btn btn-default" ng-click="copyText(account.username)">Copy</button></h5>
-    <h5 class="highlightable"><span class="categories">Password:</span> {{account.password}} <button class="copy-button btn btn-default" ng-click="copyText(account.password)">Copy</button></h5>
-    <h5 class="highlightable"><span class="categories">Website:</span> {{account.website}} <button class="copy-button btn btn-default" ng-click="copyText(account.password)">Copy</button></h5>
+    <h5 ><span class="categories">Username:</span> {{account.username}} <button ng-click="copyText(account.username)" ng-class="isActive ? 'noColor' : 'hasColor'">Copy</button></h5>
+    <h5 class="highlightable"><span class="categories">Password:</span> {{account.password}} <button class="copy-button hasColor" ng-click="copyText(account.password)">Copy</button></h5>
 
+    <h5 class="highlightable"><span class="categories">Website:</span> {{account.website}} <button ng-click="copyText(account.password)" >Copy</button></h5>
+<!--   <h5 class="highlightable"><span class="categories">Website:</span> {{account.website}} <button class="copy-button btn btn-default" ng-click="copyText(account.password)">Copy</button></h5> -->
 
     <h5>Created: {{account.createdAt}}</h5>
     <h5>Last Updated: {{account.lastUpdated}}</h5>
 
+    <button class="btn btn-large btn-default" ng-click="showForm()  ng-class="isActive ? 'noColor' : 'hasColor'"">Update Info</button>
   </div>
 
   <div class="add-form single-view" ng-show="updateInfo">

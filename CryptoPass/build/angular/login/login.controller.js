@@ -8,9 +8,14 @@ app.controller('singleLoginController', function($scope, $stateParams, Clipboard
   $scope.account = masterObj.login.filter(info => info.id == $stateParams.id)[0]
   $scope.updateInfo = false;
   $scope.newAccount = angular.copy($scope.account)
+
   $scope.syms = '0'
   $scope.nums = '0'
   $scope.leng = "8"
+
+  $scope.isActive=false;
+
+
   $scope.getImg = getImg;
 
   $scope.showForm = function () {
@@ -50,9 +55,16 @@ app.controller('singleLoginController', function($scope, $stateParams, Clipboard
 	}
 
   $scope.copyText = function(text){
+    $scope.isActive = !$scope.isActive;
     console.log('clicked in controller');
-    Clipboard.copy(text)
+    Clipboard.copy(text);
+    $timeout(function(){
+      // $scope.isActive = !$scope.isActive;
+     $scope.isActive = !$scope.isActive;
+  }, 3000);
   }
+
+
 
 })
 

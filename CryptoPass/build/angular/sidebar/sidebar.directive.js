@@ -15,6 +15,9 @@ app.directive('sidebarItem', function($state, $stateParams){
       scope.getImg = getImg
 
       scope.delete = function(id){
+         var confirmDelete=confirm("Are you sure you want to delete?");
+        if (confirmDelete==true){
+
         var stateParent = $state.current.name.replace(/\.single/g, '').replace(/\.add/g, '')
         if (window.sessionStorage[stateParent]){
           var storedStateId = JSON.parse(window.sessionStorage[stateParent]).id
@@ -56,6 +59,11 @@ app.directive('sidebarItem', function($state, $stateParams){
         })
       }
     }
+    // else {
+    //   console.log("blaaaa");
+    // }
+    }
+
   }
 })
 

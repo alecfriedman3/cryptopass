@@ -7,20 +7,16 @@
     <h3>It looks like this is your first time using CryptoPass. </br> Please create a master password for your account.</h3>
     <div class="first-login-input">
       <form novalidate name="masterForm" ng-submit="setPassword(master)">
-        <div ng-messages="masterForm.master.$error" ng-hide="masterForm.title.$pristine" role="alert">
-          <div ng-message="required" class="alert alert-warning">Please enter a password</div>
-          <div ng-message="maxlength" class="alert alert-warning">Password must be less than 20 characters</div>
-          <div ng-message="minlength" class="alert alert-warning">Password must be more than 6 characters</div>
-        </div>
+        
         <div class="form-group">
 
-          <input class="form-control first-login-form-input" type="password" placeholder="Please Enter Your Master Password" name="password1" ng-model="master" ng-minlength="6" required>
+          <input class="form-control first-login-form-input" type="password" placeholder="Please Enter Your Master Password" name="password1" ng-model="master" required>
 
-          <input class="form-control first-login-form-input" type="password" placeholder="Please Confirm Your Master Password" name="password2" ng-model="master2" ng-minlength="6" required>
+          <input class="form-control first-login-form-input" type="password" placeholder="Please Confirm Your Master Password" name="password2" ng-model="master2"  required>
 
-          <input class="form-control first-login-form-input" type="password" placeholder="Please Confirm Your Master Password" name="password3" ng-model="master3" ng-minlength="6" required>
+          <input class="form-control first-login-form-input" type="password" placeholder="Please Confirm Your Master Password" name="password3" ng-model="master3" required>
         </br>
-          <button type="submit" class="btn btn-large btn-default" ng-disabled="masterForm.$invalid">Set Password</button>
+          <button type="submit" class="btn btn-large btn-default">Set Password</button>
         </div>
       </form>
     </div>
