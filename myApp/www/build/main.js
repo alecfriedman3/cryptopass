@@ -17603,7 +17603,6 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 		$scope.$evalAsync()
 	}
 	function accessGranted(desktopEncrypted, mobileDataEncrypted, masterPass){
-		$scope.loading = false;
 		$scope.$evalAsync();
 		globalMasterPass = masterPass; // eslint-disable-line
 		var desktopMasterObj = JSON.parse(utils.decrypt(desktopEncrypted, masterPass));// eslint-disable-line
@@ -17611,7 +17610,11 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
     masterObj = compareAndUpdate(desktopMasterObj, mobileMasterObj);
 		dropboxUtils.fileUpload(utils.encrypt(JSON.stringify(masterObj), masterPass), '/mobileData.txt')
 		.then(function(){
+			return dropboxUtils.fileUpload(utils.encrypt(JSON.stringify(masterObj), masterPass), '/dataBackup.txt')
+		})
+		.then(function(){
 			console.log('access granted and mobileData updated');
+			$scope.loading = false;
 			$state.go('app.home')
 		})
 		.catch(function(err){console.log(err)})
@@ -17774,9 +17777,6 @@ app.controller('addcreditCardController', function($scope, $state, $stateParams,
 
 })
 
-app.controller('homeController', function($scope){
-	
-})
 app.controller('identityController', function($scope){
   $scope.accounts = masterObj.identity;
 })
@@ -17806,6 +17806,9 @@ app.controller('addIdentityController', function($scope, $state, $stateParams, $
   //   $state.go('identity.single', { id: newId }, {reload: true})
   // }
 
+})
+app.controller('homeController', function($scope){
+	
 })
 app.controller('loginController', function($scope, $state){
   $scope.accounts = masterObj.login;
