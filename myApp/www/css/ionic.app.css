@@ -9846,6 +9846,15 @@ a.button {
   border-color: white;
   float: right; }
 
+.update-form {
+  background-color: #e6e6e6;
+  padding-left: 10px;
+  text-align: center; }
+
+.form-control {
+  margin-left: 75px;
+  width: 230px; }
+
 .logo-and-lock {
   text-align: center; }
 
