@@ -17,6 +17,7 @@ app.controller('addNoteController', function($scope, $state, $stateParams, $root
      var decryptData = utilities.decrypt;
      var idGenerator = require('../angular/utilities/hash.utility.js').idGenerator;
      var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
+     var moment = require('moment')
 
    $scope.note = {
   	name: null,
@@ -26,6 +27,8 @@ app.controller('addNoteController', function($scope, $state, $stateParams, $root
   $scope.createNote = function() {
     var newId = idGenerator($scope.note);
     $scope.note.id = newId
+    $scope.note.createdAt = moment().format('MMMM Do YYYY, h:mm:ss a');
+    $scope.note.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
     if ($scope.note) masterObj.note.push($scope.note)
     var encrypted = encrypt(JSON.stringify(masterObj), globalMasterPass)
     dropboxUtils.fileUpload(encrypted, '/mobileData.txt')

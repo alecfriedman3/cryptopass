@@ -16,6 +16,7 @@ app.controller('addIdentityController', function($scope, $state, $stateParams, $
   var decryptData = utilities.decrypt;
   var idGenerator = require('../angular/utilities/hash.utility.js').idGenerator;
   var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
+  var moment = require('moment')
 
   $scope.identity = {
   	name: null,
@@ -25,6 +26,8 @@ app.controller('addIdentityController', function($scope, $state, $stateParams, $
   $scope.createId = function() {
     var newId = idGenerator($scope.identity);
     $scope.identity.id = newId
+    $scope.identity.createdAt = moment().format('MMMM Do YYYY, h:mm:ss a');
+    $scope.identity.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
     if ($scope.identity) masterObj.identity.push($scope.identity)
     var encrypted = encrypt(JSON.stringify(masterObj), globalMasterPass)
     dropboxUtils.fileUpload(encrypted, '/mobileData.txt')
