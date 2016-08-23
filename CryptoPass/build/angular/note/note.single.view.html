@@ -1,11 +1,14 @@
-<div class="single-view">
+<div class="banner">
+  <div class="sub-banner">
     <img class="img-circle media-object pull-left" ng-src="{{getImg(note.name)}}" width="48" height="48" />
-    <h1 class="single-header highlightable">{{note.name}}</h1>
-
+    <h1>{{note.name}}</h1>
+    <span class="icon icon-pencil" ng-click="showForm()"></span>
+  </div>
+</div>
+<div class="single-view">
   <div class="inner-single" ng-hide="updateInfo">
     <h3>Details:</h3>
     <p class="highlightable">{{note.data}}</p>
-    <button class="btn btn-large btn-default" ng-click="showForm()">Update Info</button>
 
     <h5>Created: {{note.createdAt}}</h5>
     <h5>Last Updated: {{note.lastUpdated}}</h5>
@@ -14,13 +17,9 @@
 
   <div class="update-form" ng-show="updateInfo">
     <form ng-submit="changeInfo()">
-      <div class="form-group">
-        <label>Note Name:</label>
-        <input type="text" class="form-control" ng-model="newNote.name">
-      </div>
-      <div class="form-group">
-        <label>Information to Update: </label>
-        <textarea rows="4" type="text" class="form-control" ng-model="newNote.data"></textarea>
+      <div class="form-group inner-single">
+        <input ng-model="newNote.name" placeholder="Note Title" class="">
+        <textarea rows="4" ng-model="newNote.data" placeholder="Update your note here:" class=""></textarea>
       </div>
       <div class="form-actions">
         <button type="submit" class="btn btn-form btn-positive">OK</button>

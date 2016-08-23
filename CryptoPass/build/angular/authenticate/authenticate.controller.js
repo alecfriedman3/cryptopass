@@ -7,7 +7,7 @@
 // var masterObj;
 
 app.controller('authController', function($scope, $state, $rootScope){
-
+	$rootScope.validated = false;
 	$scope.master = null;
 
 	$scope.authenticatePassword = function (master){

@@ -1,16 +1,21 @@
+<div class="banner">
+  <div class="sub-banner">
+    <img class="img-circle media-object pull-left" ng-src="{{getImg(account.name)}}" width="48" height="48" />
+    <h1>{{account.name}}</h1>
+    <span class="icon icon-pencil" ng-click="showForm()"></span>
+  </div>
+</div>
 <div class="single-view">
-  <img class="img-circle media-object pull-left" ng-src="{{getImg(account.name)}}" width="48" height="48" />
-    <h1 class="single-header">{{account.name}}</h1>
 
-  <div class="inner-single" ng-hide="updateInfo">
+<!--     <h1 class="single-header">{{account.name}}</h1> -->
+
+  <div class="form-group inner-single" ng-hide="updateInfo">
     <h3>Account Details:</h3>
-    <h4 class="highlightable"><span class="categories">Card Holder:</span> {{account.firstName}} {{account.lastName}}</h4>
+    <h5 class="highlightable"><span class="categories">Card Holder:</span> {{account.firstName}} {{account.lastName}}</h5>
     <h5 class="highlightable"><span class="categories">Credit Card Type:</span> {{account.type}}</h5>
     <h5 class="highlightable"><span class="categories">Account Number:</span> {{account.cardNumber}} <button class="copy-button btn btn-default" ng-click="copyText(account.cardNumber)">Copy</button></h5>
     <h5 class="highlightable"><span class="categories">Expiration Date:</span> {{account.expiration}}</h5>
     <h5 class="highlightable"><span class="categories">CCV:</span> {{account.ccv}} <button class="copy-button btn btn-default" ng-click="copyText(account.ccv)">Copy</button></h5>
-    <button class="btn btn-large btn-default" ng-click="showForm()">Update Info</button>
-
     <h5>Created: {{account.createdAt}}</h5>
     <h5>Last Updated: {{account.lastUpdated}}</h5>
 
@@ -18,34 +23,28 @@
 
   <div class="update-form" ng-show="updateInfo">
     <form ng-submit="changeInfo()">
-      <div class="form-group">
-        <label>Primary Account Holder:</label>
-        <input type="text" class="form-control" ng-model="fullName">
+      <div class="">
+        <input type="text" placeholder="Primary Account Holder" ng-model="fullName">
       </div>
-      <label>Card Type</label>
-      <select class="form-control" ng-model="updateCard">
+      <div class="">
+        <input type="text" placeholder="Card Name" ng-model="newAccount.name">
+      </div>
+      <div class="">
+        <input type="text" placeholder="Credit Card Number" ng-model="newAccount.cardNumber">
+      </div>
+      <div class="">
+        <input type="text" placeholder="Expiration Date, e.g. 12/2020" ng-model="newAccount.expiration">
+      </div>
+      <div class="">
+        <input type="text" placeholder="CCV, e.g. 123" ng-model="newAccount.ccv">
+      </div>
+      <select class="" ng-model="updateCard">
         <option>Select Card Type</option>
         <option>Visa</option>
         <option>Mastercard</option>
         <option>American Express</option>
         <option>Discover</option>
       </select>
-      <div class="form-group">
-        <label>Card Name:</label>
-        <input type="text" class="form-control" ng-model="newAccount.name">
-      </div>
-      <div class="form-group">
-        <label>Credit Card Number:</label>
-        <input type="text" class="form-control" ng-model="newAccount.cardNumber">
-      </div>
-      <div class="form-group">
-        <label>Expiration Date:</label>
-        <input type="text" class="form-control" ng-model="newAccount.expiration">
-      </div>
-      <div class="form-group">
-        <label>CCV:</label>
-        <input type="text" class="form-control" ng-model="newAccount.ccv">
-      </div>
       <div class="form-actions">
         <button type="submit" class="btn btn-form btn-positive">Update</button>
       </div>

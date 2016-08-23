@@ -3,13 +3,25 @@
 <head>
   <link rel="stylesheet" href="popup.css">
 </head>
-<body style="font-family:'Helvatica'; width: 400px; height: 300px; margin: 0; color: #ffffff" ng-app="cryptoPass" ng-controller="cryptoCtrl"> <!-- backgroubnd-color: rgba(45, 149, 145, 0.9) -->
+<body ng-app="cryptoPass" ng-controller="cryptoCtrl"> <!-- backgroubnd-color: rgba(45, 149, 145, 0.9) -->
 
   <!-- <h1 style="text-align: center; border-bottom: 1px solid black;">CryptoPass</h1> -->
 
   <div style="text-align: center">
     <ui-view></ui-view>
 	</div>
+
+  <div class="small-logo-and-lock">
+    <div class="small-lock-logo">
+      <h1>CryptoPass</h1>
+    </div>
+    <div class="small-icon-lock">
+      <div class="small-lock-top-1" style="background-color: #2CC3B5"></div>
+      <div class="small-lock-top-2"></div>
+      <div class="small-lock-body" style="background-color: #2CC3B5"></div>
+      <div class="small-lock-hole"></div>
+    </div>
+  </div>
 
   <script src="../node_modules/jquery/dist/jquery.min.js" defer></script>
   <script src="../node_modules/socket.io-client/socket.io.js" defer></script>

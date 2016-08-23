@@ -1,11 +1,15 @@
+<div class="banner">
+  <div class="sub-banner">
+    <img class="img-circle media-object pull-left" ng-src="{{getImg(identity.name)}}" width="48" height="48" />
+    <h1>{{identity.name}}</h1>
+    <span class="icon icon-pencil" ng-click="showForm()"></span>
+  </div>
+</div>
 <div class="single-view">
-  <img class="img-circle media-object pull-left" ng-src="{{getImg(identity.name)}}" width="48" height="48" />
-    <h1 class="single-header highlightable">{{identity.name}}</h1>
 
   <div class="inner-single" ng-hide="updateInfo">
     <h3>Details:</h3>
     <h5 class="highlightable">{{identity.data}}</h5>
-    <button class="btn btn-large btn-default" ng-click="showForm()">Update Info</button>
 
     <h5>Created: {{identity.createdAt}}</h5>
     <h5>Last Updated: {{identity.lastUpdated}}</h5>
@@ -14,8 +18,10 @@
   <div class="update-form" ng-show="updateInfo">
     <form ng-submit="changeInfo()">
       <div class="form-group">
-        <label>Information to Update:</label>
-        <input type="text" class="form-control" ng-model="newAccount.data">
+        <input type="text" placeholder="Enter Data Here" ng-model="newAccount.name">
+      </div>
+      <div class="form-group">
+        <input type="text" placeholder="Enter Data Here" ng-model="newAccount.data">
       </div>
       <div class="form-actions">
         <button type="submit" class="btn btn-form btn-positive">Update</button>
