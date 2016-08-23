@@ -19,6 +19,7 @@ app.controller('addLoginController', function($scope, $state, $stateParams, $roo
   var encrypt = utilities.encrypt;
   var decryptData = utilities.decrypt;
   var createRandom = require('../angular/utilities/password-utilities/pass.gen').createRandom
+  var moment = require('moment')
 
 
 		$scope.login = {
@@ -38,7 +39,9 @@ app.controller('addLoginController', function($scope, $state, $stateParams, $roo
 
 	$scope.createLogin = function (){
     var newId = idGenerator($scope.login);
-    $scope.login.id = newId
+    $scope.login.id = newId;
+    $scope.login.createdAt = moment().format('MMMM Do YYYY, h:mm:ss a');
+    $scope.login.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
     if ($scope.login) masterObj.login.push($scope.login)
     var encrypted = encrypt(JSON.stringify(masterObj), globalMasterPass)
     dropboxUtils.fileUpload(encrypted, '/mobileData.txt')
