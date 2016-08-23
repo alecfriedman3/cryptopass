@@ -3,7 +3,7 @@ app.controller('loginController', function($scope){
 })
 
 
-app.controller('singleLoginController', function($scope, $stateParams, Clipboard, $state){
+app.controller('singleLoginController', function($scope, $stateParams, Clipboard, $state, $timeout){
 
   $scope.account = masterObj.login.filter(info => info.id == $stateParams.id)[0]
   $scope.updateInfo = false;
@@ -13,7 +13,7 @@ app.controller('singleLoginController', function($scope, $stateParams, Clipboard
   $scope.nums = '0'
   $scope.leng = "8"
 
-  $scope.isActive=false;
+  $scope.isActive='noColor';
 
 
   $scope.getImg = getImg;
@@ -60,7 +60,7 @@ app.controller('singleLoginController', function($scope, $stateParams, Clipboard
     Clipboard.copy(text);
     $timeout(function(){
       // $scope.isActive = !$scope.isActive;
-     $scope.isActive = !$scope.isActive;
+     $scope.isActive = 'noColor'
   }, 3000);
   }
 
