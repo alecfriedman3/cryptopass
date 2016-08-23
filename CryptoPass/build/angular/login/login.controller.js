@@ -19,14 +19,9 @@ app.controller('singleLoginController', function($scope, $stateParams, Clipboard
 
   $scope.changeInfo=function(){
   	if ($scope.password1 !== $scope.password2) {
-  		$scope.error = true;
-      setTimeout(function (){
-        $scope.error = null
-        $scope.$digest()
-      }, 5000)
+    	alert("Passwords do not match.")
   		return;
   	}
-  	$scope.error = null;
   	masterObj.login.forEach(account =>{
   		if (account.id===$scope.account.id) {
         account.username = $scope.newAccount.username
