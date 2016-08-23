@@ -1,10 +1,15 @@
 <ion-view view-title="Notes">
   <ion-content>
-  <h1 ui-sref="app.noteAdd">Add</h1>
-    </br>
-    <div ui-sref="app.noteSingle({id: account.id, accountData: account})" ng-repeat="account in accounts">
-      <h1>{{account.name}}</h1>
-    </div>
+  <div class="add-btn" ui-sref="app.noteAdd"><span>Add</span></div>
+  <div><input class="search" type="text" placeholder="search" ng-model="searchFilter"></div>
+    <ul class="list single-state-list">
+      <li class="item" ui-sref="app.noteSingle({id: account.id, accountData: account})" ng-repeat="account in accounts | filter:searchFilter">
+        <div>
+          <h1>{{account.name}}</h1>
+          <h3> {{account.data.slice(0,24) + '...'}} </h3>
+        </div>
+      </li>
+    </ul>
 
   </ion-content>
 </ion-view>

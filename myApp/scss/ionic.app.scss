@@ -164,3 +164,20 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
   font-size: 20px;
   margin: 10px auto;
 }
+
+.inner-single {
+  h1, h2, h3, h4, h5, p {
+    font-weight: 200;
+    color: #2CC3B5;
+    margin-left: 30px;
+  }
+  h3 {
+    margin-top: 41px;
+  }
+  h5 {
+  margin-bottom: 10px;
+    button {
+      float: right;
+    }
+  }
+}

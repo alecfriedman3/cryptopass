@@ -9931,3 +9931,16 @@ a.button {
   width: 100%;
   font-size: 20px;
   margin: 10px auto; }
+
+.inner-single h1, .inner-single h2, .inner-single h3, .inner-single h4, .inner-single h5, .inner-single p {
+  font-weight: 200;
+  color: #2CC3B5;
+  margin-left: 30px; }
+
+.inner-single h3 {
+  margin-top: 41px; }
+
+.inner-single h5 {
+  margin-bottom: 10px; }
+  .inner-single h5 button {
+    float: right; }
