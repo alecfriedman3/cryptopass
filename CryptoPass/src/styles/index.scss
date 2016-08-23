@@ -383,6 +383,13 @@ sidebar{
 		box-shadow:none;
 		border-color:transparent;
 	}
+  .sidebar-search-input::-webkit-input-placeholder{
+    color: rgb(181, 221, 219);
+  }
+  // Hacky way to get placeholder to disappear on focus of input
+  .sidebar-search-input:focus::-webkit-input-placeholder {
+    color: transparent;
+  }
 }
 .list-group:nth-child(2){
 	.sidebar-items{
