@@ -19,7 +19,7 @@
 
   </div>
 
-  <div class="update-form" ng-show="updateInfo">
+  <div class="add-form single-view" ng-show="updateInfo">
     <form ng-submit="changeInfo()">
       <div class="form-group">
         <input type="text" placeholder="Username" ng-model="newAccount.username">
@@ -29,7 +29,7 @@
       </div>
       <div class="form-group">
         <div>
-          <input ng-model="password1" type="text" placeholder="Password" style="float: left; margin-left: 130px; margin-top: 15px; margin-bottom: 30px;">
+          <input ng-model="password1" type="text" placeholder="Password" style="float: left; margin-left: 135px; margin-top: 15px; margin-bottom: 30px;">
         </div>
         <div>
           <span class="icon icon-key" ng-click="generate()" style="margin-top: 20px; float: left; margin-left: 5px; cursor: pointer; padding: 5px;"></span>
@@ -38,18 +38,17 @@
       <div class="form-group">
         <input ng-model="password2" type="text" placeholder="Confirm Password">
       </div>
-      <div class="form-actions">
+      <div class="form-actions form-group inner-single">
         <button type="submit" class="btn btn-form btn-primary">OK</button>
       </div>
     </form>
     <button type="submit" class="btn btn-warning" ng-click="showForm()">Cancel</button>
 
-    <div ng-show="gen">
-      <h3>Length</h3><slider floor="8" ceiling="20" step="1" precision="1" ng-model="leng" translate="currencyFormatting"></slider>
-      <h3>Symbols</h3><slider floor="0" ceiling="{{leng - nums}}" step="1" precision="1" ng-model="syms" translate="currencyFormatting"></slider>
-      <h3>Numbers</h3><slider floor="0" ceiling="{{leng - syms}}" step="1" precision="1" ng-model="nums" translate="currencyFormatting"></slider>
-    </br>
-    <button class="btn btn-positive" ng-click="generatePassword(leng, syms, nums)"> Generate! </button>
+    <div class="sliders" ng-show="gen">
+      <h3>Length</h3>
+      <input type="range" min="8" max="20" step="1" ng-model='leng' ng-change="generatePassword(leng, syms, nums)">
+      <h3>Symbols</h3><input type="range" min="0" max="{{leng - nums}}" step="1" ng-model="syms" ng-change="generatePassword(leng, syms, nums)" translate="currencyFormatting"></input>
+      <h3>Numbers</h3><input type="range" min="0" max="{{leng - syms}}" step="1" ng-model="nums" ng-change="generatePassword(leng, syms, nums)" translate="currencyFormatting"></input>
     </div>
 
 
