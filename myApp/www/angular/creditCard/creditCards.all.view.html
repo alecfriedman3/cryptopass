@@ -1,6 +1,5 @@
 <ion-view view-title="Credit Cards">
   <ion-content>
-  <div class="add-btn" ui-sref="app.creditCardAdd"><span>Add</span></div>
   <div><input class="search" type="text" placeholder="search" ng-model="searchFilter"></div>
   <ul class="list single-state-list">
     <li class="item" ui-sref="app.creditCardSingle({id: account.id, accountData: account})" ng-repeat="account in accounts | filter: searchFilter track by account.id">
