@@ -6,7 +6,7 @@
       <ul class="list-group">
         <div class="sidebar-search">
           <li class="list-group-header">
-            <input class="sidebar-search-input form-control" type="text" placeholder="Search">
+            <input class="sidebar-search-input form-control" type="text" ng-model="search" placeholder="Search">
           </li>
         </div>
 
@@ -21,8 +21,7 @@
           </button>
 		  </div>
 
-        <sidebar-item ng-repeat="info in navItem track by info.id" item="info" ng-hide="info.deleted" ng-click="singleView(info.id)"></sidebar-item>
+        <sidebar-item ng-repeat="info in navItem | filter:search track by info.id " item="info" ng-hide="info.deleted" ng-click="singleView(info.id)"></sidebar-item>
       </ul>
-
   </nav>
 </div>
