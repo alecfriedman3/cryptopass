@@ -41,12 +41,12 @@
     <ion-nav-view></ion-nav-view>
     <script>
 
-     function getImg(str){
-        let fileNames = fs.readdirSync(__dirname +'/www/img/icons/');
-        let strArr = str.toLowerCase().split(' ');
-        let matches = strArr.filter(word => fileNames.indexOf(word += '.png') > -1)
-        return matches.length > 0 ? 'www/img/icons/' + matches[0] + '.png' : 'www/img/icons/key.png';
-      }
+     // function getImg(str){
+     //    let fileNames = fs.readdirSync(__dirname +'/www/img/icons/');
+     //    let strArr = str.toLowerCase().split(' ');
+     //    let matches = strArr.filter(word => fileNames.indexOf(word += '.png') > -1)
+     //    return matches.length > 0 ? 'www/img/icons/' + matches[0] + '.png' : 'www/img/icons/key.png';
+     //  }
 
     var masterObj = {
       login: [

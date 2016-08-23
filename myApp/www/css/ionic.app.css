@@ -9815,6 +9815,37 @@ a.button {
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
 
+.nameTitle {
+  font-family: "Times New Roman", Georgia, Serif;
+  text-align: center;
+  padding: 40px;
+  font-size: 30px;
+  color: #349484; }
+
+.categories {
+  margin-left: 12px;
+  font-family: "Times New Roman", Georgia, Serif;
+  font-size: 18px; }
+
+.highlightable {
+  font-size: 18px;
+  font-family: "Times New Roman", Georgia, Serif; }
+
+.createdUpdated {
+  margin-left: 12px;
+  font-family: "Times New Roman", Georgia, Serif;
+  font-size: 18px; }
+
+.updateButton {
+  background-color: #349484;
+  padding: 15px;
+  margin-left: 130px; }
+
+.copy-button {
+  background-color: #349484;
+  border-color: white;
+  float: right; }
+
 .logo-and-lock {
   text-align: center; }
 

@@ -23,6 +23,45 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 //Lock Stuff
 
+.nameTitle {
+   font-family: "Times New Roman", Georgia, Serif;
+  text-align:center;
+  padding:40px;
+  font-size:30px;
+  color:rgb(52, 148, 132);
+}
+
+.categories {
+  margin-left:12px;
+  font-family: "Times New Roman", Georgia, Serif;
+  font-size:18px;
+ 
+  
+}
+.highlightable {
+  font-size:18px;
+   font-family: "Times New Roman", Georgia, Serif;
+ 
+}
+.createdUpdated {
+  
+    margin-left:12px;
+  font-family: "Times New Roman", Georgia, Serif;
+  font-size:18px;
+
+}
+.updateButton {
+  background-color:rgb(52, 148, 132);
+  padding:15px;
+  margin-left:130px;
+}
+.copy-button {
+background-color:rgb(52, 148, 132);
+border-color:white;
+float: right;
+}
+
+
 .logo-and-lock{
   text-align: center;
 }
