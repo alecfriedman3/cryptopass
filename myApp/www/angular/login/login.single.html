@@ -1,8 +1,60 @@
-<ion-view view-title="{{account.name}}">
+<!-- <ion-view view-title="{{account.name}}">
   <ion-content>
     <div>
       <h3>{{account.username}}</h3>
       <h6>{{account.password}}</h6>
     </div>
   </ion-content>
-</ion-view>
+</ion-view> -->
+
+ <ion-view view-title={{account.name}}>
+  <ion-content>
+<div class="single-view">
+<!-- <img class="img-circle media-object pull-left" ng-src="{{getImg(account.name)}}" width="48" height="48" /> -->
+ <h2>{{account.name}}</h2>
+ <!--  <h1 class="single-header">{{account.username}}</h1> -->
+  <div class="inner-single" ng-hide="updateInfo">
+    <h3>Login Details:</h3>
+    <h5 class="highlightable"><span class="categories">Username:</span> {{account.username}} <button class="copy-button btn btn-default" ng-click="copyText(account.username)">Copy</button></h5>
+    <h5 class="highlightable"><span class="categories">Password:</span> {{account.password}} <button class="copy-button btn btn-default" ng-click="copyText(account.password)">Copy</button></h5>
+    <h5 class="highlightable"><span class="categories">Website:</span> {{account.website}} <button class="copy-button btn btn-default" ng-click="copyText(account.password)">Copy</button></h5>
+    <button class="btn" ng-click="showForm()"><span>Update Info</span></button>
+
+    <h5>Created: {{account.createdAt}}</h5>
+    <h5>Last Updated: {{account.lastUpdated}}</h5>
+
+  </div>
+
+  <div class="update-form" ng-show="updateInfo">
+    <form ng-submit="changeInfo()">
+      <div class="form-group">
+        <label>{{account.name}} Username</label>
+        <input type="text" class="form-control" ng-model="newAccount.username">
+      </div>
+      <div class="form-group">
+        <label>{{account.name}} Website</label>
+        <input type="text" class="form-control" ng-model="newAccount.website">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input ng-model="password1" type="text" class="form-control" placeholder="Password">
+      </div>
+      <div class="form-group">
+        <label>Confirm Password</label>
+        <input ng-model="password2" type="text" class="form-control" placeholder="Confirm Password">
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-form btn-primary">OK</button>
+      </div>
+    </form>
+    <button type="submit" class="btn btn-warning" ng-click="showForm()">Cancel</button>
+
+
+  </div>
+  <div ng-show="error">
+    <p>Passwords don't match! Please try again :) </p>
+  </div>
+</div>
+
+  </ion-content>
+</ion-view> 
