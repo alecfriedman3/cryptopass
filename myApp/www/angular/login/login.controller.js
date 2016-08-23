@@ -13,13 +13,12 @@ app.controller('loginSingleController', function($stateParams, $scope, $state){
  // var dropboxUtilities = require('./utilities/dropbox/dropbox.utilities.js')
 
 app.controller('addLoginController', function($scope, $state, $stateParams, $rootScope){
-
-	    var dropboxUtilities = require('../angular/utilities/dropbox.utility.js')
-	   var utilities = require('../angular/utilities/encrypt.utility.js');
-       var encrypt = utilities.encrypt;
-       var decryptData = utilities.decrypt;
-       var createRandom = require('../angular/utilities/password-utilities/pass.gen').createRandom
-      //  var createRandom = require('../angular/utilities/password-utilities/pass.gen').createRandom
+  var idGenerator = require('../angular/utilities/hash.utility.js').idGenerator;
+  var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
+  var utilities = require('../angular/utilities/encrypt.utility.js');
+  var encrypt = utilities.encrypt;
+  var decryptData = utilities.decrypt;
+  var createRandom = require('../angular/utilities/password-utilities/pass.gen').createRandom
 
 
 		$scope.login = {
@@ -38,17 +37,18 @@ app.controller('addLoginController', function($scope, $state, $stateParams, $roo
 	}
 
 	$scope.createLogin = function (){
-		console.log('hellooooooooooooo',$scope.login.password)
-		var newId = masterObj.login.length ? masterObj.login[masterObj.login.length - 1].id + 1 : 1;
-			console.log("blaaaaa")
-		$scope.login.id = newId
-		masterObj.login.push($scope.login)
-
-		var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
-		console.log("third")
-		// update encrypted data
-		$rootScope.$evalAsync()
-		$state.go('app.loginSingle', {id: newId}, {reload: true})
+    var newId = idGenerator($scope.login);
+    $scope.login.id = newId
+    if ($scope.login) masterObj.login.push($scope.login)
+    var encrypted = encrypt(JSON.stringify(masterObj), globalMasterPass)
+    dropboxUtils.fileUpload(encrypted, '/mobileData.txt')
+    .then(function(){
+      $rootScope.$evalAsync()
+      $state.go('app.login')
+    })
+    .catch(function(err){
+      console.log(err);
+    })
 	}
 
 })
