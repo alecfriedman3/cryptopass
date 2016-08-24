@@ -3,6 +3,10 @@ var socket = io('http://localhost:9999', { reconnect: true });
 socket.on('connect', function() {
   console.log('chrome connected');
 })
+socket.on('disconnect', function (){
+  masterObj = masterPass = valid = null;
+  chrome.extension.sendMessage({eventName: 'validTimeout'})
+})
 var masterObj, masterPass, valid, accountInfo = {};
 var eventListener = new EventListener();
 var date = new Date()
