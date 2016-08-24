@@ -9815,6 +9815,10 @@ a.button {
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
 
+.listInView {
+  color: #2CC3B5;
+  text-align: center; }
+
 .nameTitle {
   font-family: "Times New Roman", Georgia, Serif;
   text-align: center;
@@ -10086,7 +10090,7 @@ End Lock Stuff .auth-screen {
   width: 100%; }
 
 .single-state-list li:nth-child(odd) {
-  background-color: lightgray; }
+  background-color: white; }
 
 .single-state-list li {
   border-top: solid 1px #2CC3B5;

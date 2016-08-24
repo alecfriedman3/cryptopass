@@ -23,6 +23,14 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 //Lock Stuff
 
+
+//view of all
+
+.listInView {
+  color:#2CC3B5;
+  text-align:center;
+}
+
 .nameTitle {
    font-family: "Times New Roman", Georgia, Serif;
   text-align:center;
@@ -354,7 +362,7 @@ End Lock Stuff
 
 .single-state-list {
   li:nth-child(odd){
-    background-color: lightgray;
+    background-color: white;
   }
   li {
     border-top: solid 1px #2CC3B5;

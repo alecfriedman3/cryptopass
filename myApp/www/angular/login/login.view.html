@@ -5,8 +5,8 @@
     <li class="item" ui-sref="app.loginSingle({id: account.id, accountData: account})" ng-repeat="account in accounts | filter:searchFilter track by account.id">
 
       <div>
-      <h1>{{account.name}}</h1>
-      <h3> {{account.username}} </h3>
+      <h1 class="listInView">{{account.name}}</h1>
+      <!-- <h3> {{account.username}} </h3> -->
       </div>
 
     </li>
