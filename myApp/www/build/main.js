@@ -21546,104 +21546,6 @@ var app = angular.module('cryptoPass', ['ionic', 'ngCordova', 'ngCordovaOauth', 
   }
 })
 
-// var remote = require('electron').remote;
-// var clipboard = remote.clipboard;
-
-// app.factory('Clipboard', function(){
-//   return {
-//     copy: function(text){
-//       clipboard.writeText(text)
-//     }
-//   }
-// })
-
-app.controller('creditCardController', function($scope){
-  $scope.accounts = masterObj.creditCard;
-})
-
-app.controller('creditCardSingleController', function($scope, $stateParams){
-  console.log($stateParams);
-  $scope.account = $stateParams.accountData;
-
-  $scope.account = masterObj.creditCard.filter(info => info.id == $stateParams.id)[0]
-  $scope.updateInfo = false;
-  var fullName = $scope.account.firstName + ' ' + $scope.account.lastName;
-  $scope.fullName = fullName;
-  $scope.updateCard = 'Select Card Type'
-  $scope.newAccount = angular.copy($scope.account)
-
-  // $scope.getImg = getImg;
-
-  $scope.showForm = function() {
-    $scope.updateInfo = !$scope.updateInfo;
-  }
-
-  $scope.changeInfo = function() {
-    for (var key in $scope.newAccount){
-      if ($scope.account[key] !== $scope.newAccount[key]){
-        $scope.account[key] = $scope.newAccount[key];
-      }
-    }
-    if ($scope.fullName !== fullName){
-      var name = $scope.fullName.split(' ')
-      $scope.account.firstName = name[0]
-      $scope.account.lastName = name[1]
-    }
-    if ($scope.updateCard !== 'Select Card Type'){
-      $scope.account.type = $scope.updateCard
-    }
-    $scope.account.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
-    var encrypted = encrypt(JSON.stringify(masterObj), masterPass);
-    socket.emit('addFromElectron', { data: encrypted });
-    $state.reload();
-  }
-
-  // $scope.copyText = function(text){
-  //   Clipboard.copy(text)
-  // }
-})
-
-
-app.controller('addcreditCardController', function($scope, $state, $stateParams, $rootScope){
-
-	   var utilities = require('../angular/utilities/encrypt.utility.js');
-     var encrypt = utilities.encrypt;
-     var decryptData = utilities.decrypt;
-     var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
-     var idGenerator = require('../angular/utilities/hash.utility.js').idGenerator;
-     var moment = require('moment')
-  $scope.creditCard = {
-    name: null,
-    cardNumber: null,
-    ccv: null,
-    expiration: null,
-    firstName: null,
-    lastName: null,
-    type: null,
-  }
-
-  $scope.createCard = function() {
-    var newId = idGenerator($scope.creditCard);
-    $scope.creditCard.id = newId
-    $scope.creditCard.createdAt = moment().format('MMMM Do YYYY, h:mm:ss a');
-    $scope.creditCard.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
-    if ($scope.creditCard) masterObj.creditCard.push($scope.creditCard)
-    var encrypted = encrypt(JSON.stringify(masterObj), globalMasterPass)
-    dropboxUtils.fileUpload(encrypted, '/mobileData.txt')
-    .then(function(){
-      $rootScope.$evalAsync()
-      $state.go('app.creditCard')
-    })
-    .catch(function(err){
-      console.log(err);
-    })
-  }
-
-})
-
-app.controller('homeController', function($scope){
-	
-})
 
 app.controller('authController', function($scope, $state, $cordovaOauth){
 	var Dropbox = require('dropbox');
@@ -21904,99 +21806,104 @@ app.controller('recoverController', function($scope, $ionicModal, $cordovaTouchI
 
 })
 
-app.controller('identityController', function($scope){
-  $scope.accounts = masterObj.identity;
+// var remote = require('electron').remote;
+// var clipboard = remote.clipboard;
+
+// app.factory('Clipboard', function(){
+//   return {
+//     copy: function(text){
+//       clipboard.writeText(text)
+//     }
+//   }
+// })
+
+app.controller('creditCardController', function($scope){
+  $scope.accounts = masterObj.creditCard;
 })
 
-
-app.controller('identitySingleController', function($stateParams, $scope, $state){
+app.controller('creditCardSingleController', function($scope, $stateParams){
   console.log($stateParams);
-  console.log('in singleCont');
-  $scope.account = $stateParams.accountData
-  console.log(($state));
+  $scope.account = $stateParams.accountData;
 
-  $scope.account = masterObj.login.filter(info => info.id == $stateParams.id)[0]
+  $scope.account = masterObj.creditCard.filter(info => info.id == $stateParams.id)[0]
   $scope.updateInfo = false;
+  var fullName = $scope.account.firstName + ' ' + $scope.account.lastName;
+  $scope.fullName = fullName;
+  $scope.updateCard = 'Select Card Type'
   $scope.newAccount = angular.copy($scope.account)
 
   // $scope.getImg = getImg;
 
-  $scope.showForm = function () {
+  $scope.showForm = function() {
     $scope.updateInfo = !$scope.updateInfo;
   }
 
-  $scope.changeInfo=function(){
-    if ($scope.password1 !== $scope.password2) {
-      $scope.error = true;
-      setTimeout(function (){
-        $scope.error = null
-        $scope.$digest()
-      }, 5000)
-      return;
-    }
-    $scope.error = null;
-    masterObj.login.forEach(account =>{
-      if (account.id===$scope.account.id) {
-        account.username = $scope.newAccount.username
-        account.website = $scope.newAccount.website
-        if (account.website.search(/http/) == -1) account.website = 'http://'+account.website
-        account.password = $scope.password1 || account.password;
-        account.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
+  $scope.changeInfo = function() {
+    for (var key in $scope.newAccount){
+      if ($scope.account[key] !== $scope.newAccount[key]){
+        $scope.account[key] = $scope.newAccount[key];
       }
-    })
-    var encrypted=encrypt(JSON.stringify(masterObj),masterPass);
+    }
+    if ($scope.fullName !== fullName){
+      var name = $scope.fullName.split(' ')
+      $scope.account.firstName = name[0]
+      $scope.account.lastName = name[1]
+    }
+    if ($scope.updateCard !== 'Select Card Type'){
+      $scope.account.type = $scope.updateCard
+    }
+    $scope.account.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
+    var encrypted = encrypt(JSON.stringify(masterObj), masterPass);
+    socket.emit('addFromElectron', { data: encrypted });
     $state.reload();
-  }
-  $scope.generatePassword = function (len, syms, nums){
-    $scope.password1 = $scope.password2 = createRandom(+len, +syms, +nums)
-
-  }
-    $scope.gen = null
-  $scope.generate = function (){
-    $scope.gen = !$scope.gen
   }
 
   // $scope.copyText = function(text){
-  //   console.log('clicked in controller');
   //   Clipboard.copy(text)
   // }
 })
 
-app.controller('addIdentityController', function($scope, $state, $stateParams, $rootScope) {
 
-  var utilities = require('../angular/utilities/encrypt.utility.js');
-  var encrypt = utilities.encrypt;
-  var decryptData = utilities.decrypt;
-  var idGenerator = require('../angular/utilities/hash.utility.js').idGenerator;
-  var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
-  var moment = require('moment')
+app.controller('addcreditCardController', function($scope, $state, $stateParams, $rootScope){
 
-  $scope.identity = {
-  	name: null,
-  	data: null
+	   var utilities = require('../angular/utilities/encrypt.utility.js');
+     var encrypt = utilities.encrypt;
+     var decryptData = utilities.decrypt;
+     var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
+     var idGenerator = require('../angular/utilities/hash.utility.js').idGenerator;
+     var moment = require('moment')
+  $scope.creditCard = {
+    name: null,
+    cardNumber: null,
+    ccv: null,
+    expiration: null,
+    firstName: null,
+    lastName: null,
+    type: null,
   }
 
-
-  $scope.createId = function() {
-    var newId = idGenerator($scope.identity);
-    $scope.identity.id = newId
-    $scope.identity.createdAt = moment().format('MMMM Do YYYY, h:mm:ss a');
-    $scope.identity.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
-    if ($scope.identity) masterObj.identity.push($scope.identity)
+  $scope.createCard = function() {
+    var newId = idGenerator($scope.creditCard);
+    $scope.creditCard.id = newId
+    $scope.creditCard.createdAt = moment().format('MMMM Do YYYY, h:mm:ss a');
+    $scope.creditCard.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
+    if ($scope.creditCard) masterObj.creditCard.push($scope.creditCard)
     var encrypted = encrypt(JSON.stringify(masterObj), globalMasterPass)
     dropboxUtils.fileUpload(encrypted, '/mobileData.txt')
     .then(function(){
       $rootScope.$evalAsync()
-      $state.go('app.identity')
+      $state.go('app.creditCard')
     })
     .catch(function(err){
       console.log(err);
     })
   }
 
-
 })
 
+app.controller('homeController', function($scope){
+	
+})
 app.controller('loginController', function($scope, $state){
   $scope.accounts = masterObj.login;
 
@@ -22104,6 +22011,99 @@ app.controller('addLoginController', function($scope, $state, $stateParams, $roo
       console.log(err);
     })
 	}
+
+})
+
+app.controller('identityController', function($scope){
+  $scope.accounts = masterObj.identity;
+})
+
+
+app.controller('identitySingleController', function($stateParams, $scope, $state){
+  console.log($stateParams);
+  console.log('in singleCont');
+  $scope.account = $stateParams.accountData
+  console.log(($state));
+
+  $scope.account = masterObj.login.filter(info => info.id == $stateParams.id)[0]
+  $scope.updateInfo = false;
+  $scope.newAccount = angular.copy($scope.account)
+
+  // $scope.getImg = getImg;
+
+  $scope.showForm = function () {
+    $scope.updateInfo = !$scope.updateInfo;
+  }
+
+  $scope.changeInfo=function(){
+    if ($scope.password1 !== $scope.password2) {
+      $scope.error = true;
+      setTimeout(function (){
+        $scope.error = null
+        $scope.$digest()
+      }, 5000)
+      return;
+    }
+    $scope.error = null;
+    masterObj.login.forEach(account =>{
+      if (account.id===$scope.account.id) {
+        account.username = $scope.newAccount.username
+        account.website = $scope.newAccount.website
+        if (account.website.search(/http/) == -1) account.website = 'http://'+account.website
+        account.password = $scope.password1 || account.password;
+        account.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
+      }
+    })
+    var encrypted=encrypt(JSON.stringify(masterObj),masterPass);
+    $state.reload();
+  }
+  $scope.generatePassword = function (len, syms, nums){
+    $scope.password1 = $scope.password2 = createRandom(+len, +syms, +nums)
+
+  }
+    $scope.gen = null
+  $scope.generate = function (){
+    $scope.gen = !$scope.gen
+  }
+
+  // $scope.copyText = function(text){
+  //   console.log('clicked in controller');
+  //   Clipboard.copy(text)
+  // }
+})
+
+app.controller('addIdentityController', function($scope, $state, $stateParams, $rootScope) {
+
+  var utilities = require('../angular/utilities/encrypt.utility.js');
+  var encrypt = utilities.encrypt;
+  var decryptData = utilities.decrypt;
+  var idGenerator = require('../angular/utilities/hash.utility.js').idGenerator;
+  var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
+  var moment = require('moment')
+
+  $scope.identity = {
+  	name: null,
+  	data: null
+  }
+
+
+  $scope.createId = function() {
+    var newId = idGenerator($scope.identity);
+    $scope.identity.id = newId
+    $scope.identity.createdAt = moment().format('MMMM Do YYYY, h:mm:ss a');
+    $scope.identity.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
+    if ($scope.identity) masterObj.identity.push($scope.identity)
+    var encrypted = encrypt(JSON.stringify(masterObj), globalMasterPass)
+    dropboxUtils.fileUpload(encrypted, '/mobileData.txt')
+    .then(function(){
+      $rootScope.$evalAsync()
+      $state.go('app.identity')
+    })
+    .catch(function(err){
+      console.log(err);
+    })
+  }
+
 
 })
 

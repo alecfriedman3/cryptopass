@@ -9850,7 +9850,8 @@ a.button {
   cursor: text;
   border-bottom: 1px solid #349484;
   background-color: transparent;
-  text-align: center; }
+  text-align: center;
+  color: #2CC3B5; }
 
 .detailTitle {
   border-bottom: 1px solid #349484;
@@ -9867,7 +9868,8 @@ a.button {
   border-radius: 0;
   background-color: transparent;
   font-family: "Times New Roman", Georgia, Serif;
-  font-size: 18px; }
+  font-size: 18px;
+  color: #2CC3B5; }
 
 .updateButton {
   background-color: #349484;
@@ -10121,7 +10123,6 @@ End Lock Stuff .auth-screen {
 
 .inner-single h1, .inner-single h2, .inner-single h3, .inner-single h4, .inner-single h5, .inner-single p {
   font-weight: 200;
-  color: #2CC3B5;
   margin-left: 30px; }
 
 .inner-single h3 {
