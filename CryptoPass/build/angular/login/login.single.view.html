@@ -21,7 +21,6 @@
     <h5>Created: {{account.createdAt}}</h5>
     <h5>Last Updated: {{account.lastUpdated}}</h5>
 
-    <button class="btn btn-large btn-default" ng-click="showForm()" ">Update Info</button>
   </div>
 
   <div class="add-form single-view" ng-show="updateInfo">
@@ -44,8 +43,8 @@
         <input ng-model="password2" type="text" placeholder="Confirm Password">
       </div>
       <div class="form-actions form-group inner-single">
-        <button type="submit" class="btn btn-form btn-primary">OK</button>
-        <button type="button" class="btn btn-warning" ng-click="showForm()">Cancel</button>
+        <button type="submit" class="button green">OK</button>
+        <button type="button" class="button red" ng-click="showForm()">Cancel</button>
       </div>
     </form>
 

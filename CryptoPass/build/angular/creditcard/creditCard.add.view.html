@@ -1,17 +1,17 @@
 <div class="banner">
   <div class="sub-banner">
-    <h1>Add a New Account</h1>
+    <h1>Add a New Card</h1>
   </div>
 </div>
 <div class="single-view add-form">
 <form ng-submit="createCard()">
 	<div class="inner-single">
-		<input ng-model="creditCard.name" placeholder="Account name" class="">
-		<input ng-model="creditCard.cardNumber" placeholder="card number" class="">
-		<input ng-model="creditCard.ccv" placeholder="ccv" class="">
-		<input ng-model="creditCard.expiration" placeholder="expiration" class="">
-		<input ng-model="creditCard.firstName" placeholder="first name" class="">
-		<input ng-model="creditCard.lastName" placeholder="last name" class="">
+		<input ng-model="creditCard.name" placeholder="Card Name (e.g., Chase Sapphire)" class="">
+		<input ng-model="creditCard.cardNumber" placeholder="Card Number" class="">
+		<input ng-model="creditCard.ccv" placeholder="CCV (e.g., 123)" class="">
+		<input ng-model="creditCard.expiration" placeholder="Expiration Date" class="">
+		<input ng-model="creditCard.firstName" placeholder="First Name" class="">
+		<input ng-model="creditCard.lastName" placeholder="Last Name" class="">
 		 <label>Card Type</label>
       <select class="" ng-model="creditCard.type">
         <option>Visa</option>
@@ -20,7 +20,9 @@
         <option>Discover</option>
       </select>
     </br>
-		<button class="btn btn-positive" type="submit">Submit</button>
+		<div class="form-actions">
+      <button class="button green" type="submit">Submit</button>
+    </div>
 	</div>
 </form>
 </div>
