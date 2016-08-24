@@ -1,19 +1,38 @@
 
 <ion-view view-title="Logins">
   <ion-content>
-    <form  ng-submit="checkMaster(master)">
-      <label class="item item-input">
-         <span class="input-label">Password</span>
-         <input ng-show="displayPasswordField" ng-model="master" type="password">
-      </label>
-    </form>
-    <button ng-show="dropboxAuthButton" ng-click="linkDropbox()" class="button button-full button-positive"><span class="icon icon-dropbox"></span>Connect To Dropbox</button>
-    <ion-spinner ng-show="loading" icon="ripple"></ion-spinner>
-    <div ng-show="error">
-      {{error}}
+    <div class="logo-and-lock-auth">
+      <div class="lock-logo">
+        <h1>CryptoPass</h1>
+      </div>
+      <div class="icon-lock">
+        <div class="lock-top-1" style="background-color: #2CC3B5"></div>
+        <div class="lock-top-2"></div>
+        <div class="lock-body" style="background-color: #2CC3B5"></div>
+        <div class="lock-hole"></div>
+      </div>
     </div>
-    <div>
-      <button ng-controller="recoverController" ng-click="recoverBackup()" class="button button-full">Help I Forgot My Password!</button>
+    <div class="auth-screen">
+      <form  ng-submit="checkMaster(master)" ng-show="displayPasswordField">
+        <label class="item item-input">
+           <span class="input-label">Password</span>
+           <input class="password-auth-input" ng-model="master" type="password">
+        </label>
+      </form>
+      <div class="forgot-password-button-div">
+        <button ng-show="showLostPasword" ng-controller="recoverController" ng-click="recoverBackup()" class="button button-full">Help I Forgot My Password!</button>
+      </div>
+      <button ng-show="dropboxAuthButton" ng-click="linkDropbox()" class="button button-full button-positive"><span class="icon icon-dropbox"></span>Connect To Dropbox</button>
+
+      <div ng-show="error">
+        {{error}}
+      </div>
     </div>
+    <div class="auth-spinner-div">
+      <ion-spinner ng-show="loading" class="loading-gif"icon="ripple"></ion-spinner>
+    </div>
+
+
+
   </ion-content>
 </ion-view>

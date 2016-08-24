@@ -1,54 +1,59 @@
+
+<div class="banner">
+  <div class="sub-banner">
+    <img class="img-circle media-object pull-left" ng-src="{{getImg(account.name)}}" width="48" height="48" />
+    <h1>{{account.name}}</h1>
+    <span class="icon icon-pencil" ng-click="showForm()"></span>
+  </div>
+</div>
+
+
 <div class="single-view">
-<img class="img-circle media-object pull-left" ng-src="{{getImg(account.name)}}" width="48" height="48" />
-  <h1 class="single-header">{{account.name}}</h1>
   <div class="inner-single" ng-hide="updateInfo">
     <h3>Login Details:</h3>
-    <h5 class="highlightable"><span class="categories">Username:</span> {{account.username}} <button class="copy-button btn btn-default" ng-click="copyText(account.username)">Copy</button></h5>
-    <h5 class="highlightable"><span class="categories">Password:</span> {{account.password}} <button class="copy-button btn btn-default" ng-click="copyText(account.password)">Copy</button></h5>
-    <h5 class="highlightable"><span class="categories">Website:</span> {{account.website}} <button class="copy-button btn btn-default" ng-click="copyText(account.password)">Copy</button></h5>
-    <button class="btn btn-large btn-default" ng-click="showForm()">Update Info</button>
+    <h5 ><span class="categories">Username:</span> {{account.username}} <button class="copy-button" ng-click="copyText(account.username, 'usrn')" ng-class="isActive == 'usrn' ? 'hasColor' : 'noColor'">Copy</button></h5>
+
+    <h5 class="highlightable"><span class="categories">Password:</span> <input style="margin: 0" type="{{type}}" value="{{account.password}}" readonly class="highlightable"> <span class="icon icon-eye" ng-click="reveal()"></span><button class="copy-button" ng-class="isActive == 'pswd' ? 'hasColor' : 'noColor'" ng-click="copyText(account.password, 'pswd')">Copy</button></h5>
+
+    <h5 class="highlightable"><span class="categories">Website:</span> {{account.website}} <button class="copy-button" ng-click="copyText(account.password, 'webs')" ng-class="isActive == 'webs' ? 'hasColor' : 'noColor'">Copy</button></h5>
+<!--   <h5 class="highlightable"><span class="categories">Website:</span> {{account.website}} <button class="copy-button btn btn-default" ng-click="copyText(account.password)">Copy</button></h5> -->
 
     <h5>Created: {{account.createdAt}}</h5>
     <h5>Last Updated: {{account.lastUpdated}}</h5>
 
+    <button class="btn btn-large btn-default" ng-click="showForm()" ">Update Info</button>
   </div>
 
-  <div class="update-form" ng-show="updateInfo">
+  <div class="add-form single-view" ng-show="updateInfo">
     <form ng-submit="changeInfo()">
       <div class="form-group">
-        <label>{{account.name}} Username</label>
-        <input type="text" class="form-control" ng-model="newAccount.username">
+        <input type="text" placeholder="Username" ng-model="newAccount.username">
       </div>
       <div class="form-group">
-        <label>{{account.name}} Website</label>
-        <input type="text" class="form-control" ng-model="newAccount.website">
+        <input type="text" placeholder="Website/url" ng-model="newAccount.website">
       </div>
       <div class="form-group">
-        <label>Password</label>
-        <input ng-model="password1" type="text" class="form-control" placeholder="Password">
+        <div>
+          <input ng-model="password1" type="text" placeholder="Password" style="float: left; margin-left: 135px; margin-top: 15px; margin-bottom: 30px;">
+        </div>
+        <div>
+          <span class="icon icon-key" ng-click="generate()" style="margin-top: 20px; float: left; margin-left: 5px; cursor: pointer; padding: 5px;"></span>
+        </div>
       </div>
       <div class="form-group">
-        <label>Confirm Password</label>
-        <input ng-model="password2" type="text" class="form-control" placeholder="Confirm Password">
+        <input ng-model="password2" type="text" placeholder="Confirm Password">
       </div>
-      <div class="form-actions">
+      <div class="form-actions form-group inner-single">
         <button type="submit" class="btn btn-form btn-primary">OK</button>
+        <button type="button" class="btn btn-warning" ng-click="showForm()">Cancel</button>
       </div>
     </form>
-    <button type="submit" class="btn btn-warning" ng-click="showForm()">Cancel</button>
 
-    <button class="btn btn-primary" ng-click="generate()" ng-show="!gen"> Generate Random Password</button>
-    <div ng-show="gen">
-      <h3>Length</h3><slider floor="8" ceiling="20" step="1" precision="1" ng-model="leng" translate="currencyFormatting"></slider>
-      <h3>Symbols</h3><slider floor="0" ceiling="{{leng - nums}}" step="1" precision="1" ng-model="syms" translate="currencyFormatting"></slider>
-      <h3>Numbers</h3><slider floor="0" ceiling="{{leng - syms}}" step="1" precision="1" ng-model="nums" translate="currencyFormatting"></slider>
-    </br>
-    <button class="btn btn-positive" ng-click="generatePassword(leng, syms, nums)"> Generate! </button>
+    <div class="sliders" ng-show="gen">
+      <h3>Length</h3>
+      <input type="range" min="8" max="20" step="1" ng-model='leng' ng-change="generatePassword(leng, syms, nums)">
+      <h3>Symbols</h3><input type="range" min="0" max="{{leng - nums}}" step="1" ng-model="syms" ng-change="generatePassword(leng, syms, nums)" translate="currencyFormatting"></input>
+      <h3>Numbers</h3><input type="range" min="0" max="{{leng - syms}}" step="1" ng-model="nums" ng-change="generatePassword(leng, syms, nums)" translate="currencyFormatting"></input>
     </div>
-
-
-  </div>
-  <div ng-show="error">
-    <p>Passwords don't match! Please try again :) </p>
   </div>
 </div>

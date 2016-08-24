@@ -46,12 +46,13 @@ app.controller('creditCardSingleController', function($scope, $stateParams){
 
 
 app.controller('addcreditCardController', function($scope, $state, $stateParams, $rootScope){
+
 	   var utilities = require('../angular/utilities/encrypt.utility.js');
      var encrypt = utilities.encrypt;
      var decryptData = utilities.decrypt;
      var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
      var idGenerator = require('../angular/utilities/hash.utility.js').idGenerator;
-
+     var moment = require('moment')
   $scope.creditCard = {
     name: null,
     cardNumber: null,
@@ -65,12 +66,14 @@ app.controller('addcreditCardController', function($scope, $state, $stateParams,
   $scope.createCard = function() {
     var newId = idGenerator($scope.creditCard);
     $scope.creditCard.id = newId
+    $scope.creditCard.createdAt = moment().format('MMMM Do YYYY, h:mm:ss a');
+    $scope.creditCard.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
     if ($scope.creditCard) masterObj.creditCard.push($scope.creditCard)
     var encrypted = encrypt(JSON.stringify(masterObj), globalMasterPass)
     dropboxUtils.fileUpload(encrypted, '/mobileData.txt')
     .then(function(){
       $rootScope.$evalAsync()
-      $state.go('creditCard.single', { id: newId }, { reload: true })
+      $state.go('app.creditCard')
     })
     .catch(function(err){
       console.log(err);

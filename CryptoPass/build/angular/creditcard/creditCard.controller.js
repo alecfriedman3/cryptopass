@@ -3,7 +3,7 @@ app.controller('creditCardController', function($scope) {
 })
 
 
-app.controller('singleCreditCardController', function($scope, $stateParams, Clipboard, $state) {
+app.controller('singleCreditCardController', function($scope, $stateParams, Clipboard, $state, $timeout) {
   $scope.account = masterObj.creditCard.filter(info => info.id == $stateParams.id)[0]
   $scope.updateInfo = false;
   var fullName = $scope.account.firstName + ' ' + $scope.account.lastName;
@@ -12,6 +12,8 @@ app.controller('singleCreditCardController', function($scope, $stateParams, Clip
   $scope.newAccount = angular.copy($scope.account)
 
   $scope.getImg = getImg;
+
+  $scope.isActive = null
 
   $scope.showForm = function() {
     $scope.updateInfo = !$scope.updateInfo;
@@ -32,13 +34,22 @@ app.controller('singleCreditCardController', function($scope, $stateParams, Clip
       $scope.account.type = $scope.updateCard
     }
     $scope.account.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
-    var encrypted = encrypt(JSON.stringify(masterObj), masterPass);
-    socket.emit('addFromElectron', { data: encrypted });
-    $state.reload();
+    settings.get('dropboxPath')
+      .then(val => {
+        var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
+        socket.emit('addFromElectron', {data: encrypted, dropboxPath: val})
+        $state.reload()
+      })
   }
 
-  $scope.copyText = function(text){
-    Clipboard.copy(text)
+  $scope.copyText = function(text, className){
+    $scope.isActive = className;
+    console.log('clicked in controller');
+    Clipboard.copy(text);
+    $timeout(function(){
+      // $scope.isActive = !$scope.isActive;
+      $scope.isActive = null
+    }, 2000);
   }
 })
 
@@ -60,6 +71,10 @@ app.controller('addCreditCardController', function($scope, $state, $stateParams,
     $scope.creditCard.id = newId
     $scope.creditCard.createdAt = moment().format('MMMM Do YYYY, h:mm:ss a');
     $scope.creditCard.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
+    if(!$scope.creditCard.cardNumber){
+      alert('Please enter a Card Number')
+      return;
+    }
     if ($scope.creditCard) masterObj.creditCard.push($scope.creditCard)
     settings.get('dropboxPath')
     .then(path => {

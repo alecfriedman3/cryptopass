@@ -21,6 +21,6 @@ module.exports = {
 				numTotal --
 			}
 		}
-		return pass.map(char => char && char !== 0? char : chars[random.integer(0, chars.length - 1)]).join('')
+		return pass.map(function (char) {return char && char !== 0? char : chars[random.integer(0, chars.length - 1)]}).join('')
 	}
 }

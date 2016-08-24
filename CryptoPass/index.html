@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="photon/dist/css/photon.css">
-		<link rel="stylesheet" href="node_modules/angular-slider/slider.css">
+		<link rel="stylesheet" href="node_modules/angular/angular-csp.css">
 		<link rel="stylesheet" href="index.css">
 	</head>
 	<body ng-app="cryptoPass">
@@ -14,6 +14,18 @@
       <!-- Your app's content goes inside .window-content -->
       <div class="window-content">
 				<ui-view></ui-view>
+
+				<div class="small-logo-and-lock ng-cloak ng-hide" ng-show="validated">
+				  <div class="small-lock-logo">
+				    <h1>CryptoPass</h1>
+				  </div>
+				  <div class="small-icon-lock">
+				    <div class="small-lock-top-1" style="background-color: #2CC3B5"></div>
+				    <div class="small-lock-top-2"></div>
+				    <div class="small-lock-body" style="background-color: #2CC3B5"></div>
+				    <div class="small-lock-hole"></div>
+				  </div>
+				</div>
 			</div>
     </div>
     <script>
@@ -58,7 +70,6 @@
 		<script type="text/javascript" src="node_modules/angular/angular.js"></script>
 		<script type="text/javascript" src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
 		<script type="text/javascript" src="node_modules/angular-messages/angular-messages.js"></script>
-		<script type="text/javascript" src="node_modules/angular-slider/slider.js"></script>
 		<script type="text/javascript" src="build/public/main.js"></script>
 	</body>
 </html>

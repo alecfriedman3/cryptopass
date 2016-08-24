@@ -5,14 +5,17 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 	var utils = require('../angular/utilities/encrypt.utility.js');
 	var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
   var compareAndUpdate = require('../angular/utilities/object.compare.js').compareAndUpdate;
-	// window.localStorage.clear()
+	window.localStorage.clear()
 	var token = window.localStorage.getItem('dropboxAuth');
+	var backupEnabled = window.localStorage.getItem('touchIdBackup');
 
+	backupEnabled ? $scope.showLostPasword = true : $scope.showLostPasword = false;
 	$scope.displayPasswordField = true;
 	$scope.loading = false;
 	$scope.dropboxAuthButton = false;
 	$scope.justLinked = false;
-  	token ? null : noDropboxError();
+  token ? null : noDropboxError();
+	// $state.go('app.creditCardAdd')
 
 
 
@@ -107,7 +110,6 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 		$scope.$evalAsync()
 	}
 	function accessGranted(desktopEncrypted, mobileDataEncrypted, masterPass){
-		$scope.loading = false;
 		$scope.$evalAsync();
 		globalMasterPass = masterPass; // eslint-disable-line
 		var desktopMasterObj = JSON.parse(utils.decrypt(desktopEncrypted, masterPass));// eslint-disable-line
@@ -115,7 +117,13 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
     masterObj = compareAndUpdate(desktopMasterObj, mobileMasterObj);
 		dropboxUtils.fileUpload(utils.encrypt(JSON.stringify(masterObj), masterPass), '/mobileData.txt')
 		.then(function(){
+			console.log('backupenabled!!!!!!!!!', backupEnabled);
+      var hash = require('../angular/utilities/classified/hashingBackup.js').backupHash()
+			return Promise.all([backupEnabled ? dropboxUtils.fileUpload(utils.encrypt(JSON.stringify(masterObj), hash), '/dataBackup.txt') : null])
+		})
+		.then(function(){
 			console.log('access granted and mobileData updated');
+			$scope.loading = false;
 			$state.go('app.home')
 		})
 		.catch(function(err){console.log(err)})

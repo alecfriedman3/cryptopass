@@ -3,11 +3,24 @@ app.controller('loginController', function($scope){
 })
 
 
-app.controller('singleLoginController', function($scope, $stateParams, Clipboard, $state){
+app.controller('singleLoginController', function($scope, $stateParams, Clipboard, $state, $timeout){
 
   $scope.account = masterObj.login.filter(info => info.id == $stateParams.id)[0]
   $scope.updateInfo = false;
   $scope.newAccount = angular.copy($scope.account)
+
+  $scope.syms = '0'
+  $scope.nums = '0'
+  $scope.leng = "8"
+
+  $scope.type = 'password'
+  $scope.reveal = function (){
+    if ($scope.type == 'password') $scope.type = 'text';
+    else $scope.type = 'password'
+  }
+
+  $scope.isActive = null;
+
 
   $scope.getImg = getImg;
 
@@ -17,28 +30,33 @@ app.controller('singleLoginController', function($scope, $stateParams, Clipboard
 
   $scope.changeInfo=function(){
   	if ($scope.password1 !== $scope.password2) {
-  		$scope.error = true;
-      setTimeout(function (){
-        $scope.error = null
-        $scope.$digest()
-      }, 5000)
+    	alert("Passwords do not match.")
   		return;
   	}
-  	$scope.error = null;
   	masterObj.login.forEach(account =>{
-  		if (account.id===$scope.account.id) {
+  		if (account.id==$scope.newAccount.id) {
         account.username = $scope.newAccount.username
         account.website = $scope.newAccount.website
-        if (account.website.search(/http/) == -1) account.website = 'http://'+account.website
+        if ($scope.newAccount.website && account.website.search(/http/) == -1) account.website = 'http://'+account.website
   			account.password = $scope.password1 || account.password;
         account.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
   		}
   	})
-  	var encrypted=encrypt(JSON.stringify(masterObj),masterPass);
-  	socket.emit('addFromElectron',{data:encrypted});
-  	$state.reload();
+    settings.get('dropboxPath')
+      .then(val => {
+        console.log('dbpath!!!!!!!!!!!', val)
+        var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
+        socket.emit('addFromElectron', {data: encrypted, dropboxPath: val})
+        $state.reload()
+      })
   }
+
   $scope.generatePassword = function (len, syms, nums){
+    if (+syms + +nums > +len){
+      $scope.syms = '0';
+      $scope.nums = '0';
+      return
+    }
 		$scope.password1 = $scope.password2 = createRandom(+len, +syms, +nums)
 
 	}
@@ -47,16 +65,26 @@ app.controller('singleLoginController', function($scope, $stateParams, Clipboard
 		$scope.gen = !$scope.gen
 	}
 
-  $scope.copyText = function(text){
+  $scope.copyText = function(text, className){
+    $scope.isActive = className;
     console.log('clicked in controller');
-    Clipboard.copy(text)
+    Clipboard.copy(text);
+    $timeout(function(){
+      // $scope.isActive = !$scope.isActive;
+     $scope.isActive = null
+  }, 2000);
   }
+
+
 
 })
 
 
 app.controller('addLoginController', function($scope, $state, $stateParams, $rootScope){
 	//Let's also add a website field
+    $scope.syms = '0'
+  $scope.nums = '0'
+  $scope.leng = '8'
   var settings = require('electron-settings');
 	$scope.login = {
 		name: null,
@@ -71,6 +99,11 @@ app.controller('addLoginController', function($scope, $state, $stateParams, $roo
 	}
 
 	$scope.generatePassword = function (len, syms, nums){
+    if (+syms + +nums > +len){
+      $scope.syms = '0';
+      $scope.nums = '0';
+      return
+    }
 		$scope.login.password = createRandom(+len, +syms, +nums)
     $scope.login.password2 = $scope.login.password
 	}
@@ -83,12 +116,12 @@ app.controller('addLoginController', function($scope, $state, $stateParams, $roo
       $scope.login.createdAt = moment().format('MMMM Do YYYY, h:mm:ss a');
       $scope.login.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
   		$scope.login.id = newId
-      if ($scope.login.website.search(/http/) == -1) $scope.login.website = 'http://'+$scope.login.website
+      if ($scope.login.website && $scope.login.website.search(/http/) == -1) $scope.login.website = 'http://'+$scope.login.website
   		masterObj.login.push($scope.login)
       settings.get('dropboxPath')
-      .then(path => {
+      .then(val => {
         var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
-        socket.emit('addFromElectron', {data: encrypted, dropboxPath: path})
+        socket.emit('addFromElectron', {data: encrypted, dropboxPath: val})
         $rootScope.$evalAsync()
         $state.go('login.single', {id: newId}, {reload: true})
       })

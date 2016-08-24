@@ -6,7 +6,7 @@ module.exports = {
 	encrypt: function (data, password){
 		console.log('in utils encrypt');
 		var cipher = crypto.AES.encrypt(data, password);
-		console.log(cipher, 'this is cipher');
+		// console.log(cipher, 'this is cipher');
 		return cipher.toString()
 	},
 	decrypt: function (enData, password){

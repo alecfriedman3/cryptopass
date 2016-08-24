@@ -10,11 +10,11 @@
             </label>
             <label class="item item-input " id="credit-input2">
                 <span class="input-label">Card Number</span>
-                <input ng-model="creditCard.cardNumber" type="text" placeholder="Card Number">
+                <input ng-model="creditCard.cardNumber" maxlength="16" type="text" placeholder="Card Number">
             </label>
             <label class="item item-input " id="credit-input2">
                 <span class="input-label">CCV</span>
-                <input ng-model="creditCard.ccv" type="text" placeholder="CCV">
+                <input ng-model="creditCard.ccv" maxlength="4"  type="text" placeholder="CCV">
             </label>
             <label class="item item-input " id="credit-input3">
                 <span class="input-label">Expiration</span>
@@ -32,7 +32,7 @@
                 <span class="input-label">Type</span>
                <input ng-model="creditCard.type" type="text" placeholder="Type">
             </label>
-            <button class="button button-full button-positive" type="submit" style="color:#53BCEE;margin-left:150px;">Submit</button>
+            <button class="button button-block button-positive" type="submit">Submit</button>
           </div>
         </form>
 

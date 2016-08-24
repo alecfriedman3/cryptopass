@@ -57,27 +57,34 @@ app.controller('identitySingleController', function($stateParams, $scope, $state
 })
 
 app.controller('addIdentityController', function($scope, $state, $stateParams, $rootScope) {
-// var settings = require('electron-settings')
-   var utilities = require('../angular/utilities/encrypt.utility.js');
-     var encrypt = utilities.encrypt;
-     var decryptData = utilities.decrypt;
-     
+
+  var utilities = require('../angular/utilities/encrypt.utility.js');
+  var encrypt = utilities.encrypt;
+  var decryptData = utilities.decrypt;
+  var idGenerator = require('../angular/utilities/hash.utility.js').idGenerator;
+  var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
+  var moment = require('moment')
+
   $scope.identity = {
   	name: null,
   	data: null
   }
 
-$scope.createId = function() {
-    var newId = idGenerator($scope.identity)
+
+  $scope.createId = function() {
+    var newId = idGenerator($scope.identity);
     $scope.identity.id = newId
-    // $scope.identity.createdAt = moment().format('MMMM Do YYYY, h:mm:ss a');
-    // $scope.identity.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
+    $scope.identity.createdAt = moment().format('MMMM Do YYYY, h:mm:ss a');
+    $scope.identity.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
     if ($scope.identity) masterObj.identity.push($scope.identity)
-    // settings.get('dropboxPath')
-    // .then(path => {
-      var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
+    var encrypted = encrypt(JSON.stringify(masterObj), globalMasterPass)
+    dropboxUtils.fileUpload(encrypted, '/mobileData.txt')
+    .then(function(){
       $rootScope.$evalAsync()
-      $state.go('identity.single', { id: newId }, {reload: true})
+      $state.go('app.identity')
+    })
+    .catch(function(err){
+      console.log(err);
     })
   }
 

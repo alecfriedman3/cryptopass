@@ -3,10 +3,10 @@
 
 <ion-view title="Logins" id="page6">
     <ion-content padding="true" class="has-header">
-        <h4 id="logins-heading3" style="color:#53BCEE;text-align:center;">Add</h4>
+        <h4 id="logins-heading3" style="color:#53BCEE;text-align:center;">Add Login</h4>
         <form  ng-submit="createLogin()">
           <div class="form-group">
-          
+
              <label class="item item-input " id="logins-input2">
                 <span class="input-label">Name</span>
                 <input ng-model="login.name" type="text" placeholder="">
@@ -19,10 +19,10 @@
                 <span class="input-label">Password</span>
                 <input ng-model="login.password" type="password" placeholder="">
             </label>
-            <button class="btn btn-positive" type="submit" style="color:#53BCEE;margin-left:150px;">Submit</button>
+            <button class="button button-block button-positive" type="submit">Submit</button>
           </div>
         </form>
-      
+
 
 
 <button class="btn btn-primary" ng-click="generate()" ng-show="!gen"> Generate Random Password</button>
@@ -39,12 +39,10 @@
  <div class="range" id="green">
         <input type="range" name="syms" step="1" precision="1" ng-model="nums" translate="currencyFormatting" min="0" max="{{leng - syms}}">
  </div>
- 
+
    <button class="btn btn-success" ng-click="generatePassword(leng, syms, nums)"> Generate! </button>
-		</div>       
+		</div>
 	</br>
-          
+
            </ion-content>
 </ion-view>
- 
-

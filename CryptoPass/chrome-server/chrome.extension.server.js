@@ -36,17 +36,11 @@ io.on('connection', function (socket){
   	// get the encrypted data from chrome extension and write it to the fs
   	fs.writeFileAsync(__dirname + '/../utilities/data.txt', data.data)
     .then(() => {
-  		return settings.get('dropboxPath')
-  	})
-  	.then(val => {
-  		if(val) {
-  			return fs.writeFileAsync(val + '/Apps/CryptoPass/data.txt', encrypted);
-  		}
-  	})
-  	.then(() => {
-  		// emmit message to electron telling it to update the local data in app
-    	io.emit('chromeAdd')
-  	}).catch(console.error.bind(console))
+      // return settings.get('dropboxPath')
+      io.emit('chromeAdd')
+    })
+    .catch(console.error.bind(console))
+
   });
 
   socket.on('addFromElectron', function (data){
@@ -61,7 +55,7 @@ io.on('connection', function (socket){
     	io.emit('electronAdd', {data: file.toString()})
     	// encrypt to dropbox
   		if(data.dropboxPath){
-	  		return fs.writeFileAsync(data.dropboxPath + '/Apps/CryptoPass/data.txt', file.toString());
+	  		return fs.writeFileAsync(data.dropboxPath + '/Apps/CryptoPass/data.txt', data.data);
 			}
   	})
   	.catch(console.log.bind(console))

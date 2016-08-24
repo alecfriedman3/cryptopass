@@ -105,7 +105,8 @@ app.controller('settingsController', function($scope, $cordovaOauth, $cordovaTou
         window.localStorage.setItem('touchIdBackup', 'true');
         $scope.touchIdBackup = true;
         console.log('about to get to utils');
-        classifiedUtils.backupHash()
+        var hash = classifiedUtils.backupHash()
+        encryptAndWriteBackUp(hash)
       }, function () {
         alert('Please Try Again');
         $scope.touchIdBackup = false;

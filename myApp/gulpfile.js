@@ -31,6 +31,13 @@ gulp.task('default', function(){
     runSeq('buildJS', 'browserify', 'sass');
   });
 
+  gulp.watch('scss/**', function () {
+    runSeq('buildJS', 'browserify', 'sass');
+  });
+  gulp.watch('./scss/ionic.app.scss', function(){
+    runSeq('sass')
+  })
+
 })
 
 gulp.task('buildJS', function () {

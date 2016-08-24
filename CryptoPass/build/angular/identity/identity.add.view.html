@@ -1,9 +1,14 @@
+<div class="banner">
+  <div class="sub-banner">
+    <h1>Add a New Identity</h1>
+  </div>
+</div>
+
 <div class="single-view add-form">
-  <h1>Add a New Identity</h1>
   <form ng-submit="createId()">
-  	<div class="form-group">
-  		<input ng-model="identity.name" placeholder="Name" class="form-control">
-  		<input ng-model="identity.data" placeholder="Data" class="form-control">
+  	<div class="form-group inner-single">
+  		<input ng-model="identity.name" placeholder="Name" class="">
+  		<input ng-model="identity.data" placeholder="Data" class="">
   		<button class="btn btn-positive" type="submit">Submit</button>
   	</div>
   </form>

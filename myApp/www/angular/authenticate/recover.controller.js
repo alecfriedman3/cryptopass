@@ -1,4 +1,4 @@
-app.controller('recoverController', function($scope, $ionicModal){
+app.controller('recoverController', function($scope, $ionicModal, $cordovaTouchID){
   var classifiedUtils = require('../angular/utilities/classified/hashingBackup.js');
   var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
   var encryptUtil = require('../angular/utilities/encrypt.utility.js');
@@ -45,6 +45,22 @@ app.controller('recoverController', function($scope, $ionicModal){
               });
           }
       }, function(){console.log('log not available for FingerprintAu');});
+  }
+
+  function iOSTouchId(){
+    $cordovaTouchID.checkSupport().then(function() {
+      $cordovaTouchID.authenticate("text").then(function() {
+        var hash = classifiedUtils.backupHash();
+        startRecoverProcess(hash)
+      }, function () {
+        alert('Please Try Again');
+        $scope.touchIdBackup = false;
+      }, function (error) {
+        alert('You need TouchID for this feature :(');
+        window.localStorage.removeItem('touchIdBackup');
+        $scope.touchIdBackup = false;
+      })
+    }, false)
   }
 
   function startRecoverProcess(hash){

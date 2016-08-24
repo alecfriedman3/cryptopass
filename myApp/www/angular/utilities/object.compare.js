@@ -1,7 +1,8 @@
+var moment = require('moment');
 
 var compare = {
   compareAndMerge: function (merger, base){
-    console.log(merger, base);
+    // console.log(merger, base);
     for(var key in merger){
       if(!merger[key].length){
         for (var j = 0; j < base[key].length; j++){
@@ -20,7 +21,7 @@ var compare = {
         for (var j = 0; j < base[key].length; j++){
           if (base[key][j].name == merger[key][i].name && merger[key][i].id == base[key][j].id /*&& !merger[key][i].deleted*/){
             // if the merging object was updated more frequently, overwrite it in the base
-            if (merger[key][i].lastUpdated > base[key][j].lastUpdated){
+            if (moment(merger[key][i].lastUpdated, 'MMMM Do YYYY, h:mm:ss a').isAfter(moment(base[key][j].lastUpdated, 'MMMM Do YYYY, h:mm:ss a'))){
               base[key][j] = merger[key][i]
             }
           }
@@ -31,6 +32,7 @@ var compare = {
         }
       }
     }
+    // console.log('here lies the base, it\'s not acidic', base)
     return base
   },
   compareAndDelete: function (merger, base){
