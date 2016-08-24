@@ -104,11 +104,13 @@ function updateTime(){
 
 //attempting to send info to
 eventListener.on('backgroundToFill', function (data){
-  var toLogIn = masterObj.login.filter(function (account){
-    return account.name === data.name && account.username == data.username
-  })[0]
+  console.log('backgroundToFill!')
   var time = 0;
   if (data.category == 'logins'){
+    var toLogIn = masterObj.login.filter(function (account){
+      return account.name === data.name && account.username == data.username
+    })[0]
+    console.log('in category logins', toLogIn)
     var autoUrl = toLogIn.website;
     if (data.name.toLowerCase() == 'gmail' || data.name.toLowerCase() == 'google'){
       autoUrl = 'https://accounts.google.com/ServiceLogin'
@@ -116,13 +118,22 @@ eventListener.on('backgroundToFill', function (data){
     time = 2000;
     filterUsername = data.username
     chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-        setTimeout(function (){
+        chrome.tabs.update(tabs[0].id, {url: autoUrl})
+        eventListener.on('tabReady', function (incoming){
+          // if (!incoming.autofil) return
           chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
             chrome.tabs.sendMessage(tabs[0].id, {eventName: 'autoFill', accountName: toLogIn.name.toLowerCase(), category: data.category})
           })
           filterUsername = null
-        }, time)
-        chrome.tabs.update(tabs[0].id, {url: autoUrl})
+          eventListener.clear('tabReady')
+        })
+    })
+  } else if (data.category == 'credit cards'){
+    var cardToFill = masterObj.creditCard.filter(function (account){
+      return account.name === data.name
+    })[0]
+    chrome.tabs.query({active: true, currentWindow: true}, function (tabs){
+      chrome.tabs.sendMessage(tabs[0].id, {eventName: 'autoFill', cardToFill: cardToFill, category: data.category})
     })
   }
 })
