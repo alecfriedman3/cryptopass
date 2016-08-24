@@ -20,9 +20,12 @@ app.controller('singleIdentityController', function($scope, $stateParams, $state
       }
     }
     $scope.identity.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
-    var encrypted = encrypt(JSON.stringify(masterObj), masterPass);
-    socket.emit('addFromElectron', { data: encrypted });
-    $state.reload();
+    settings.get('dropboxPath')
+      .then(val => {
+        var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
+        socket.emit('addFromElectron', {data: encrypted, dropboxPath: val})
+        $state.reload()
+      })
   }
 
 })

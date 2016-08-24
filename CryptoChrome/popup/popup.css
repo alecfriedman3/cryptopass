@@ -7,7 +7,7 @@ body {
     overflow-y: scroll;
     color: white;
     width: 400px;
-    height: 400px;
+    height: 426px;
     margin: 0;
 }
 .auth-form{
@@ -111,7 +111,7 @@ ul {
 }
 
 .welcome{
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   margin-top: 10px;
   color: rgb(52, 148, 132);
   font-weight:100;
@@ -327,3 +327,36 @@ input:focus{
 .small-icon-lock:before{
   display: none;
 }
+
+.inner-single input{
+  float: left;
+  width: 50%;
+  margin-right: 25%;
+  margin-left: 25%;
+  margin: 10px 25% 0 25%;
+  text-align: center;
+}
+.inner-single h3 {
+    margin-top: 41px;
+  }
+.inner-single h5 {
+  margin-bottom: 10px;
+  }
+.inner-single h5 button {
+      float: right;
+    }
+
+.sliders h3 {
+    text-align: center;
+  }
+
+input {
+    cursor: text;
+    font-size: 12px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid rgb(52, 148, 132);
+    border-radius: 0;
+    background-color: transparent;
+  }

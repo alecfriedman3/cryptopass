@@ -34,9 +34,12 @@ app.controller('singleCreditCardController', function($scope, $stateParams, Clip
       $scope.account.type = $scope.updateCard
     }
     $scope.account.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
-    var encrypted = encrypt(JSON.stringify(masterObj), masterPass);
-    socket.emit('addFromElectron', { data: encrypted });
-    $state.reload();
+    settings.get('dropboxPath')
+      .then(val => {
+        var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
+        socket.emit('addFromElectron', {data: encrypted, dropboxPath: val})
+        $state.reload()
+      })
   }
 
   $scope.copyText = function(text, className){

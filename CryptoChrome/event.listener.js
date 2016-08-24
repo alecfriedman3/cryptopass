@@ -12,4 +12,8 @@ EventListener.prototype.emit = function (eventName, data) {
   })
 }
 
+EventListener.prototype.clear = function (eventName) {
+  this[eventName] = null;
+}
+
 module.exports = EventListener;
