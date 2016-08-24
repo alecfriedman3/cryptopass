@@ -121,6 +121,8 @@ function formatAccounts(obj){
     accounts[key].items = currentAccount.map(function (acc){
       if (key == 'login'){
         return {name: acc.name, username: acc.username, url: acc.website, deleted: acc.deleted || null}
+      } else if (key == 'creditCard'){
+        return {name: acc.name, cardNumber: '************' + acc.cardNumber.slice(-4), deleted: acc.deleted || null}
       } else{
         return {name: acc.name, deleted: acc.deleted || null}
       }

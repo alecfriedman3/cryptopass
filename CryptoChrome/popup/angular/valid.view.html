@@ -6,7 +6,7 @@
             <p> {{account.category}} </p>
             <ul class="individual">
                 <!-- put an ng-click on these hrefs which also auto submits forms possibly -->
-                <li class="data-list-elements" ng-repeat="item in account.items" ng-hide="item.deleted" ng-click="autoFill(item.name, account.category, item.username)"><span> <span> {{item.name}}  </span> {{item.username || null}} </span></li>
+                <li class="data-list-elements" ng-repeat="item in account.items" ng-hide="item.deleted" ng-click="autoFill(item.name, account.category, item.username)"><span> <span> {{item.name}}  </span> {{item.username || item.cardNumber || null}} </span></li>
             </ul>
         </li>
     </ul>
