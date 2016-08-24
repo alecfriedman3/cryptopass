@@ -38,6 +38,7 @@ app.controller('singleLoginController', function($scope, $stateParams, Clipboard
   	})
     settings.get('dropboxPath')
       .then(val => {
+        console.log('dbpath!!!!!!!!!!!', val)
         var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
         socket.emit('addFromElectron', {data: encrypted, dropboxPath: val})
         $state.reload()

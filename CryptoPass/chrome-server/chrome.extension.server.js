@@ -61,7 +61,7 @@ io.on('connection', function (socket){
     	io.emit('electronAdd', {data: file.toString()})
     	// encrypt to dropbox
   		if(data.dropboxPath){
-	  		return fs.writeFileAsync(data.dropboxPath + '/Apps/CryptoPass/data.txt', file.toString());
+	  		return fs.writeFileAsync(data.dropboxPath + '/Apps/CryptoPass/data.txt', data.data);
 			}
   	})
   	.catch(console.log.bind(console))

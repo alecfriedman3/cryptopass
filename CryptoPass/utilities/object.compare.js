@@ -20,7 +20,8 @@ var compare = {
         for (var j = 0; j < base[key].length; j++){
           if (base[key][j].name == merger[key][i].name && merger[key][i].id == base[key][j].id /*&& !merger[key][i].deleted*/){
             // if the merging object was updated more frequently, overwrite it in the base
-            if (merger[key][i].lastUpdated > base[key][j].lastUpdated){
+            if (moment(merger[key][i].lastUpdated).isAfter(moment(base[key][j].lastUpdated)) ){
+              console.log('perhaps moments fucked up')
               base[key][j] = merger[key][i]
             }
           }

@@ -81,6 +81,14 @@ app.config(function($stateProvider) {
           $scope.$digest()
         })
 
+        eventListener.on('sendValid', function(data) {
+          if (data.valid){
+            $scope.accounts = data.accountInfo
+          }
+        })
+
+        chrome.extension.sendMessage({ eventName: 'getValid' })
+
       }
     })
 })

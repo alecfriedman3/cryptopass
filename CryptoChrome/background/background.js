@@ -58,39 +58,17 @@ eventListener.on('getValid', function (data){
 
 socket.on('electronAdd', function(data) {
   masterObj = JSON.parse(decrypt(data.data, masterPass))
-  for (var key in masterObj){
-    var currentAccount = masterObj[key];
-    accountInfo[key] = accountInfo[key] || {}
-    accountInfo[key].items = currentAccount.map(function (acc){
-      if (key == 'login'){
-        return {name: acc.name, username: acc.username, url: acc.website, deleted: acc.deleted || null}
-      } else{
-        return {name: acc.name, deleted: acc.deleted || null}
-      }
-    })
-    accountInfo[key].category = nameFormat(key)
-  }
+  accountInfo = formatAccounts(masterObj)
   chrome.extension.sendMessage({data: accountInfo, eventName: 'accountInfo'})
 })
 
 socket.on('responseChromeValidated', function(data) {
   masterObj = JSON.parse(decrypt(data.data, masterPass))
-  for (var key in masterObj){
-    var currentAccount = masterObj[key];
-    accountInfo[key] = accountInfo[key] || {}
-    accountInfo[key].items = currentAccount.map(function (acc){
-      if (key == 'login'){
-        return {name: acc.name, username: acc.username, url: acc.website, deleted: acc.deleted || null}
-      } else{
-        return {name: acc.name, deleted: acc.deleted || null}
-      }
-    })
-    accountInfo[key].category = nameFormat(key)
-  }
+  accountInfo = formatAccounts(masterObj)
   chrome.extension.sendMessage({valid: valid, eventName: 'validation'})
-  setTimeout(function (){
-    chrome.extension.sendMessage({data: accountInfo, eventName: 'accountInfo'})
-  }, 500)
+  // setTimeout(function (){
+  //   chrome.extension.sendMessage({data: accountInfo, eventName: 'accountInfo'})
+  // }, 0)
 })
 
 socket.on('chromeClearData', function (){
@@ -105,7 +83,6 @@ function updateTime(){
 //attempting to send info to
 eventListener.on('backgroundToFill', function (data){
   console.log('backgroundToFill!')
-  var time = 0;
   if (data.category == 'logins'){
     var toLogIn = masterObj.login.filter(function (account){
       return account.name === data.name && account.username == data.username
@@ -115,12 +92,10 @@ eventListener.on('backgroundToFill', function (data){
     if (data.name.toLowerCase() == 'gmail' || data.name.toLowerCase() == 'google'){
       autoUrl = 'https://accounts.google.com/ServiceLogin'
     }
-    time = 2000;
     filterUsername = data.username
     chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
         chrome.tabs.update(tabs[0].id, {url: autoUrl})
         eventListener.on('tabReady', function (incoming){
-          // if (!incoming.autofil) return
           chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
             chrome.tabs.sendMessage(tabs[0].id, {eventName: 'autoFill', accountName: toLogIn.name.toLowerCase(), category: data.category})
           })
@@ -138,6 +113,22 @@ eventListener.on('backgroundToFill', function (data){
   }
 })
 
+function formatAccounts(obj){
+  var accounts = {}
+  for (var key in obj){
+    var currentAccount = obj[key];
+    accounts[key] = accounts[key] || {}
+    accounts[key].items = currentAccount.map(function (acc){
+      if (key == 'login'){
+        return {name: acc.name, username: acc.username, url: acc.website, deleted: acc.deleted || null}
+      } else{
+        return {name: acc.name, deleted: acc.deleted || null}
+      }
+    })
+    accounts[key].category = nameFormat(key)
+  }
+  return accounts
+}
 
 // every 5 minutes check, if you have been inactive for 15 minutes clear data
 setInterval(function (){
