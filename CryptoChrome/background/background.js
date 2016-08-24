@@ -99,10 +99,14 @@ eventListener.on('backgroundToFill', function (data){
     })[0]
     console.log('in category logins', toLogIn)
     var autoUrl = toLogIn.website;
-    if (data.name.toLowerCase() == 'gmail' || data.name.toLowerCase() == 'google'){
+    if (data.name.toLowerCase().trim() == 'gmail' || data.name.toLowerCase().trim() == 'google'){
       autoUrl = 'https://accounts.google.com/ServiceLogin'
-    } else if (data.name.toLowerCase() == 'amazon'){
+    } else if (data.name.toLowerCase().trim() == 'amazon'){
       autoUrl = 'https://www.amazon.com/ap/signin?_encoding=UTF8&openid.assoc_handle=usflex&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.mode=checkid_setup&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.ns.pape=http%3A%2F%2Fspecs.openid.net%2Fextensions%2Fpape%2F1.0&openid.pape.max_auth_age=0&openid.return_to=https%3A%2F%2Fwww.amazon.com%2F%3Fref_%3Dnav_signin'
+    } else if (data.name.toLowerCase().trim() == 'twitter'){
+      autoUrl = 'https://twitter.com/login'
+    } else if (data.name.toLowerCase().trim() == 'tumblr'){
+      autoUrl = 'https://www.tumblr.com/login'
     }
     filterUsername = data.username
     chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {

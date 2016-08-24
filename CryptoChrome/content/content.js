@@ -55,7 +55,7 @@ eventListener.on('autoFill', function(data) {
     if (data.accountName == 'facebook'){
       $('#loginbutton').trigger('click')
     }
-    if (data.accountName == 'google' || data.accountName == 'gmail') {
+    if (data.accountName == 'google' || data.accountName == 'gmail' || data.accountName == 'tumblr') {
       setTimeout(function() {
         $('input[type="submit"]').each(function() {
           $(this).trigger('click')
@@ -83,13 +83,13 @@ eventListener.on('autoFill', function(data) {
           var mon = data.cardToFill.expiration.split('/')[0].toString();
           if (mon.length == 1) mon = '0' + mon;
           console.log('mon', mon)
-          $(this).val(mon)
+          $(this).val(mon).change()
      }
       if (($this.id && $this.id.toLowerCase().match(/exp/) || $this.id.toLowerCase().match(/yea/) || $this.id.toLowerCase().match(/date/)) || ($this.className && $this.className.toLowerCase().match(/exp/) || $this.className.toLowerCase().match(/yea/) || $this.id.toLowerCase().match(/date/))){
           var yea = data.cardToFill.expiration.split('/')[1].toString()
           if (yea.length == 2) yea = '20' + yea;
           console.log('year', yea)
-          $(this).val(yea)
+          $(this).val(yea).change()
       }
     })
   }
