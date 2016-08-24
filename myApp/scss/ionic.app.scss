@@ -26,9 +26,20 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 //view of all
 
+
+.settings {
+  text-align:center;
+  font-family: "Times New Roman", Georgia, Serif;
+}
 .listInView {
   color:#2CC3B5;
   text-align:center;
+}
+
+.listInViewPartText {
+  text-align:center;
+  font-family:Comic Sans;
+  font-color:#1b4b43;
 }
 
 .nameTitle {

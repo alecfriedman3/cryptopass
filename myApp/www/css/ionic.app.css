@@ -9815,9 +9815,18 @@ a.button {
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
 
+.settings {
+  text-align: center;
+  font-family: "Times New Roman", Georgia, Serif; }
+
 .listInView {
   color: #2CC3B5;
   text-align: center; }
+
+.listInViewPartText {
+  text-align: center;
+  font-family: Comic Sans;
+  font-color: #1b4b43; }
 
 .nameTitle {
   font-family: "Times New Roman", Georgia, Serif;

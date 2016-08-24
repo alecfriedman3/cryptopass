@@ -5,7 +5,7 @@
     <li class="item" ui-sref="app.creditCardSingle({id: account.id, accountData: account})" ng-repeat="account in accounts | filter: searchFilter track by account.id">
       <div>
         <h1 class="listInView">{{account.name}}<h1>
-        <h3> {{account.cardNumber.slice(0,16) + '...'}} </h3>
+        <h3 class="listInViewPartText"> {{account.cardNumber.slice(0,16) + '...'}} </h3>
       </div>
     </li>
   </ul>
