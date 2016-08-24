@@ -15,7 +15,7 @@
     <h5>Last Updated: {{identity.lastUpdated}}</h5>
   </div>
 
-  <div class="update-form" ng-show="updateInfo">
+  <div class="add-form single-view" ng-show="updateInfo">
     <form ng-submit="changeInfo()">
       <div class="form-group">
         <input type="text" placeholder="Enter Data Here" ng-model="newAccount.name">
@@ -24,9 +24,9 @@
         <input type="text" placeholder="Enter Data Here" ng-model="newAccount.data">
       </div>
       <div class="form-actions">
-        <button type="submit" class="btn btn-form btn-positive">Update</button>
+        <button type="submit" class="btn btn-form btn-primary">OK</button>
+        <button type="button" class="btn btn-warning" ng-click="showForm()">Cancel</button>
       </div>
     </form>
-    <button class="btn btn-warning" ng-click="showForm()">Cancel</button>
   </div>
 </div>

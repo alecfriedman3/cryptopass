@@ -12,16 +12,21 @@
   <div class="form-group inner-single" ng-hide="updateInfo">
     <h3>Account Details:</h3>
     <h5 class="highlightable"><span class="categories">Card Holder:</span> {{account.firstName}} {{account.lastName}}</h5>
+
     <h5 class="highlightable"><span class="categories">Credit Card Type:</span> {{account.type}}</h5>
-    <h5 class="highlightable"><span class="categories">Account Number:</span> {{account.cardNumber}} <button class="copy-button btn btn-default" ng-click="copyText(account.cardNumber)">Copy</button></h5>
+
+    <h5 class="highlightable"><span class="categories">Card Number:</span> {{account.cardNumber}} <button class="copy-button" ng-class="isActive == 'num' ? 'hasColor' : 'noColor'" ng-click="copyText(account.cardNumber, 'num')">Copy</button></h5>
+
     <h5 class="highlightable"><span class="categories">Expiration Date:</span> {{account.expiration}}</h5>
-    <h5 class="highlightable"><span class="categories">CCV:</span> {{account.ccv}} <button class="copy-button btn btn-default" ng-click="copyText(account.ccv)">Copy</button></h5>
+
+    <h5 class="highlightable"><span class="categories">CCV:</span> {{account.ccv}} <button class="copy-button" ng-class="isActive == 'ccv' ? 'hasColor' : 'noColor'" ng-click="copyText(account.ccv, 'ccv')">Copy</button></h5>
+
     <h5>Created: {{account.createdAt}}</h5>
     <h5>Last Updated: {{account.lastUpdated}}</h5>
 
   </div>
 
-  <div class="update-form" ng-show="updateInfo">
+  <div class="add-form single-view" ng-show="updateInfo">
     <form ng-submit="changeInfo()">
       <div class="">
         <input type="text" placeholder="Primary Account Holder" ng-model="fullName">
@@ -45,11 +50,13 @@
         <option>American Express</option>
         <option>Discover</option>
       </select>
+      </br>
       <div class="form-actions">
-        <button type="submit" class="btn btn-form btn-positive">Update</button>
+        <button type="submit" class="btn btn-form btn-primary">OK</button>
+        <button type="button" class="btn btn-warning" ng-click="showForm()">Cancel</button>
       </div>
     </form>
-    <button type="submit" class="btn btn-warning" ng-click="showForm()">Cancel</button>
+
 
   </div>
 </div>
