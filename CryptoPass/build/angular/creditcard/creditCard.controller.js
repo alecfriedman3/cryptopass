@@ -71,6 +71,10 @@ app.controller('addCreditCardController', function($scope, $state, $stateParams,
     $scope.creditCard.id = newId
     $scope.creditCard.createdAt = moment().format('MMMM Do YYYY, h:mm:ss a');
     $scope.creditCard.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
+    if(!$scope.creditCard.cardNumber){
+      alert('Please enter a Card Number')
+      return;
+    }
     if ($scope.creditCard) masterObj.creditCard.push($scope.creditCard)
     settings.get('dropboxPath')
     .then(path => {
