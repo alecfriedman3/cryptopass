@@ -5,10 +5,18 @@
       <h3>You haven't yet added any information for us to store. </br> Please select an option below.</h3>
       </br>
       <div class="no-data-content-btn">
-        <button class="btn btn-large btn-default" ui-sref="login.add"><span class="icon icon-login"></span> Add a Login</button>
-        <button class="btn btn-large btn-default" ng-click="addItem('creditCard.add')"><span class="icon icon-credit-card"></span> Add a Credit Card</button>
-        <button class="btn btn-large btn-default" ng-click="addItem('identity.add')"><span class="icon icon-user"></span> Add an Identity</button>
-        <button class="btn btn-large btn-default" ng-click="addItem('note.add')"><span class="icon icon-doc-text"></span> Add a Note</button>
+        <div class="form-actions">
+          <button class="button green" ui-sref="login.add"><span class="icon icon-login"></span> Add a Login</button>
+        </div>
+        <div class="form-actions">
+          <button class="button green" ng-click="addItem('creditCard.add')"><span class="icon icon-credit-card"></span> Add a Credit Card</button>
+        </div>
+        <div class="form-actions">
+          <button class="button green" ng-click="addItem('identity.add')"><span class="icon icon-user"></span> Add an Identity</button>
+        </div>
+        <div class="form-actions">
+          <button class="button green" ng-click="addItem('note.add')"><span class="icon icon-doc-text"></span> Add a Note</button>
+        </div>
       </div>
     </div>
   </div>
