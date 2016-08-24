@@ -24,8 +24,12 @@ if ($email.length || $password.length) {
   chrome.extension.sendMessage({ eventName: 'logins', currentUrl: window.location.href.toLowerCase() })
 }
 
-eventListener.on('loginRes', function(data) {
+// eventListener.on('newAccountGen', function (data){
 
+// })
+
+eventListener.on('loginRes', function(data) {
+  console.log('received new login', data)
   data.logins.forEach(function(account) {
     if ($password.length) {
       $password.val(account.password);

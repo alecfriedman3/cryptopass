@@ -3,6 +3,9 @@ var socket = io.connect('http://localhost:9999', { reconnect: true });
 var angular = require('angular');
 var uiRouter = require('angular-ui-router')
 var app = angular.module('cryptoPass', ['ui.router'])
+var idGenerator = require('../utilities/hash.utility.js').idGenerator
+var createRandom = require('../utilities/pass.gen.js').createRandom
+var moment = require('moment')
 
 var eventListener = new EventListener();
 
@@ -72,6 +75,10 @@ app.config(function($stateProvider) {
           $rootScope.accounts = null
         }
 
+        $scope.toAdd = function (){
+          $state.go('add')
+        }
+
         $scope.autoFill = function(name, category, username) {
           chrome.extension.sendMessage({ eventName: 'backgroundToFill', name: name, username: username || null, category: category.toLowerCase() })
         }
@@ -88,6 +95,45 @@ app.config(function($stateProvider) {
         })
 
         chrome.extension.sendMessage({ eventName: 'getValid' })
+
+      }
+    })
+    .state('add', {
+      url: '/add',
+      templateUrl: 'angular/add.view.html',
+      controller: function ($scope, $state){
+        $scope.login = {
+          name: null,
+          username: null,
+          password: null,
+          website: null
+        }
+
+        $scope.generatePassword = function (len, syms, nums){
+          if (+syms + +nums > +len){
+            $scope.syms = '0';
+            $scope.nums = '0';
+            return
+          }
+          $scope.login.password = $scope.password2 = createRandom(+len, +syms, +nums)
+        }
+
+        $scope.createLogin = function (){
+          // console.log('submitted')
+          // return
+          if ($scope.login.password !== $scope.password2 || !$scope.login.password) {
+            alert("Passwords do not match!");
+            return
+          } else {
+            var newId = idGenerator($scope.login)
+            $scope.login.createdAt = moment().format('MMMM Do YYYY, h:mm:ss a');
+            $scope.login.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
+            $scope.login.id = newId
+            if ($scope.login.website && $scope.login.website.search(/http/) == -1) $scope.login.website = 'http://'+$scope.login.website
+            chrome.extension.sendMessage({eventName: 'newLogin', login: $scope.login})
+            $state.go('valid')
+          }
+        }
 
       }
     })

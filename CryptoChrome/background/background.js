@@ -42,7 +42,7 @@ eventListener.on('logins', function (data) {
   masterObj.login.forEach(function (account){
     var lowerName = account.name.split(' ').join('').toLowerCase()
     var accountRe = new RegExp(lowerName)
-    if (data.currentUrl.match(accountRe) || (account.name.toLowerCase() == 'gmail' && data.currentUrl.match(/google/))){
+    if (!account.deleted && data.currentUrl.match(accountRe) || (account.name.toLowerCase() == 'gmail' && data.currentUrl.match(/google/))){
       possibleLogins.push(account)
     }
   })
@@ -54,6 +54,16 @@ eventListener.on('logins', function (data) {
 
 eventListener.on('getValid', function (data){
   chrome.extension.sendMessage({eventName: 'sendValid', valid: valid, accountInfo: accountInfo})
+})
+
+eventListener.on('newLogin', function (data){
+  masterObj.login.push(data.login)
+  accountInfo = formatAccounts(masterObj)
+  var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
+  socket.emit('addFromChrome', {data: encrypted})
+  chrome.tabs.query({active: true, currentWindow: true}, function (tabs){
+    chrome.tabs.sendMessage(tabs[0].id, {eventName: 'loginRes', logins: [data.login]})
+  })
 })
 
 socket.on('electronAdd', function(data) {
@@ -91,6 +101,8 @@ eventListener.on('backgroundToFill', function (data){
     var autoUrl = toLogIn.website;
     if (data.name.toLowerCase() == 'gmail' || data.name.toLowerCase() == 'google'){
       autoUrl = 'https://accounts.google.com/ServiceLogin'
+    } else if (data.name.toLowerCase() == 'amazon'){
+      autoUrl = 'https://www.amazon.com/ap/signin?_encoding=UTF8&openid.assoc_handle=usflex&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.mode=checkid_setup&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.ns.pape=http%3A%2F%2Fspecs.openid.net%2Fextensions%2Fpape%2F1.0&openid.pape.max_auth_age=0&openid.return_to=https%3A%2F%2Fwww.amazon.com%2F%3Fref_%3Dnav_signin'
     }
     filterUsername = data.username
     chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {

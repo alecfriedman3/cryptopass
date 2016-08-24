@@ -1,0 +1,18 @@
+<form ng-submit="createLogin()">
+    <div class="inner-single">
+        <input ng-model="login.name" placeholder="Website name (e.g Facebook, Gmail)" class="">
+        <input ng-model="login.username" placeholder="Username" class="">
+        <input ng-model="login.password" placeholder="Password">
+        <input ng-model="password2" placeholder="Confirm Password" class="">
+        <input ng-model="login.website" placeholder="Website" class="">
+        <span class="parentCategories" style="margin-top: 10px" ng-click="createLogin()" type="submit">Submit</span>
+    </div>
+</form>
+<div class="sliders" ng-show="true || gen">
+    <h3>Length</h3>
+    <input type="range" min="8" max="20" step="1" ng-model='leng' ng-change="generatePassword(leng, syms, nums)">
+    <h3>Symbols</h3>
+    <input type="range" min="0" max="{{leng - nums}}" step="1" ng-model="syms" ng-change="generatePassword(leng, syms, nums)" translate="currencyFormatting"></input>
+    <h3>Numbers</h3>
+    <input type="range" min="0" max="{{leng - syms}}" step="1" ng-model="nums" ng-change="generatePassword(leng, syms, nums)" translate="currencyFormatting"></input>
+</div>
