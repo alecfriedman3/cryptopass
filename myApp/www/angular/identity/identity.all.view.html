@@ -3,7 +3,7 @@
   <ion-content>
   <div><input class="search" type="text" placeholder="search" ng-model="searchFilter"></div>
     <ul class="list single-state-list">
-      <li class="item" ui-sref="app.identitySingle({id: account.id, accountData: account})" ng-repeat="account in accounts | filter:searchFilter">
+      <li class="item" ui-sref="app.identitySingle({id: account.id, accountData: account})" ng-repeat="account in accounts | filter:searchFilter track by account.id">
         <div>
           <h1>{{account.name}}</h1>
           <h3> {{account.data}} </h3>
