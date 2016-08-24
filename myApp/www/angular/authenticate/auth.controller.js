@@ -54,6 +54,7 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 	};
 
 	$scope.linkDropbox = function(){
+		$state.go('app.home')
 		var dropboxPathForCrypto;
 		$scope.loading = true;
 		$cordovaOauth.dropbox('pg8nt8sn9h5yidb')

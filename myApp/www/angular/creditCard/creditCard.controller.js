@@ -5,6 +5,43 @@ app.controller('creditCardController', function($scope){
 app.controller('creditCardSingleController', function($scope, $stateParams){
   console.log($stateParams);
   $scope.account = $stateParams.accountData;
+
+  $scope.account = masterObj.creditCard.filter(info => info.id == $stateParams.id)[0]
+  $scope.updateInfo = false;
+  var fullName = $scope.account.firstName + ' ' + $scope.account.lastName;
+  $scope.fullName = fullName;
+  $scope.updateCard = 'Select Card Type'
+  $scope.newAccount = angular.copy($scope.account)
+
+  // $scope.getImg = getImg;
+
+  $scope.showForm = function() {
+    $scope.updateInfo = !$scope.updateInfo;
+  }
+
+  $scope.changeInfo = function() {
+    for (var key in $scope.newAccount){
+      if ($scope.account[key] !== $scope.newAccount[key]){
+        $scope.account[key] = $scope.newAccount[key];
+      }
+    }
+    if ($scope.fullName !== fullName){
+      var name = $scope.fullName.split(' ')
+      $scope.account.firstName = name[0]
+      $scope.account.lastName = name[1]
+    }
+    if ($scope.updateCard !== 'Select Card Type'){
+      $scope.account.type = $scope.updateCard
+    }
+    $scope.account.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
+    var encrypted = encrypt(JSON.stringify(masterObj), masterPass);
+    socket.emit('addFromElectron', { data: encrypted });
+    $state.reload();
+  }
+
+  // $scope.copyText = function(text){
+  //   Clipboard.copy(text)
+  // }
 })
 
 

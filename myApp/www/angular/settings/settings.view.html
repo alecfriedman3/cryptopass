@@ -1,11 +1,13 @@
 <ion-view view-title="Identities">
   <ion-content>
-    <h3>Connect Accounts</h3>
-    <button ng-click="dropboxAuth()" class="button button-full button-positive"><span class="icon icon-dropbox"></span>{{buttonText}}</button>
+    <h3 class="settings">Connect Accounts</h3>
+  </br>
+    <button style="background-color:rgb(52, 148, 132)" ng-click="dropboxAuth()" class="button button-full button-positive><span class="icon icon-dropbox"></span>{{buttonText}}</button>
+    </br>
     <div>
       {{error}}
     </div>
-    <div class="change-master-pass-div">
+    <div class="settings" class="change-master-pass-div">
       <h3>Change Master Password</h3>
     </div>
     <form>
