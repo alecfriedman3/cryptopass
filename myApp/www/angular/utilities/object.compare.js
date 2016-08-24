@@ -1,4 +1,5 @@
 var moment = require('moment');
+
 var compare = {
   compareAndMerge: function (merger, base){
     // console.log(merger, base);
