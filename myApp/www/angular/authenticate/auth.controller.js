@@ -5,7 +5,7 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 	var utils = require('../angular/utilities/encrypt.utility.js');
 	var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
   var compareAndUpdate = require('../angular/utilities/object.compare.js').compareAndUpdate;
-	window.localStorage.clear()
+	// window.localStorage.clear()
 	var token = window.localStorage.getItem('dropboxAuth');
 	var backupEnabled = window.localStorage.getItem('touchIdBackup');
 

@@ -2,9 +2,17 @@ app.controller('creditCardController', function($scope){
   $scope.accounts = masterObj.creditCard;
 })
 
-app.controller('creditCardSingleController', function($scope, $stateParams){
+app.controller('creditCardSingleController', function($scope, $stateParams, $timeout){
   console.log($stateParams);
   $scope.account = $stateParams.accountData;
+  $scope.isActive = null
+  $scope.copyText = function (text, className){
+    $scope.isActive = className;
+    cordova.plugins.clipboard.copy(text)
+    $timeout(function(){
+      $scope.isActive = null
+    }, 2000);
+  }
 })
 
 
