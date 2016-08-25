@@ -3,11 +3,19 @@ app.controller('loginController', function($scope, $state){
 
 })
 
-app.controller('loginSingleController', function($stateParams, $scope, $state){
+app.controller('loginSingleController', function($stateParams, $scope, $state, $timeout){
   console.log($stateParams);
   console.log('in singleCont');
   $scope.account = $stateParams.accountData
   console.log(($state));
+  $scope.isActive = null
+  $scope.copyText = function (text, className){
+    $scope.isActive = className;
+    cordova.plugins.clipboard.copy(text)
+    $timeout(function(){
+      $scope.isActive = null
+    }, 2000);
+  }
 })
 
  // var dropboxUtilities = require('./utilities/dropbox/dropbox.utilities.js')

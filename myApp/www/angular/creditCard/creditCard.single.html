@@ -1,17 +1,21 @@
-<div>
+<!-- <div class="inner-single"> -->
+<ion-view view-title="{{account.name}}">
+  <ion-content>
 
-  <div ng-hide="updateInfo">
-    <h1>{{account.name}}</h1>
+  <div class="inner-single">
     <h3>Account Details:</h3>
+    <!-- <h4>{{account.name}}</h4> -->
     <h4 class="highlightable">{{account.firstName}} {{account.lastName}}</h4>
     <h5 class="highlightable">Credit Card Type: {{account.type}}</h5>
-    <h5 class="highlightable">Account Number: {{account.cardNumber}} <button class="copy-button btn btn-default" ng-click="copyText(account.cardNumber)">Copy</button></h5>
-    <h5 class="highlightable">Expiration Date: {{account.expiration}}</h5>
-    <h5 class="highlightable">CCV: {{account.ccv}} <button class="copy-button btn btn-default" ng-click="copyText(account.ccv)">Copy</button></h5>
-    <button class="btn btn-large btn-default" ng-click="showForm()">Update Info</button>
+    <h5 class="highlightable">Account Number: {{account.cardNumber}} <button ng-class="isActive == 'num' ? 'hasColor' : 'noColor'" class="copy-button btn btn-default" ng-click="copyText(account.cardNumber, 'num')">Copy</button></h5>
+    <h5 class="highlightable">Expiration Date: {{account.expiration}} <button ng-class="isActive == 'exp' ? 'hasColor' : 'noColor'" class="copy-button btn btn-default" ng-click="copyText(account.expiration, 'exp')">Copy</button></h5>
+    <h5 class="highlightable">CCV: {{account.ccv}} <button ng-class="isActive == 'ccv' ? 'hasColor' : 'noColor'" class="copy-button btn btn-default" ng-click="copyText(account.ccv, 'ccv')">Copy</button></h5>
+    <!-- <button class="btn btn-large btn-default" ng-click="showForm()">Update Info</button> -->
   </div>
 
-  <div ng-show="updateInfo">
+  </ion-content>
+</ion-view>
+  <!-- <div ng-show="updateInfo">
     <form ng-submit="changeInfo()">
       <div class="form-group">
         <label>Primary Account Holder:</label>
@@ -49,3 +53,4 @@
 
   </div>
 </div>
+ -->

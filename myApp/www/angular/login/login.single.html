@@ -2,18 +2,14 @@
   <ion-content>
   <div class="inner-single">
     <h3>Login Details:</h3>
-    <h5 class="highlightable"><span>Username:</span> {{account.username}} <!-- <button class="copy-button btn btn-default" ng-click="copyText(account.username)">Copy</button> --></h5>
-    <h5 class="highlightable"><span>Password:</span> {{account.password}} <!-- <button class="copy-button btn btn-default" ng-click="copyText(account.password)">Copy</button> --></h5>
-    <h5 class="highlightable"><span>Website:</span> {{account.website}} <!-- <button class="copy-button btn btn-default" ng-click="copyText(account.password)">Copy</button> --></h5>
+    <h5 class="highlightable"><span>Username:</span> {{account.username}} <button ng-class="isActive == 'usrn' ? 'hasColor' : 'noColor'" class="copy-button btn btn-default" ng-click="copyText(account.username, 'usrn')">Copy</button></h5>
+    <h5 class="highlightable"><span>Password:</span> {{account.password}} <button ng-class="isActive == 'pswd' ? 'hasColor' : 'noColor'" class="copy-button btn btn-default" ng-click="copyText(account.password, 'pswd')">Copy</button></h5>
+    <h5 class="highlightable"><span>Website:</span> {{account.website}} <button ng-class="isActive == 'webs' ? 'hasColor' : 'noColor'" class="copy-button btn btn-default" ng-click="copyText(account.website, 'webs')">Copy</button></h5>
 
 
     <h5>Created: {{account.createdAt}}</h5>
     <h5>Last Updated: {{account.lastUpdated}}</h5>
 
   </div>
- <!--    <div>
-      <h3>{{account.username}}</h3>
-      <h6>{{account.password}}</h6>
-    </div> -->
   </ion-content>
 </ion-view>
