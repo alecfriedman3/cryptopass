@@ -31,8 +31,6 @@ app.on('ready', () => {
 
   window.loadURL(`file:${indexFile}`); /* load your page */
 
-
-
 });
 
 /* 'activate' is emitted when the user clicks the Dock icon (OS X) */

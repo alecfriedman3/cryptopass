@@ -50,6 +50,11 @@
       }
 
     </script>
+    <script type="text/javascript">
+    	window.onkeydown = function (e) {
+    		if (e.metaKey && e.keyCode === 82 || (e.keyCode === 73 && e.key === 'Dead')) e.preventDefault();
+    	}
+    </script>
 		<script>
 			var idGenerator = require('./utilities/hash.utility.js').idGenerator
 			var dropboxUtilities = require('./utilities/dropbox/dropbox.utilities.js')
