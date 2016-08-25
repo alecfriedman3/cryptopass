@@ -63,6 +63,9 @@ app.controller('singleLoginController', function($scope, $stateParams, Clipboard
 		$scope.gen = null
 	$scope.generate = function (){
 		$scope.gen = !$scope.gen
+    if ($scope.gen){
+      $scope.type = 'text'
+    }
 	}
 
   $scope.copyText = function(text, className){

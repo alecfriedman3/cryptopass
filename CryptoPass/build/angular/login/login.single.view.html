@@ -33,14 +33,15 @@
       </div>
       <div class="form-group">
         <div>
-          <input ng-model="password1" type="text" placeholder="Password" style="float: left; margin-left: 135px; margin-top: 15px; margin-bottom: 30px;">
+          <input ng-model="password1" type="{{type}}" placeholder="Password" style="float: left; margin-left: 136px; margin-top: 15px; margin-bottom: 30px;">
         </div>
         <div>
           <span class="icon icon-key" ng-click="generate()" style="margin-top: 20px; float: left; margin-left: 5px; cursor: pointer; padding: 5px;"></span>
+          <span class="icon icon-eye" ng-click="reveal()" style="margin-top: 20px; float: left; margin-left: 5px; cursor: pointer; padding: 5px;"></span>
         </div>
       </div>
       <div class="form-group">
-        <input ng-model="password2" type="text" placeholder="Confirm Password">
+        <input ng-model="password2" type="{{type}}" placeholder="Confirm Password">
       </div>
       <div class="form-actions form-group inner-single">
         <button type="submit" class="button green">OK</button>
