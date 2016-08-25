@@ -305,11 +305,37 @@ sidebar{
 	width: 360px;
 }
 .sidebar{
+  -webkit-app-region: drag;
+  overflow-x: hidden;
 	height: 100%;
 	width: 100%;
 	box-shadow: 7px 0px 24px -8px rgba(0,0,0,0.75);
-	background-color: rgba(45, 149, 145, 0.9);
+	background-color: rgba(45, 149, 145, 1);
 	padding-top: 10px;
+}
+.top-sidebar-div{
+  padding-top: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+  z-index: 10;
+  background-color: rgba(45, 149, 145, 1);
+  width: 360px;
+  margin-left: -15px;
+  position: fixed;
+  height: 180px;
+  margin-top: -15px;
+  border-bottom: 1px solid rgb(8, 138, 133)
+}
+
+::-webkit-scrollbar {
+  display: none !important;
+}
+
+.sidebar-items-ul{
+  margin-top: 164px;
+}
+.sidebar-items-ul::-webkit-scrollbar {
+  display: none;
 }
 
 .toolbar-header{
@@ -331,16 +357,16 @@ sidebar{
 	-webkit-app-region: drag;
 	color: rgb(181, 221, 219);
 	font-size: 200%;
-	margin-right: 50px;
+	margin-right: 0px;
 	margin-top: -25px;
-	margin-left: -50px;
+	margin-left: -75px;
 	padding-left: 30px;
 	padding-top: 32px;
 	vertical-align: bottom;
 }
 .categories-dropdown-button{
 	float: right;
-	margin-right: 10%;
+	margin-right: 5%;
 	margin-top: -11%;
   padding: 10px;
   cursor: pointer;
@@ -372,7 +398,7 @@ sidebar{
 }
 .sidebar-search{
 	background-color: rgb(8, 138, 133);
-	width: 110%;;
+	width: 109%;;
 	margin-left: -15px;
 	input{
 		text-align: center;
@@ -390,11 +416,6 @@ sidebar{
   .sidebar-search-input:focus::-webkit-input-placeholder {
     color: transparent;
   }
-}
-.list-group:nth-child(2){
-	.sidebar-items{
-	}
-
 }
 
 .list-group-item{
@@ -680,10 +701,27 @@ body {
 }
 
   .copy-button{
-
+    cursor: pointer;
+    display: inline-block;
+    margin: 0.1em;
+    padding: 0.1em .7em;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    text-transform: uppercase;
+    border-radius: 3px;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -ms-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+    border: none;
     font-size: 12px;
-    padding: 0px, 3px, 0px, 3px;
-    margin-left: 5px;
+    text-align: center;
+  }
+
+  .copy-button:focus {
+    outline: none;
   }
 
 .deletebtn {
@@ -777,6 +815,7 @@ body {
 }
 
 .banner {
+  -webkit-app-region: drag;
   margin: -15px -15px 10px;
   height: 67px;
   padding-top: 10px;
@@ -835,5 +874,49 @@ body {
 }*/
 
 .icon-eye {
+  cursor: pointer;
+}
+
+.button {
+  display: inline-block;
+  margin: 0.1em;
+  padding: 0.1em 1.5em;
+  overflow: hidden;
+  position: relative;
+  text-decoration: none;
+  text-transform: uppercase;
+  border-radius: 3px;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -ms-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  border: none;
+  font-size: 15px;
+  text-align: center;
+}
+
+.button:hover {
+  box-shadow: 1px 6px 15px rgba(0,0,0,0.5);
+}
+
+.green {
+  background-color: rgba(45, 149, 145, 0.9);
+  color: #b5dddb;
+}
+
+.red {
+  background-color: #F44336;
+  color: #b5dddb;
+}
+
+.form-actions {
+  .button {
+    margin-top: 15px;
+  }
+}
+
+.icon-pencil {
   cursor: pointer;
 }
