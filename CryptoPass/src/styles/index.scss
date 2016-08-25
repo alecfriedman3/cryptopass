@@ -310,8 +310,32 @@ sidebar{
 	height: 100%;
 	width: 100%;
 	box-shadow: 7px 0px 24px -8px rgba(0,0,0,0.75);
-	background-color: rgba(45, 149, 145, 0.9);
+	background-color: rgba(45, 149, 145, 1);
 	padding-top: 10px;
+}
+.top-sidebar-div{
+  padding-top: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+  z-index: 10;
+  background-color: rgba(45, 149, 145, 1);
+  width: 360px;
+  margin-left: -15px;
+  position: fixed;
+  height: 180px;
+  margin-top: -15px;
+  border-bottom: 1px solid rgb(8, 138, 133)
+}
+
+::-webkit-scrollbar {
+  display: none !important;
+}
+
+.sidebar-items-ul{
+  margin-top: 164px;
+}
+.sidebar-items-ul::-webkit-scrollbar {
+  display: none;
 }
 
 .toolbar-header{
@@ -333,16 +357,16 @@ sidebar{
 	-webkit-app-region: drag;
 	color: rgb(181, 221, 219);
 	font-size: 200%;
-	margin-right: 50px;
+	margin-right: 0px;
 	margin-top: -25px;
-	margin-left: -50px;
+	margin-left: -75px;
 	padding-left: 30px;
 	padding-top: 32px;
 	vertical-align: bottom;
 }
 .categories-dropdown-button{
 	float: right;
-	margin-right: 10%;
+	margin-right: 5%;
 	margin-top: -11%;
   padding: 10px;
   cursor: pointer;
@@ -374,7 +398,7 @@ sidebar{
 }
 .sidebar-search{
 	background-color: rgb(8, 138, 133);
-	width: 110%;;
+	width: 109%;;
 	margin-left: -15px;
 	input{
 		text-align: center;
@@ -392,11 +416,6 @@ sidebar{
   .sidebar-search-input:focus::-webkit-input-placeholder {
     color: transparent;
   }
-}
-.list-group:nth-child(2){
-	.sidebar-items{
-	}
-
 }
 
 .list-group-item{

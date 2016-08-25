@@ -1,27 +1,27 @@
 <div class="pane pane-lg sidebar">
-  <nav-bar class="navbar-directive-class" ng-show="true"></nav-bar>
-  <nav class="nav-group">
+  <div class="top-sidebar-div">
+    <nav-bar class="navbar-directive-class" ng-show="true"></nav-bar>
+      <nav class="nav-group">
+    </nav>
     <h1 class="navbar-header">Welcome, {{username}}</h1>
-      <!-- <sidebar-item model="item" ng-repeat="item in items"></sidebar-item> -->
       <ul class="list-group">
         <div class="sidebar-search">
           <li class="list-group-header">
             <input class="sidebar-search-input form-control" type="text" ng-model="search" placeholder="Search">
           </li>
         </div>
-
       <div class="settings-button">
         <h2>{{stateName}}</h2>
         <div class="inner-settings-btns">
           <button ng-hide="settings" ng-click="addItem()"><span class="icon icon-plus-squared"></span></button>
-
         </div>
         <button class="cog" ng-click="settingsView(navItem, secondaryProp)">
             <span class="icon icon-cog"></span>
-          </button>
+        </button>
 		  </div>
-
-        <sidebar-item ng-repeat="info in navItem | filter:search track by info.id " item="info" ng-hide="info.deleted" ng-click="singleView(info.id)"></sidebar-item>
-      </ul>
-  </nav>
+    </ul>
+  </div>
+    <ul class="list-group sidebar-items-ul">
+      <sidebar-item ng-repeat="info in navItem | filter:search track by info.id " item="info" ng-hide="info.deleted" ng-click="singleView(info.id)"></sidebar-item>
+    </ul>
 </div>
