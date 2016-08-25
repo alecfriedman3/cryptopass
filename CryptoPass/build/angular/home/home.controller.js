@@ -15,8 +15,6 @@ app.controller('homeController', function($scope, $state, $rootScope){
     $state.go('identity.single', {id: tempMasterObj.identity[0].id})
   } else if (tempMasterObj.note.length) {
     $state.go('note.single', {id: tempMasterObj.note[0].id})
-  } else {
-    console.log("you've got an empty master object");
   }
 
 });

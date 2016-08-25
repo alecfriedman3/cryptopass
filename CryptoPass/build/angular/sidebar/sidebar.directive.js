@@ -59,9 +59,6 @@ app.directive('sidebarItem', function($state, $stateParams){
         })
       }
     }
-    // else {
-    //   console.log("blaaaa");
-    // }
     }
 
   }
@@ -94,7 +91,6 @@ app.directive('sidebar', function($state){
 
     	scope.addItem = function (){
     		var stateParent = $state.current.name.replace(/\.single/g, '').replace(/\.add/g, '') + '.add'
-        console.log(stateParent)
     		$state.go(stateParent, {reload: true, inherit: false,notify: true})
     	}
 

@@ -44,7 +44,6 @@ app.controller('singleCreditCardController', function($scope, $stateParams, Clip
 
   $scope.copyText = function(text, className){
     $scope.isActive = className;
-    console.log('clicked in controller');
     Clipboard.copy(text);
     $timeout(function(){
       // $scope.isActive = !$scope.isActive;

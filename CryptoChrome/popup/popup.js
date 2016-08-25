@@ -119,8 +119,6 @@ app.config(function($stateProvider) {
         }
 
         $scope.createLogin = function (){
-          // console.log('submitted')
-          // return
           if ($scope.login.password !== $scope.password2 || !$scope.login.password) {
             alert("Passwords do not match!");
             return

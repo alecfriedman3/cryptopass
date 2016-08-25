@@ -19,12 +19,8 @@ eventListener.on('authentication', function (req) {
   .then(function (data){
       // try decrypting, if success emit success, otherwise reset master
     var decrypted = decrypt(data.data, masterPass)
-    console.log(decrypted, 'decryptedddddd');
     valid = data.check.trim() === decrypted.trim()
-    console.log(valid, data.check, decrypted);
-    // chrome.extension.sendMessage({valid: valid, eventName: 'validation'})
     if (valid){
-      console.log('in this ifffff');
       socket.emit('chromeValidate')
     }
   })
@@ -80,14 +76,10 @@ socket.on('responseChromeValidated', function(data) {
   masterObj = JSON.parse(decrypt(data.data, masterPass))
   accountInfo = formatAccounts(masterObj)
   chrome.extension.sendMessage({valid: valid, eventName: 'validation'})
-  // setTimeout(function (){
-  //   chrome.extension.sendMessage({data: accountInfo, eventName: 'accountInfo'})
-  // }, 0)
 })
 
 socket.on('chromeClearData', function (){
   masterObj = masterPass = valid = accountInfo = null;
-  console.log('masterObj cleared')
 })
 
 function updateTime(){
@@ -96,12 +88,10 @@ function updateTime(){
 
 //attempting to send info to
 eventListener.on('backgroundToFill', function (data){
-  console.log('backgroundToFill!')
   if (data.category == 'logins'){
     var toLogIn = masterObj.login.filter(function (account){
       return account.name === data.name && account.username == data.username
     })[0]
-    console.log('in category logins', toLogIn)
     var autoUrl = toLogIn.website;
     if (data.name.toLowerCase().trim() == 'gmail' || data.name.toLowerCase().trim() == 'google'){
       autoUrl = 'https://accounts.google.com/ServiceLogin'
