@@ -15,6 +15,8 @@ app.on('ready', () => {
   		width: 1000,
   		height: 650,
   		titleBarStyle: 'hidden',
+      minWidth: 850,
+      minHeight: 450
   	})
 
   window.on('close', (e) => {

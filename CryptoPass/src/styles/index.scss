@@ -760,7 +760,7 @@ body {
   input {
     display: block;
     width: 55%;
-    margin: 15px auto 15px auto;
+    margin: 0 auto 15px auto;
   }
   select {
     display: inline-block;
@@ -784,16 +784,22 @@ body {
   }
 }
 
-.add-form input:first-child {
-  margin-top: 41px;
+.add-form form:first-child {
+  margin-top: 41px
 }
+
+
+.update-form form:first-child {
+  margin-top: 41px
+}
+
 
 .update-form {
   margin-left: 30px;
   input {
     display: block;
     width: 55%;
-    margin: 15px auto 15px auto;
+    margin: 0px auto 15px auto;
   }
   select {
     display: block;
@@ -812,10 +818,6 @@ body {
     border-right: none;
     border-left: none;
   }
-}
-
-.update-form input:first-child {
-  margin-top: 41px;
 }
 
 .banner {
