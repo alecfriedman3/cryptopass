@@ -96,7 +96,16 @@ app.controller('addLoginController', function($scope, $state, $stateParams, $roo
 
 	$scope.generate = function (){
 		$scope.gen = !$scope.gen
+    if ($scope.gen){
+      $scope.type = 'text'
+    }
 	}
+
+    $scope.type = 'password'
+  $scope.reveal = function (){
+    if ($scope.type == 'password') $scope.type = 'text';
+    else $scope.type = 'password'
+  }
 
 	$scope.generatePassword = function (len, syms, nums){
     if (+syms + +nums > +len){
