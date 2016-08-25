@@ -101,7 +101,7 @@ app.controller('settingsController', function($scope, $cordovaOauth, $cordovaTou
 
   function iOSTouchId(){
     $cordovaTouchID.checkSupport().then(function() {
-      $cordovaTouchID.authenticate("text").then(function() {
+      $cordovaTouchID.authenticate("Enable Backups").then(function() {
         window.localStorage.setItem('touchIdBackup', 'true');
         $scope.touchIdBackup = true;
         console.log('about to get to utils');
