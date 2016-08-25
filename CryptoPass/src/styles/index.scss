@@ -305,6 +305,8 @@ sidebar{
 	width: 360px;
 }
 .sidebar{
+  -webkit-app-region: drag;
+  overflow-x: hidden;
 	height: 100%;
 	width: 100%;
 	box-shadow: 7px 0px 24px -8px rgba(0,0,0,0.75);
@@ -794,6 +796,7 @@ body {
 }
 
 .banner {
+  -webkit-app-region: drag;
   margin: -15px -15px 10px;
   height: 67px;
   padding-top: 10px;
