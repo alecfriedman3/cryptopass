@@ -3,190 +3,46 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
     <title></title>
 
-    
-    
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/ionic.app.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/ionic.app.min.css" rel="stylesheet">
 
-    <!-- cordova script (this will be a 404 during development) -->
-    <script src="cordova.js"></script>
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
 
-<!--     
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet"> -->
-    
-    <link href="css/ionic.app.css" rel="stylesheet">
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/sha1.js"></script>
+    <script src="lib/ngstorage/ngStorage.min.js"></script>
+    <script src="plugins/cordova-plugin-touchid/touchid.js"></script>
+    <script src="lib/ng-cordova/dist/ng-cordova.min.js"></script>
+    <script src="plugins/cordova-plugin-android-fingerprint-auth/www/FingerprintAuth.js"></script>
+    <script type="text/javascript" src="lib/angular-ui-slider/src/slider.js"></script>
+    <script src="lib/ng-cordova-oauth/dist/ng-cordova-oauth.min.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
 
 
-    <style type="text/css">
-      .platform-ios .manual-ios-statusbar-padding{
-        padding-top:20px;
-      }
-      .manual-remove-top-padding{
-        padding-top:0px; 
-      }
-      .manual-remove-top-padding .scroll{
-        padding-top:0px !important;
-      }
-      ion-list.manual-list-fullwidth div.list, .list.card.manual-card-fullwidth {
-        margin-left:-10px;
-        margin-right:-10px;
-      }
-      ion-list.manual-list-fullwidth div.list > .item, .list.card.manual-card-fullwidth > .item {
-        border-radius:0px;
-        border-left:0px;
-        border-right: 0px;
-      }
-    </style>
-    <script>
-      // var utils = require('./utilities/encrypt.file.js');
-      // var validate = utils.validate;
-      // var decryptFile = utils.decryptFile;
-      // var encryptFile = utils.encryptFile;
-      // var masterObj;
-      // var masterPass;
-    </script>
-    <script src="js/app.js"></script>
-    <script src="js/controllers.js"></script>
-    <script src="js/routes.js"></script>
-    
-     
-    <script src="js/directives.js"></script>
-     
-    <script src="js/services.js"></script>
-   
-    <!-- Only required for Tab projects w/ pages in multiple tabs 
-    <script src="lib/ionicuirouter/ionicUIRouter.js"></script>
-    -->
+    <!-- your app's js -->
+    <script src="build/main.js"></script>
+    <!-- <script src="js/controllers.js"></script> -->
+
 
   </head>
-  <body ng-app="app" animation="slide-left-right-ios7">
-    <script>
-      var dropboxUtilities = require('./utilities/dropbox/dropbox.utilities.js')
-      var fileUtilities = require('./utilities/encrypt.file.js');
-      var utilities = require('./utilities/encrypt.utility.js');
-      var validate = fileUtilities.validate;
-      var decryptFile = fileUtilities.decryptFile;
-      var encryptFile = fileUtilities.encryptFile;
-      var decryptData = utilities.decrypt;
-      var getDataEncrypted = fileUtilities.getDataEncrypted;
-      var generateSecret = fileUtilities.generateSecret;
-      var masterObj= {
-        login: [
-          {
-            name: 'Facebook',
-            secondaryProp: function(){return this.username},
-            username: 'elliottmcnary@gmail.com',
-            password: 'test1234',
-            id: 1
-          },{
-            name: 'Twitter',
-            secondaryProp: function(){return this.username},
-            username: 'elliottmcnary@gmail.com',
-            password: 'twitterPass',
-            id: 2
-          },{
-            name: 'Quora',
-            secondaryProp: function(){return this.username},
-            username: 'elliottmcnary@gmail.com',
-            password: 'testingPass',
-            id: 3
-          },{
-            name: 'Chase',
-            secondaryProp: function(){return this.username},
-            username: 'elliottmcnary@gmail.com',
-            password: '3203242Elliott',
-            id: 4
-          },{
-            name: 'Wells Fargo',
-            secondaryProp: function(){return this.username},
-            username: 'elliottmcnary@gmail.com',
-            password: 'blah5302',
-            id: 5
-          },
-        ],
-        creditCard: [
-          {
-            name: 'Chase Saphire Preferred',
-            secondaryProp: function(){return this.cardNumber},
-            cardNumber: '4444 3839 3020 2010',
-            ccv: '439',
-            expiration: '12/2019',
-            firstName: 'Elliott',
-            lastName: 'McNary',
-            type: 'Visa',
-            id: 1
-          },{
-            name: 'Capital One Venture',
-            secondaryProp: function(){return this.cardNumber},
-            cardNumber: '4444 3239 3020 2010',
-            ccv: '342',
-            expiration: '12/2018',
-            firstName: 'Elliott',
-            lastName: 'McNary',
-            type: 'Visa',
-            id: 2
-          }
-        ],
-        identity: [
-          {
-            name: 'Social Security',
-            secondaryProp: function(){return this.data.slice(0, 12) + '...'},
-            data: 'Number: 548 29 3039',
-            id: 1
-          },{
-            name: 'NSA Access Card',
-            secondaryProp: function(){return this.data.slice(0, 12) + '...'},
-            data: 'Badge Number: 3402349342',
-            id: 2
-          }
-        ],
-        note: [
-          {
-            name: 'Sensitive Note',
-            data: 'Today I did something very bad and I don\'t want people to know about it.',
-            secondaryProp: function(){return this.data.slice(0, 12) + '...'},
-            id: 1
-          },{
-            name: 'Dear Diary - 1/31',
-            data: 'I kissed a girl and I liked it',
-            secondaryProp: function(){return this.data.slice(0, 12) + '...'},
-            id: 2
-          }
-        ]
-      }
-      var masterPass;
-    </script>
-  <div>
-    <ion-side-menus enable-menu-with-back-views="false" data-componentid="side-menu21">
-        <ion-side-menu-content>
-            <ion-nav-bar class="bar-stable">
-                <ion-nav-back-button></ion-nav-back-button>
-                <ion-nav-buttons side="left">
-                    <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
-                </ion-nav-buttons>
-            </ion-nav-bar>
-            <ion-nav-view></ion-nav-view>
-        </ion-side-menu-content>
-        <ion-side-menu side="left" id="side-menu21">
-            <ion-header-bar class="bar-stable">
-                <div class="title">Menu</div>
-            </ion-header-bar>
-            <ion-content padding="false" class="side-menu-left has-header">
-                <div id="menu-button-bar1" class=" button-bar " data-componentid="button-bar1"></div>
-                <a ui-sref="logins" menu-close="" id="menu-button4" class=" button button-calm  button-block " data-componentid="button4">Logins</a>
-                <a ui-sref="creditcards" menu-close="" id="menu-button5" class=" button button-calm  button-block " data-componentid="button5">Creditcards</a>
-                <a ui-sref="identity" menu-close="" id="menu-button6" class=" button button-calm  button-block " data-componentid="button6">Identity</a>
-                <a ui-sref="notes" menu-close="" id="menu-button7" class=" button button-calm  button-block " data-componentid="button7">Notes</a>
-                <a ui-sref="page" menu-close="" id="menu-button8" class=" button button-calm  button-full " data-componentid="button8">Filters</a>
-            </ion-content>
-        </ion-side-menu>
-    </ion-side-menus>
-</div>
 
+  <body ng-app="cryptoPass">
+    <ion-nav-view name="auth"></ion-nav-view>
+    <ion-nav-view></ion-nav-view>
+    <script>
+      var masterObj;
+      var globalMasterPass;
+    </script>
   </body>
 </html>
