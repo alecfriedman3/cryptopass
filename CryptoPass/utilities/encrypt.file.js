@@ -25,7 +25,6 @@ fileWriter.validate = function (masterPw) {
 
 	return settings.get('dropboxPath')
 	.then(val => {
-		console.log(val, 'vallll');
 		if (val){
 			dbPath = val;
 			return fs.readFileAsync(val + '/Apps/CryptoPass/secret2.txt')
@@ -34,19 +33,14 @@ fileWriter.validate = function (masterPw) {
 	.then(en2Secret => {
 		if (!en2Secret) return bool
 		en2Secret = en2Secret.toString()
-		console.log(en2Secret, 'en2Secret');
 		try {
 	    var newCheck = decrypt(en2Secret, masterPw).trim();
-			console.log(newCheck);
 	  } catch (error) {
 	    bool = false;
 	  }
 		bool = newCheck === secret
-		console.log(newCheck, secret, bool);
 		if(bool && dbPath){
-			console.log('hit the if');
 			var data = fs.readFileSync(dbPath + '/Apps/CryptoPass/data.txt').toString()
-			console.log(data);
 			fs.writeFileSync(__dirname + '/data.txt', data)
 			var secret2 = fs.readFileSync(dbPath + '/Apps/CryptoPass/secret2.txt').toString();
 			fs.writeFileSync(__dirname + '/secret2.txt', secret2)
@@ -88,23 +82,18 @@ fileWriter.decryptFile = function (masterPswd) {
 		return Promise.all([JSON.parse(decrypted), settings.get('dropboxPath')])
 	})
 	.spread((decrypted, val) => {
-		console.log(val, 'this is first val');
 		if (val){
-			console.log('inside if val');
 			return Promise.all([decrypted, fs.readdirAsync(val + '/Apps/CryptoPass'), val])
 		}
 		return Promise.all([decrypted])
 	})
 	.spread((decrypted, dir, val) => {
-		console.log(dir, val, 'dir and val');
 		if (dir && dir.indexOf('mobileData.txt') != -1){
-			console.log('inside if with dir', dir);
 			return Promise.all([decrypted, val, fs.readFileAsync(val + '/Apps/CryptoPass/mobileData.txt')])
 		}
 		return Promise.all([decrypted, val])
 	})
 	.spread((decrypted, val, encryptedMobile) => {
-		console.log('in next spread', decrypted, encryptedMobile);
 		if (encryptedMobile){
 			var decryptedMobile = JSON.parse(decrypt(encryptedMobile.toString(), masterPswd))
 			return Promise.all([compareAndUpdate(decryptedMobile, decrypted), val])
