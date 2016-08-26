@@ -42,7 +42,7 @@ app.directive('sidebarItem', function($state, $stateParams){
             })
           }
           var encrypted = encrypt(JSON.stringify(masterObj),masterPass);
-          socket.emit('addFromElectron',{data:encrypted, dropboxPath: path});
+          socket.emit('addFromElectron',{data:encrypted, dropboxPath: path, fsSettingsPath: fsSettingsPath});
 
           if (masterObj[stateParent].filter(obj => !obj.deleted).length){
             if ($stateParams.id == id){

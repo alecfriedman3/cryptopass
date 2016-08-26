@@ -45,7 +45,7 @@ app.controller('singleLoginController', function($scope, $stateParams, Clipboard
     settings.get('dropboxPath')
       .then(val => {
         var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
-        socket.emit('addFromElectron', {data: encrypted, dropboxPath: val})
+        socket.emit('addFromElectron', {data: encrypted, dropboxPath: val, fsSettingsPath: fsSettingsPath})
         $state.reload()
       })
   }
@@ -131,7 +131,7 @@ app.controller('addLoginController', function($scope, $state, $stateParams, $roo
       settings.get('dropboxPath')
       .then(val => {
         var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
-        socket.emit('addFromElectron', {data: encrypted, dropboxPath: val})
+        socket.emit('addFromElectron', {data: encrypted, dropboxPath: val, fsSettingsPath: fsSettingsPath})
         $rootScope.$evalAsync()
         $state.go('login.single', {id: newId}, {reload: true})
       })

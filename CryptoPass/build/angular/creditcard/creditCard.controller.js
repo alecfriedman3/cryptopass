@@ -37,7 +37,7 @@ app.controller('singleCreditCardController', function($scope, $stateParams, Clip
     settings.get('dropboxPath')
       .then(val => {
         var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
-        socket.emit('addFromElectron', {data: encrypted, dropboxPath: val})
+        socket.emit('addFromElectron', {data: encrypted, dropboxPath: val, fsSettingsPath: fsSettingsPath})
         $state.reload()
       })
   }
@@ -78,7 +78,7 @@ app.controller('addCreditCardController', function($scope, $state, $stateParams,
     settings.get('dropboxPath')
     .then(path => {
       var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
-      socket.emit('addFromElectron', { data: encrypted, dropboxPath: path })
+      socket.emit('addFromElectron', { data: encrypted, dropboxPath: path, fsSettingsPath: fsSettingsPath })
       $rootScope.$evalAsync()
       $state.go('creditCard.single', { id: newId }, { reload: true })
     })

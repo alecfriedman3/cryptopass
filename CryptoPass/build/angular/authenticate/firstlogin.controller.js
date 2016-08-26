@@ -67,9 +67,9 @@ app.controller('firstLoginController', function($scope, $state, $rootScope){
   function readAndWriteRecovery (path, arr) {
 
     return fs.readFileAsync(path + '/' + arr[0])
-      .then(filedata => fs.writeFileAsync(__dirname + "/utilities/" + arr[0], filedata))
+      .then(filedata => fs.writeFileAsync(fsSettingsPath + arr[0], filedata))
       .then(() => fs.readFileAsync(path+'/'+arr[1]))
-      .then(filedata => fs.writeFileAsync(__dirname+'/utilities/'+arr[1], filedata));
+      .then(filedata => fs.writeFileAsync(fsSettingsPath + arr[1], filedata));
   }
 
 });

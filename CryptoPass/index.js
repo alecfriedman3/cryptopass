@@ -16,7 +16,8 @@ app.on('ready', () => {
   		height: 650,
   		titleBarStyle: 'hidden',
       minWidth: 850,
-      minHeight: 450
+      minHeight: 450,
+      icon: './icons/cryptoIcon_256x256.png'
   	})
 
   window.on('close', (e) => {
@@ -59,4 +60,3 @@ child.stdout.on('data', function (data){
 app.on('before-quit', () => {
 		child.kill('SIGTERM')
 });
-
