@@ -1,11 +1,9 @@
 'use strict';
-
 const electron = require('electron');
 const app = electron.app;
+const io = require('./chrome-server/chrome.extension.server.js');
 const encryptFile = require('./utilities/encrypt.file.js').encryptFile;
-
 var indexFile = `${__dirname}/index.html`;
-
 let willQuitApp = false;
 let window;
 var idleTime=0;
@@ -42,21 +40,6 @@ app.on('activate', () => window.show());
 /* 'before-quit' is emitted when Electron receives
  * the signal to exit and wants to start closing windows */
 app.on('before-quit', () => {
-  child.kill('SIGTERM')
+  io.emit('quit')
   willQuitApp = true
-});
-
-
-var chalk = require('chalk')
-const exec = require('child_process').exec;
-
-var child = exec('node chrome-server/chrome.extension.server.js');
-
-child.stdout.on('data', function (data){
-	if (typeof data === 'string') console.log(chalk.cyan(data));
-	else console.log(chalk.cyan('server data'), data)
-})
-
-app.on('before-quit', () => {
-		child.kill('SIGTERM')
 });

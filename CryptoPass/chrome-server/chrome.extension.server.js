@@ -15,7 +15,7 @@ var server = http.createServer(app)
 
 app.get('/secret', function (req, res, next){
 		console.log('requested secret')
-  	Promise.all([fs.readFileAsync(fsSettingsPath + '/../utilities/secret2.txt'), fs.readFileAsync(fsSettingsPath + '/../utilities/secret1.txt')])
+  	Promise.all([fs.readFileAsync(fsSettingsPath + '/secret2.txt'), fs.readFileAsync(__dirname + '/../utilities/secret1.txt')])
   	.spread((enSecretData, secretData) => {
   		res.send({data: enSecretData.toString(), check: secretData.toString()})
   	}).catch(console.error.bind(console))
@@ -83,3 +83,4 @@ io.on('connection', function (socket){
 
 server.listen(9999, 'localhost')
 console.log(chalk.cyan('child server connected'))
+module.exports = io
