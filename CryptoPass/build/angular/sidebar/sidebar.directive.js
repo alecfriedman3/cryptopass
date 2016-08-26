@@ -41,9 +41,11 @@ app.directive('sidebarItem', function($state, $stateParams){
               }
             })
           }
+          return Promise.all([encryptFile(masterObj, masterPass), path])
+        })
+        .spread((file, path) => {
           var encrypted = encrypt(JSON.stringify(masterObj),masterPass);
           socket.emit('addFromElectron',{data:encrypted, dropboxPath: path});
-
           if (masterObj[stateParent].filter(obj => !obj.deleted).length){
             if ($stateParams.id == id){
               var minIdx = masterObj[stateParent].filter(obj => obj.id != id && !obj.deleted)[0].id

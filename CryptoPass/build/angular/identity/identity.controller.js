@@ -20,12 +20,15 @@ app.controller('singleIdentityController', function($scope, $stateParams, $state
       }
     }
     $scope.identity.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
-    settings.get('dropboxPath')
-      .then(val => {
-        var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
-        socket.emit('addFromElectron', {data: encrypted, dropboxPath: val})
-        $state.reload()
-      })
+    encryptFile(masterObj, masterPass)
+    .then(()=>{
+      return settings.get('dropboxPath')
+    })
+    .then(val => {
+      var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
+      socket.emit('addFromElectron', {data: encrypted, dropboxPath: val})
+      $state.reload()
+    })
   }
 
 })
@@ -43,7 +46,10 @@ app.controller('addIdentityController', function($scope, $state, $stateParams, $
     $scope.identity.createdAt = moment().format('MMMM Do YYYY, h:mm:ss a');
     $scope.identity.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
     if ($scope.identity) masterObj.identity.push($scope.identity)
-    settings.get('dropboxPath')
+    encryptFile(masterObj, masterPass)
+    .then(()=>{
+      return settings.get('dropboxPath')
+    })
     .then(path => {
       var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
       socket.emit('addFromElectron', { data: encrypted, dropboxPath: path })
