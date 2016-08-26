@@ -15,7 +15,7 @@ let crypto = require('crypto');
 let fs = require('fs');
 var settings = require('electron-settings');
 var rimraf = require('rimraf');
-
+var fsSettingsPath = settings.getSettingsFilePath().slice(0, -9);
 
 describe('Encrypting and Decrypting Files', function (){
 
@@ -25,19 +25,28 @@ describe('Encrypting and Decrypting Files', function (){
       masterPassword = 'helloMyNameIsCrypto';
       falseMaster = "hello__?MyNameIsCrykslkfj9432to";
       secret = fs.readFileSync(__dirname + '/../secret1.txt').toString()
-      fs.writeFileSync(__dirname + '/../secret2.txt', encrypt(secret, masterPassword));
+      fs.writeFileSync(fsSettingsPath + '/secret2.txt', encrypt(secret, masterPassword));
     })
 
     afterEach('delete encrypted secret', function (){
-    	fs.unlinkSync(__dirname + '/../secret2.txt')
+    	fs.unlinkSync(fsSettingsPath + '/secret2.txt')
     })
 
-    it('should validate the master password', function (){
-      expect(validate(masterPassword)).to.be.equal(true);
+    it('should validate the master password', function (done){
+      validate(masterPassword)
+      .then(bool => {
+        expect(bool).to.be.equal(true)
+        done()
+      }).catch(done)
     })
 
-    it('should reject invalid master password', function (){
-      expect(validate(falseMaster)).to.be.equal(false);
+    it('should reject invalid master password', function (done){
+      validate(falseMaster)
+      .then(bool => {
+        expect(bool).to.be.equal(false);
+        done();
+      }).catch(done)
+
     })
 
   })
@@ -56,9 +65,9 @@ describe('Encrypting and Decrypting Files', function (){
   		fileName = 'data.txt';
   		masterPswd = "helloMyNameIsDoge"
       secret = fs.readFileSync(__dirname + '/../secret1.txt').toString()
-      fs.writeFileSync(__dirname + '/../secret2.txt', encrypt(secret, masterPswd));
-      fs.mkdirSync(__dirname + '/Apps');
-      settings.set('dropboxPath', __dirname)
+      fs.writeFileSync(fsSettingsPath + '/secret2.txt', encrypt(secret, masterPswd));
+      fs.mkdirSync(fsSettingsPath + '/Apps');
+      settings.set('dropboxPath', fsSettingsPath)
       .then(() => {
         return settings.get('dropboxPath');
       })
@@ -69,27 +78,27 @@ describe('Encrypting and Decrypting Files', function (){
     })
 
     afterEach('delete encrypted secret', function (done){
-      fs.unlinkSync(__dirname + '/../secret2.txt')
-  		fs.unlinkSync(__dirname + '/../' + fileName)
-      rimraf(__dirname + '/Apps', function(err, data){
+      fs.unlinkSync(fsSettingsPath + '/secret2.txt')
+  		fs.unlinkSync(fsSettingsPath + '/' + fileName)
+      rimraf(fsSettingsPath + '/Apps', function(err, data){
         done();
       });
   		secret = fs.readFileSync(__dirname + '/../secret1.txt').toString()
-      fs.writeFileSync(__dirname + '/../secret2.txt', encrypt(secret, masterPswd));
+      fs.writeFileSync(fsSettingsPath + '/secret2.txt', encrypt(secret, masterPswd));
     })
 
 
   	it('should write to the filesystem', function (done){
   		encryptFile(data, masterPswd)
   		.then(function (){
-  			expect(fs.readFileSync(__dirname + '/../' + fileName)).to.be.ok
+  			expect(fs.readFileSync(fsSettingsPath + '/' + fileName)).to.be.ok
   			done()
   		}).catch(done)
   	})
     it('should write the information into a separate dropbox folder', function(done){
       encryptFile(data, masterPswd)
       .then(function(){
-        let data = fs.readFileSync(__dirname + '/Apps/CryptoPass/' + fileName);
+        let data = fs.readFileSync(fsSettingsPath + '/Apps/CryptoPass/' + fileName);
         expect(data).to.be.ok
         done()
       }).catch(done)
@@ -98,7 +107,7 @@ describe('Encrypting and Decrypting Files', function (){
   	it('should encrypt the information', function (done){
   		encryptFile(data, masterPswd)
   		.then(function (){
-	  		var enData = fs.readFileSync(__dirname + '/../' + fileName).toString()
+	  		var enData = fs.readFileSync(fsSettingsPath + '/' + fileName).toString()
 	  		var decrypted = decrypt(enData, masterPswd);
 	  		var newData = JSON.parse(decrypted);
 	  		expect(newData).to.deep.equal(data)
@@ -108,10 +117,10 @@ describe('Encrypting and Decrypting Files', function (){
     it('should encrypt and decrypt the information in separate dropbox folder', function(done){
       encryptFile(data, masterPswd)
       .then(function(){
-        let enData = fs.readFileSync(__dirname + '/Apps/CryptoPass/' + fileName).toString();
+        let enData = fs.readFileSync(fsSettingsPath + '/Apps/CryptoPass/' + fileName).toString();
         let decrypted = decrypt(enData, masterPswd);
         decrypted = JSON.parse(decrypted);
-        expect(enData).to.equal(fs.readFileSync(__dirname + '/../' + fileName).toString())
+        expect(enData).to.equal(fs.readFileSync(fsSettingsPath + '/' + fileName).toString())
         expect(decrypted).to.deep.equal(data)
         done()
       }).catch(done)
@@ -132,7 +141,7 @@ describe('Encrypting and Decrypting Files', function (){
   		encryptFile(data, masterPswd)
   		.then(getDataEncrypted)
   		.then(function (retreivedData){
-  			expect(retreivedData).to.be.equal(fs.readFileSync(__dirname + '/../' + fileName).toString())
+  			expect(retreivedData).to.be.equal(fs.readFileSync(fsSettingsPath + '/' + fileName).toString())
   			done()
   		}).catch(done)
   	})
@@ -144,18 +153,18 @@ describe('Encrypting and Decrypting Files', function (){
     var masterPassword = "WhateverWeWant"
 
     afterEach('delete encrypted secret', function () {
-      fs.unlinkSync(__dirname + '/../secret2.txt');
+      fs.unlinkSync(fsSettingsPath + '/secret2.txt');
     })
 
     it('should write to the filesystem', function () {
       generateSecret(masterPassword);
-      expect(fs.readFileSync(__dirname+'/../secret2.txt')).to.be.ok;
+      expect(fs.readFileSync(fsSettingsPath+'/secret2.txt')).to.be.ok;
     })
 
     it('should encrypt the secret', function () {
       generateSecret(masterPassword);
-      var encrypted = fs.readFileSync(__dirname + "/../secret2.txt").toString();
-      expect(decrypt(encrypted, masterPassword)).to.be.equal(fs.readFileSync(__dirname+'/../secret1.txt').toString());
+      var encrypted = fs.readFileSync(fsSettingsPath + "/secret2.txt").toString();
+      expect(decrypt(encrypted, masterPassword)).to.be.equal(fs.readFileSync(__dirname + '/../secret1.txt').toString());
     })
 
   })
