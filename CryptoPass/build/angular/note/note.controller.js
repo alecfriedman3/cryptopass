@@ -20,12 +20,15 @@ app.controller('singleNoteController', function($scope, $stateParams, $state){
       }
     }
     $scope.note.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
-    settings.get('dropboxPath')
-      .then(val => {
-        var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
-        socket.emit('addFromElectron', {data: encrypted, dropboxPath: val, fsSettingsPath: fsSettingsPath})
-        $state.reload()
-      })
+    encryptFile(masterObj, masterPass)
+    .then(()=>{
+      return settings.get('dropboxPath')
+    })
+    .then(val => {
+      var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
+      socket.emit('addFromElectron', {data: encrypted, dropboxPath: val, fsSettingsPath: fsSettingsPath})
+      $state.reload()
+    })
   }
 
 })
@@ -43,7 +46,11 @@ app.controller('addNoteController', function($scope, $state, $stateParams, $root
     $scope.note.createdAt = moment().format('MMMM Do YYYY, h:mm:ss a');
     $scope.note.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
     if ($scope.note) masterObj.note.push($scope.note)
-    settings.get('dropboxPath')
+
+    encryptFile(masterObj, masterPass)
+    .then(()=>{
+      return settings.get('dropboxPath')
+    })
     .then(path => {
       var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
       socket.emit('addFromElectron', { data: encrypted, dropboxPath: path, fsSettingsPath: fsSettingsPath })

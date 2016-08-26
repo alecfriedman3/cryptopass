@@ -42,12 +42,16 @@ app.controller('singleLoginController', function($scope, $stateParams, Clipboard
         account.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
   		}
   	})
-    settings.get('dropboxPath')
-      .then(val => {
-        var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
-        socket.emit('addFromElectron', {data: encrypted, dropboxPath: val, fsSettingsPath: fsSettingsPath})
-        $state.reload()
-      })
+
+    encryptFile(masterObj, masterPass)
+    .then(()=>{
+      return settings.get('dropboxPath')
+    })
+    .then(val => {
+      var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
+      socket.emit('addFromElectron', {data: encrypted, dropboxPath: val, fsSettingsPath: fsSettingsPath})
+      $state.reload()
+    })
   }
 
   $scope.generatePassword = function (len, syms, nums){
@@ -128,7 +132,11 @@ app.controller('addLoginController', function($scope, $state, $stateParams, $roo
   		$scope.login.id = newId
       if ($scope.login.website && $scope.login.website.search(/http/) == -1) $scope.login.website = 'http://'+$scope.login.website
   		masterObj.login.push($scope.login)
-      settings.get('dropboxPath')
+
+      encryptFile(masterObj, masterPass)
+      .then(()=>{
+        return settings.get('dropboxPath')
+      })
       .then(val => {
         var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
         socket.emit('addFromElectron', {data: encrypted, dropboxPath: val, fsSettingsPath: fsSettingsPath})

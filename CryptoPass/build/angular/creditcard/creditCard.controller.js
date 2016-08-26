@@ -34,12 +34,15 @@ app.controller('singleCreditCardController', function($scope, $stateParams, Clip
       $scope.account.type = $scope.updateCard
     }
     $scope.account.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
-    settings.get('dropboxPath')
-      .then(val => {
-        var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
-        socket.emit('addFromElectron', {data: encrypted, dropboxPath: val, fsSettingsPath: fsSettingsPath})
-        $state.reload()
-      })
+    encryptFile(masterObj, masterPass)
+    .then(()=>{
+      return settings.get('dropboxPath')
+    })
+    .then(val => {
+      var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
+      socket.emit('addFromElectron', {data: encrypted, dropboxPath: val, fsSettingsPath: fsSettingsPath})
+      $state.reload()
+    })
   }
 
   $scope.copyText = function(text, className){
@@ -75,7 +78,10 @@ app.controller('addCreditCardController', function($scope, $state, $stateParams,
       return;
     }
     if ($scope.creditCard) masterObj.creditCard.push($scope.creditCard)
-    settings.get('dropboxPath')
+    encryptFile(masterObj, masterPass)
+    .then(()=>{
+      return settings.get('dropboxPath')
+    })
     .then(path => {
       var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
       socket.emit('addFromElectron', { data: encrypted, dropboxPath: path, fsSettingsPath: fsSettingsPath })
