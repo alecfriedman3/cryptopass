@@ -1,5 +1,5 @@
 var EventListener = require('../event.listener')
-var socket = io.connect('http://localhost:9999', { reconnect: true });
+var socket = io.connect('http://localhost:38396', { reconnect: true });
 var angular = require('angular');
 var uiRouter = require('angular-ui-router')
 var app = angular.module('cryptoPass', ['ui.router'])
@@ -65,7 +65,7 @@ app.config(function($stateProvider) {
       templateUrl: 'angular/valid.view.html',
       controller: function($scope, $state, $rootScope) {
         $scope.username = null;
-        $.get('http://localhost:9999/username')
+        $.get('http://localhost:38396/username')
         .then(function (name){
           $scope.username = name;
           $rootScope.$evalAsync()

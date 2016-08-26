@@ -8,12 +8,13 @@ var fs = Promise.promisifyAll(require('fs'));
 var fileWriter = {};
 var settings = require('electron-settings');
 var mkdirp = require('mkdirp-promise')
+var fsSettingsPath = settings.getSettingsFilePath().slice(0, -9)
 module.exports = fileWriter;
 
 
 fileWriter.validate = function (masterPw) {
 	var secret = fs.readFileSync(__dirname + '/secret1.txt').toString().trim();
-	var enSecret = fs.readFileSync(__dirname + '/secret2.txt').toString();
+	var enSecret = fs.readFileSync(fsSettingsPath + '/secret2.txt').toString();
 	var bool;
 	var dbPath;
   try {
@@ -41,9 +42,9 @@ fileWriter.validate = function (masterPw) {
 		bool = newCheck === secret
 		if(bool && dbPath){
 			var data = fs.readFileSync(dbPath + '/Apps/CryptoPass/data.txt').toString()
-			fs.writeFileSync(__dirname + '/data.txt', data)
+			fs.writeFileSync(fsSettingsPath + '/data.txt', data)
 			var secret2 = fs.readFileSync(dbPath + '/Apps/CryptoPass/secret2.txt').toString();
-			fs.writeFileSync(__dirname + '/secret2.txt', secret2)
+			fs.writeFileSync(fsSettingsPath + '/secret2.txt', secret2)
 		}
 	  return bool;
 	})
@@ -52,7 +53,7 @@ fileWriter.validate = function (masterPw) {
 fileWriter.encryptFile = function (data, masterPswd) {
 	// upon exiting application, encrypt data and write to file
 	var encrypted = encrypt(JSON.stringify(data), masterPswd)
-	return fs.writeFileAsync(__dirname + '/data.txt', encrypted)
+	return fs.writeFileAsync(fsSettingsPath + '/data.txt', encrypted)
 	.then(() => {
 		return settings.get('dropboxPath')
 	})
@@ -76,7 +77,7 @@ fileWriter.encryptFile = function (data, masterPswd) {
 fileWriter.decryptFile = function (masterPswd) {
 	// validate password, then decrypt data and return an object that we can use in our application
 	if (!fileWriter.validate(masterPswd)) throw new Error('Incorrect Master Password');
-	return fs.readFileAsync(__dirname + '/data.txt')
+	return fs.readFileAsync(fsSettingsPath + '/data.txt')
 	.then(function (encrypted){
 		var decrypted = decrypt(encrypted.toString(), masterPswd)
 		return Promise.all([JSON.parse(decrypted), settings.get('dropboxPath')])
@@ -103,7 +104,7 @@ fileWriter.decryptFile = function (masterPswd) {
 	.spread((dataToWrite, val) => {
 		if(val){
 			var encryptedDataToWrite = encrypt(JSON.stringify(dataToWrite), masterPswd)
-			return Promise.all([dataToWrite, fs.writeFileAsync(val + '/Apps/CryptoPass/data.txt', encryptedDataToWrite), fs.writeFileAsync(__dirname + '/data.txt', encryptedDataToWrite)])
+			return Promise.all([dataToWrite, fs.writeFileAsync(val + '/Apps/CryptoPass/data.txt', encryptedDataToWrite), fs.writeFileAsync(fsSettingsPath + '/data.txt', encryptedDataToWrite)])
 		}
 		else return Promise.all([dataToWrite])
 	})
@@ -114,12 +115,12 @@ fileWriter.decryptFile = function (masterPswd) {
 fileWriter.generateSecret = function (masterPswd) {
   var secret = fs.readFileSync(__dirname + '/secret1.txt').toString();
   var encrypted = encrypt(secret, masterPswd);
-  fs.writeFileSync(__dirname+"/secret2.txt", encrypted);
-	return fs.readFileSync(__dirname + '/secret2.txt').toString()
+  fs.writeFileSync(fsSettingsPath + "/secret2.txt", encrypted);
+	return fs.readFileSync(fsSettingsPath + '/secret2.txt').toString()
 }
 
 fileWriter.getDataEncrypted = function (){
-	return fs.readFileAsync(__dirname + '/data.txt')
+	return fs.readFileAsync(fsSettingsPath + '/data.txt')
 	.then(function (buffer){
 		return buffer.toString()
 	})

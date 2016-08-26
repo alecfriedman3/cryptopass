@@ -26,7 +26,7 @@ app.controller('singleNoteController', function($scope, $stateParams, $state){
     })
     .then(val => {
       var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
-      socket.emit('addFromElectron', {data: encrypted, dropboxPath: val})
+      socket.emit('addFromElectron', {data: encrypted, dropboxPath: val, fsSettingsPath: fsSettingsPath})
       $state.reload()
     })
   }
@@ -53,7 +53,7 @@ app.controller('addNoteController', function($scope, $state, $stateParams, $root
     })
     .then(path => {
       var encrypted = encrypt(JSON.stringify(masterObj), masterPass)
-      socket.emit('addFromElectron', { data: encrypted, dropboxPath: path })
+      socket.emit('addFromElectron', { data: encrypted, dropboxPath: path, fsSettingsPath: fsSettingsPath })
       $rootScope.$evalAsync()
       $state.go('note.single', { id: newId }, {reload: true})
     })
