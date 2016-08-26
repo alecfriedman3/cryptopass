@@ -81,6 +81,6 @@ io.on('connection', function (socket){
 })
 
 
-server.listen(9999, 'localhost')
+server.listen(38396, 'localhost')
 console.log(chalk.cyan('child server connected'))
 module.exports = io

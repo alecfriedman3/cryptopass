@@ -1,5 +1,5 @@
 var EventListener = require('../event.listener')
-var socket = io('http://localhost:9999', { reconnect: true });
+var socket = io('http://localhost:38396', { reconnect: true });
 socket.on('connect', function() {
   console.log('chrome connected');
 })
@@ -15,7 +15,7 @@ var filterUsername = null;
 
 eventListener.on('authentication', function (req) {
   masterPass = req.master
-  $.get('http://localhost:9999/secret')
+  $.get('http://localhost:38396/secret')
   .then(function (data){
       // try decrypting, if success emit success, otherwise reset master
     var decrypted = decrypt(data.data, masterPass)
