@@ -35,13 +35,14 @@ eventListener.on('autoFill', function(data) {
     if (data.accountName == 'facebook'){
       $('#loginbutton').trigger('click')
     }
-    // $('input[type="submit"]').each(function() {
-    //   $(this).trigger('click')
-    // })
-    if (data.accountName == 'google' || data.accountName == 'gmail' || data.accountName == 'tumblr') {
-      walkTheDomAndSubmit('input', ['login', 'signin', 'log', 'sign', 'submit'])
+    $('input[type="submit"]').each(function() {
+      $(this).trigger('click')
+    })
+    if (data.account.name == 'google' || data.account.name == 'gmail' || data.account.name == 'tumblr') {
+      // walkTheDomAndSubmit('input', ['login', 'signin', 'log', 'sign', 'submit'])
       setTimeout(function() {
         $('input[type="submit"]').each(function() {
+          console.log('second click')
           $(this).trigger('click')
         })
       }, 1000)
