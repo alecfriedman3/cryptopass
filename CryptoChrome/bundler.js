@@ -19,3 +19,13 @@ child2.stdout.on('data', function (data){
 child2.stderr.on('data', function (data){
   console.error(data.toString())
 })
+
+var child3 = exec('browserify content/content.js -o content/utils.js')
+
+child3.stdout.on('data', function (data){
+  console.log(data)
+})
+
+child3.stderr.on('data', function (data){
+  console.error(data.toString())
+})

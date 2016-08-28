@@ -116,6 +116,15 @@ app.config(function($stateProvider) {
             return
           }
           $scope.login.password = $scope.password2 = createRandom(+len, +syms, +nums)
+          chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, {eventName: 'loginRes', logins: [$scope.login]})
+          })
+        }
+
+        $scope.autofill = function (){
+          chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, {eventName: 'loginRes', logins: [$scope.login]})
+          })
         }
 
         $scope.createLogin = function (){
@@ -129,6 +138,9 @@ app.config(function($stateProvider) {
             $scope.login.id = newId
             if ($scope.login.website && $scope.login.website.search(/http/) == -1) $scope.login.website = 'http://'+$scope.login.website
             chrome.extension.sendMessage({eventName: 'newLogin', login: $scope.login})
+            chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+              chrome.tabs.sendMessage(tabs[0].id, {eventName: 'autoFill', category: 'logins'})
+            })
             $state.go('valid')
           }
         }
