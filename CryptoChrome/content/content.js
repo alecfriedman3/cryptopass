@@ -32,7 +32,7 @@ eventListener.on('loginRes', function(data) {
 eventListener.on('autoFill', function(data) {
   if (data.category == 'logins') {
     eventListener.emit('loginRes', {logins: [data.account]})
-    if (data.accountName == 'facebook'){
+    if (data.account.name == 'facebook'){
       $('#loginbutton').trigger('click')
     }
     $('input[type="submit"]').each(function() {
