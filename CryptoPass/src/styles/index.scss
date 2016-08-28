@@ -85,6 +85,7 @@ input[type="range"]{
 }
 
 .auth-screen{
+  -webkit-app-region: drag;
   margin-top: 30px
 }
 
@@ -309,7 +310,7 @@ sidebar{
 	width: 360px;
 }
 .sidebar{
-  -webkit-app-region: drag;
+  /*-webkit-app-region: drag;*/
   overflow-x: hidden;
 	height: 100%;
 	width: 100%;
