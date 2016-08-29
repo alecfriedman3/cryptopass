@@ -101,13 +101,15 @@ eventListener.on('backgroundToFill', function (data){
       autoUrl = 'https://twitter.com/login'
     } else if (data.name.toLowerCase().trim() == 'tumblr'){
       autoUrl = 'https://www.tumblr.com/login'
+    } else if (data.name.toLowerCase().trim() == 'github'){
+      autoUrl = 'https://github.com/login'
     }
     filterUsername = data.username
     chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
         chrome.tabs.update(tabs[0].id, {url: autoUrl})
         eventListener.on('tabReady', function (incoming){
           chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-            chrome.tabs.sendMessage(tabs[0].id, {eventName: 'autoFill', accountName: toLogIn.name.toLowerCase(), category: data.category})
+            chrome.tabs.sendMessage(tabs[0].id, {eventName: 'autoFill', account: toLogIn, category: data.category})
           })
           filterUsername = null
           eventListener.clear('tabReady')

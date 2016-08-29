@@ -1,8 +1,8 @@
 <form ng-submit="createLogin()">
     <div class="inner-single">
         <input ng-model="login.name" placeholder="Website name (e.g Facebook, Gmail)" class="">
-        <input ng-model="login.username" placeholder="Username" class="">
-        <input ng-model="login.password" placeholder="Password">
+        <input ng-change="autofill()" ng-model="login.username" placeholder="Username" class="">
+        <input ng-change="autofill()" ng-model="login.password" placeholder="Password">
         <input ng-model="password2" placeholder="Confirm Password" class="">
         <input ng-model="login.website" placeholder="Website" class="">
         <span class="parentCategories" style="margin-top: 10px" ng-click="createLogin()" type="submit">Submit</span>

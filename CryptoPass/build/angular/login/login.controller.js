@@ -123,7 +123,7 @@ app.controller('addLoginController', function($scope, $state, $stateParams, $roo
 	}
 
 	$scope.createLogin = function (){
-    if ($scope.login.password !== $scope.login.password2) {
+    if ($scope.login.password !== $scope.password2) {
       alert("Passwords do not match!");
     } else {
       var newId = idGenerator($scope.login)
