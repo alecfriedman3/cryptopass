@@ -25,8 +25,8 @@ if ($email.length || $password.length) {
 
 eventListener.on('loginRes', function(data) {
   var accToFill = data.logins[0];
-  fillTheDOM($('input'), ['password', 'pswd', 'pass', 'pwd', 'pw'], accToFill.password)
-  fillTheDOM($('input'), ['username', 'name', 'email', 'user', 'em'], accToFill.username)
+  fillTheDOM($('input:not(input[type="submit"])'), ['username', 'name', 'email', 'user', 'em', 'log', 'sign'/*, 'in'*/], accToFill.username)
+  fillTheDOM($('input:not(input[type="submit"])'), ['password', 'pswd', 'pass', 'pwd', 'pw'], accToFill.password)
 })
 
 eventListener.on('autoFill', function(data) {
@@ -35,9 +35,16 @@ eventListener.on('autoFill', function(data) {
     if (data.account.name == 'facebook'){
       $('#loginbutton').trigger('click')
     }
-    $('input[type="submit"]').each(function() {
-      $(this).trigger('click')
-    })
+    else {
+      $('input[type="submit"]').each(function() {
+        $(this).trigger('click')
+      })
+      $('button[type="submit"]').each(function() {
+        $(this).trigger('click')
+      })
+      // walkTheDomAndSubmit('input', ['login', 'signin', 'log', 'sign', 'submit'])
+      // walkTheDomAndSubmit('button', ['login', 'signin', 'log', 'sign', 'submit'])
+    }
     if (data.account.name == 'google' || data.account.name == 'gmail' || data.account.name == 'tumblr') {
       // walkTheDomAndSubmit('input', ['login', 'signin', 'log', 'sign', 'submit'])
       setTimeout(function() {
@@ -46,17 +53,14 @@ eventListener.on('autoFill', function(data) {
           $(this).trigger('click')
         })
       }, 1000)
-    } else {
-      walkTheDomAndSubmit('input', ['login', 'signin', 'log', 'sign', 'submit'])
-      walkTheDomAndSubmit('button', ['login', 'signin', 'log', 'sign', 'submit'])
     }
   } else if (data.category == 'credit cards'){
-    fillTheDOM($('input'), ['credit', 'card'], data.cardToFill.cardNumber)
-    fillTheDOM($('input'), ['ccv', 'security', 'cvv'], data.cardToFill.ccv)
-    fillTheDOM($('input'), ['name', 'hold'], data.cardToFill.firstName + ' ' + data.cardToFill.lastName)
-    fillTheDOM($('input'), ['exp', 'expiration', 'year', 'yea'], data.cardToFill.expiration.split('/')[1])
-    fillTheDOM($('input'), ['exp', 'expiration', 'month', 'mon'], data.cardToFill.expiration.split('/')[0])
-    fillTheDOM($('input'), ['exp', 'expiration', 'date'], data.cardToFill.expiration)
+    fillTheDOM($('input:not(input[type="submit"]'), ['credit', 'card'], data.cardToFill.cardNumber)
+    fillTheDOM($('input:not(input[type="submit"]'), ['ccv', 'security', 'cvv'], data.cardToFill.ccv)
+    fillTheDOM($('input:not(input[type="submit"]'), ['name', 'hold'], data.cardToFill.firstName + ' ' + data.cardToFill.lastName)
+    fillTheDOM($('input:not(input[type="submit"]'), ['exp', 'expiration', 'year', 'yea'], data.cardToFill.expiration.split('/')[1])
+    fillTheDOM($('input:not(input[type="submit"]'), ['exp', 'expiration', 'month', 'mon'], data.cardToFill.expiration.split('/')[0])
+    fillTheDOM($('input:not(input[type="submit"]'), ['exp', 'expiration', 'date'], data.cardToFill.expiration)
 
     var year = data.cardToFill.expiration.split('/')[1]
     if (year.length == 2) year = '20' + year;
@@ -66,20 +70,6 @@ eventListener.on('autoFill', function(data) {
     if (month.length == 1) month = '0' + month;
     console.log(month)
     fillTheDOM($('select'), [ 'month', 'mon'], month)
-    // $('select').each(function (){
-    //   var $this = $(this)[0]
-    //   if (!$this) return
-    //   if (($this.id && $this.id.toLowerCase().match(/exp/) || $this.id.toLowerCase().match(/mon/)) || ($this.className && $this.className.toLowerCase().match(/exp/) || $this.className.toLowerCase().match(/mon/) )){
-    //       var mon = data.cardToFill.expiration.split('/')[0].toString();
-    //       if (mon.length == 1) mon = '0' + mon;
-    //       $(this).val(mon).change()
-    //  }
-    //   if (($this.id && $this.id.toLowerCase().match(/exp/) || $this.id.toLowerCase().match(/yea/) || $this.id.toLowerCase().match(/date/)) || ($this.className && $this.className.toLowerCase().match(/exp/) || $this.className.toLowerCase().match(/yea/) || $this.id.toLowerCase().match(/date/))){
-    //       var yea = data.cardToFill.expiration.split('/')[1].toString()
-    //       if (yea.length == 2) yea = '20' + yea;
-    //       $(this).val(yea).change()
-    //   }
-    // })
   }
 
 })

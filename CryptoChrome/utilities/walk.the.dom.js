@@ -18,7 +18,9 @@ function walkTheDomAndSubmit (category, classes, siteName){
     $(category + '[type="submit"]').each(function (ind, elem){
       var elemName = elem.getAttribute('name') ? elem.getAttribute('name') : ''
       var elemVal = elem.getAttribute('value') ? elem.getAttribute('value') : ''
-      if (($(elem).is('input') || $(elem).is('button')) && elem.id.toLowerCase().split(' ').join('').match(check) || elem.className.toLowerCase().split(' ').join('').match(check) || elemName.match(check) || elemVal.match(check)) $(elem).trigger('click')
+      if (/*($(elem).is('input') || $(elem).is('button')) && */elem.id.toLowerCase().split(' ').join('').match(check) || elem.className.toLowerCase().split(' ').join('').match(check) || elemName.match(check) || elemVal.match(check)){
+        $(elem).trigger('click')
+      }
     })
   })
 }
