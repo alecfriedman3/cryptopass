@@ -46,11 +46,12 @@ app.controller('firstLoginController', function($scope, $state, $rootScope){
           confirmDropboxPath(dropboxPath[0])
             .then(function (resultArr) {
               if (resultArr.length === 2) {
-                readAndWriteRecovery(dropboxPath[0], resultArr)
-                .then(() => $state.go('auth'));
+                return readAndWriteRecovery(dropboxPath[0], resultArr)
               }
               else alert("We can't find CryptoPass in the selected folder. Please try again.")
             })
+            .then(() => $state.go('auth'))
+            .catch(e => console.error(e))
         }
     })
   }
@@ -59,7 +60,7 @@ app.controller('firstLoginController', function($scope, $state, $rootScope){
     return fs.readdirAsync(path)
       .then(function (result) {
         return result.filter(function (filename) {
-          if (filename === 'data.txt' || filename === 'secret2.txt') return filename;
+          if (filename === 'data.txt' || filename === 'secret2.txt' /*|| filename === 'mobileData.txt'*/) return filename;
           });
       })
   }
@@ -67,9 +68,11 @@ app.controller('firstLoginController', function($scope, $state, $rootScope){
   function readAndWriteRecovery (path, arr) {
 
     return fs.readFileAsync(path + '/' + arr[0])
-      .then(filedata => fs.writeFileAsync(fsSettingsPath + arr[0], filedata))
+      .then(filedata => fs.writeFileAsync(fsSettingsPath + '/' + arr[0], filedata.toString()))
       .then(() => fs.readFileAsync(path+'/'+arr[1]))
-      .then(filedata => fs.writeFileAsync(fsSettingsPath + arr[1], filedata));
+      .then(filedata => fs.writeFileAsync(fsSettingsPath + '/' + arr[1], filedata.toString()))
+      .then(() => settings.set('user', true))
+      .then(() => settings.set('dropboxPath', path.slice(0, -16)))
   }
 
 });

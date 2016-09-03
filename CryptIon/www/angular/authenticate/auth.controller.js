@@ -6,7 +6,7 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 	var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
   var compareAndUpdate = require('../angular/utilities/object.compare.js').compareAndUpdate;
   var encryptUtil = require('../angular/utilities/encrypt.utility.js');
-  // window.localStorage.clear()
+  window.localStorage.clear()
 	var token = window.localStorage.getItem('dropboxAuth');
 	var backupEnabled = window.localStorage.getItem('touchIdBackup');
 
@@ -60,7 +60,8 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 		$scope.loading = true;
 		$cordovaOauth.dropbox('pg8nt8sn9h5yidb')
 		.then(function(res){
-			return window.localStorage.setItem('dropboxAuth', res.access_token)
+			window.localStorage.setItem('dropboxAuth', res.access_token)
+      return dropboxUtils.getAndSetAccessToken(res.access_token)
 		})
 		.then(function(){
 			return getDropboxData(true)
@@ -75,10 +76,14 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 			$scope.$evalAsync()
 		})
     .catch(function (err){
+      console.error(err)
       $scope.error = "We can't find your CryptoPass folder. If this is your first time using CryptoPass on any device, enter a new password. If you have used this app before on your computer, make sure your CryptoPass folder is backed up to your Dropbox account!"
-      $scope.firstLogin = true;
-      $scope.dropboxAuthButton = false;
-      $scope.loading = false;
+      if (err.message == 'Cannot Find CryptoPass'){
+        window.localStorage.setItem('dropboxPath', '/Apps/CryptoPass')
+        $scope.firstLogin = true;
+        $scope.dropboxAuthButton = false;
+        $scope.loading = false;
+      }
       return
     })
 	}
@@ -97,7 +102,9 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
       })
       .then(function (arr){
         var encryptedData = arr[0];
-        accessGranted(encryptedData, encryptedData, master1)
+        globalMasterPass = master1
+        $scope.loading = false;
+        $state.go('app.home')
       })
     } else {
       return alert('Passwords do not match')

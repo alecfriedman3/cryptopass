@@ -1,9 +1,9 @@
 var Dropbox = require('dropbox');
 var dbx = new Dropbox({ clientId: 'pg8nt8sn9h5yidb' });
 module.exports = {
-  getAndSetAccessToken: function(){
-    var token = window.localStorage.getItem('dropboxAuth');
-    dbx.setAccessToken(token)
+  getAndSetAccessToken: function(token){
+    token = token || window.localStorage.getItem('dropboxAuth');
+    return dbx.setAccessToken(token)
   },
   getDropboxFilePath: function(){
     this.getAndSetAccessToken()
@@ -13,6 +13,7 @@ module.exports = {
       console.log('matches', res.matches);
       return res.matches[0];
     })
+    .catch(function (e){ throw new Error('Cannot Find CryptoPass')})
     // .catch(function(err){console.log('w have an error', err)})
   },
   getDataObjectFromDropbox: function(cryptoPath, file){
