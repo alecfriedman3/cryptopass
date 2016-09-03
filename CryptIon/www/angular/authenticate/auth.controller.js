@@ -5,7 +5,8 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 	var utils = require('../angular/utilities/encrypt.utility.js');
 	var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
   var compareAndUpdate = require('../angular/utilities/object.compare.js').compareAndUpdate;
-	// window.localStorage.clear()
+  var encryptUtil = require('../angular/utilities/encrypt.utility.js');
+  // window.localStorage.clear()
 	var token = window.localStorage.getItem('dropboxAuth');
 	var backupEnabled = window.localStorage.getItem('touchIdBackup');
 
@@ -14,6 +15,7 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 	$scope.loading = false;
 	$scope.dropboxAuthButton = false;
 	$scope.justLinked = false;
+  $scope.firstLogin = null;
   token ? null : noDropboxError();
 	// $state.go('app.creditCardAdd')
 
@@ -73,10 +75,43 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 			$scope.$evalAsync()
 		})
     .catch(function (err){
-      $scope.error = "We can't find your CryptoPass folder.  Please make sure it's in your Dropbox Account"
+      $scope.error = "We can't find your CryptoPass folder. If this is your first time using CryptoPass on any device, enter a new password. If you have used this app before on your computer, make sure your CryptoPass folder is backed up to your Dropbox account!"
+      $scope.firstLogin = true;
+      $scope.dropboxAuthButton = false;
+      $scope.loading = false;
+      return
     })
 	}
 
+  $scope.setPassword = function(master1, master2, master3){
+    if (!window.localStorage.getItem('dropboxPath')) window.localStorage.setItem('dropboxPath', '/Apps/CryptoPass');
+
+    $scope.loading = true
+    if(master1.length < 8) return alert('Password must be 8 characters')
+    if(master1 === master2 && master1 === master2 && master2 === master3){
+      updateSecret2(master1)
+      .then(function (successObj){
+        masterObj = {login: [], creditCard: [], identity: [], note: []}
+        var encryptedData = encryptUtil.encrypt(JSON.stringify(masterObj), master1)
+        return Promise.all([encryptedData, dropboxUtils.fileUpload(encryptedData, '/mobileData.txt'), dropboxUtils.fileUpload(encryptedData, '/data.txt')])
+      })
+      .then(function (arr){
+        var encryptedData = arr[0];
+        accessGranted(encryptedData, encryptedData, master1)
+      })
+    } else {
+      return alert('Passwords do not match')
+    }
+  }
+
+  // NEEDS TO GO IN A PASSWORD FACTORY
+  function updateSecret2(newPassword){
+    var secret1 = encryptUtil.secret1;
+    var secret2 = encryptUtil.encrypt(secret1, newPassword);
+    return dropboxUtils.fileUpload(secret2, '/secret2.txt')
+  }
+
+  // EVERYTHING FROM HERE DOWN MUST GO IN A DROPBOX FACTORY
 	function getDropboxData(bool){
 		return dropboxUtils.getDropboxFilePath()
 		.then(function(matches){
@@ -89,17 +124,21 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 				var ownDataFileExist = bool ? dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt') : dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/mobileData.txt')
 				return Promise.all([ownDataFileExist, dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt')])// eslint-disable-line
 			} else{
+        window.localStorage.setItem('dropboxPath', '/Apps/CryptoPass')
+        // window.localStorage.setItem('initializing', 'true')
 				console.log('we hit the else', matches);
-				throw new Error('Can\'t find CryptoPass')
+				// throw new Error('Can\'t find CryptoPass')
+        return Promise.all(['', '', true])
 			}
 		})
 		.then(function(arr){
 			console.log(arr);
+      if (arr[2]) return ''
       window.localStorage.setItem('desktopMasterObj', arr[1])
 			window.localStorage.setItem('masterObj', arr[0])
 			return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/secret2.txt'); // eslint-disable-line
 		})
-		.catch(function(err){console.log(err);})
+		// .catch(function(err){console.log(err);})
 	}
 
 	function noDropboxError(){

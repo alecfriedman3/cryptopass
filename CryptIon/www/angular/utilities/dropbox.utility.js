@@ -13,7 +13,7 @@ module.exports = {
       console.log('matches', res.matches);
       return res.matches[0];
     })
-    .catch(function(err){console.log('w have an error', err)})
+    // .catch(function(err){console.log('w have an error', err)})
   },
   getDataObjectFromDropbox: function(cryptoPath, file){
     this.getAndSetAccessToken()

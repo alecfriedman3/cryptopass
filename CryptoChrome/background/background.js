@@ -41,7 +41,10 @@ eventListener.on('logins', function (data) {
   var possibleLogins = [];
   masterObj.login.forEach(function (account){
     var lowerName = account.name.split(' ').join('').toLowerCase()
-    var accountRe = new RegExp(lowerName)
+    var urlStartRegex = /^https?:\/\/.*\.?[^-\_]/;
+    var urlEndRegex = /(\.com|\.net|\.org)/
+    var lowerNameRe = new RegExp(lowerName)
+    var accountRe = new RegExp(urlStartRegex.source + lowerNameRe.source + urlEndRegex.source)
     if (!account.deleted && data.currentUrl.match(accountRe) || (account.name.toLowerCase() == 'gmail' && data.currentUrl.match(/google/))){
       possibleLogins.push(account)
     }
