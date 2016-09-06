@@ -51,7 +51,8 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
         .catch(function (err){
           console.error(err);
           if (err.message == 'Cannot Find CryptoPass'){
-            window.localStorage.removeItem('dropboxPath')
+            window.localStorage.clear()
+            noDropboxError()
           } else{
             accessDenied()
           }
@@ -158,6 +159,7 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 
 	function noDropboxError(){
 		$scope.error = "Please link your Dropbox Account To Use The Mobile App";
+    $scope.loading = false;
 		$scope.dropboxAuthButton = true;
 		$scope.displayPasswordField = false;
 		$scope.$evalAsync()
