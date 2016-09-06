@@ -48,6 +48,14 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 					var masterCorrect = utils.validate(master)
 					masterCorrect ? accessGranted(desktopEncrytped, mobileDataEncrypted, master) : accessDenied();
         })
+        .catch(function (err){
+          console.error(err);
+          if (err.message == 'Cannot Find CryptoPass'){
+            window.localStorage.removeItem('dropboxPath')
+          } else{
+            accessDenied()
+          }
+        })
 			} else {
 				noDropboxError()
 			}
