@@ -17,7 +17,11 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 	$scope.justLinked = false;
   $scope.firstLogin = null;
   token ? null : noDropboxError();
-	// $state.go('app.creditCardAdd')
+  $scope.bool = null;
+
+  $scope.usedDb = function(){
+    $scope.bool = !$scope.bool;
+  }
 
 
 
@@ -73,7 +77,7 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
       return dropboxUtils.getAndSetAccessToken(res.access_token)
 		})
 		.then(function(){
-			return getDropboxData(true)
+			return getDropboxData($scope.bool)
 		})
 		.then(function(secret2){
 			window.localStorage.setItem('secret2', secret2);
@@ -86,7 +90,7 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 		})
     .catch(function (err){
       console.error(err)
-      $scope.error = "We can't find your CryptoPass folder. If this is your first time using CryptoPass on any device, enter a new password. If you have used this app before on your computer, make sure your CryptoPass folder is backed up to your Dropbox account!"
+      $scope.error = "Oops, we can't find your CryptoPass folder! If this is your first time using CryptoPass on any device, enter a new password. If you have used this app before on your computer, make sure your CryptoPass folder is backed up to your Dropbox account. If this is your first time using the application on your cell phone, make sure to check the checkbox above!"
       if (err.message == 'Cannot Find CryptoPass'){
         window.localStorage.setItem('dropboxPath', '/Apps/CryptoPass')
         $scope.firstLogin = true;

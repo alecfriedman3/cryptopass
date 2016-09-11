@@ -35,7 +35,7 @@ var app = angular.module('cryptoPass', ['ionic', 'ngCordova', 'ngCordovaOauth', 
     $ionicPlatform.on("resume", function() {
      //code for action on resume
       $timeout(function (){
-        if (new Date() - date > 300000){
+        if (new Date() - date > 300000 || !window.localStorage.getItem('dropboxAuth')){
           globalMasterPass = null;
           masterObj = null;
           document.location.href = 'index.html'
