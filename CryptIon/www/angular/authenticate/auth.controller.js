@@ -28,13 +28,14 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 	$scope.checkMaster = function(master){
 
 		$scope.loading = true;
-		if($scope.justLinked){
+		if($scope.justLinked && $scope.bool){
 			var encryptedMasterObj = window.localStorage.getItem('masterObj');
 			console.log(encryptedMasterObj);
 			$scope.error = null;
 			var masterCorrect = utils.validate(master)
 			masterCorrect ? accessGranted(encryptedMasterObj, encryptedMasterObj, master) : accessDenied();
 		} else {
+      token = token || window.localStorage.getItem('dropboxAuth');
 			if(token){
 				var dropboxPathForCrypto;
 				getDropboxData()
@@ -90,12 +91,12 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 		})
     .catch(function (err){
       console.error(err)
+      $scope.loading = false;
       $scope.error = "Oops, we can't find your CryptoPass folder! If this is your first time using CryptoPass on any device, enter a new password. If you have used this app before on your computer, make sure your CryptoPass folder is backed up to your Dropbox account. If this is your first time using the application on your cell phone, make sure to check the checkbox above!"
       if (err.message == 'Cannot Find CryptoPass'){
         window.localStorage.setItem('dropboxPath', '/Apps/CryptoPass')
         $scope.firstLogin = true;
         $scope.dropboxAuthButton = false;
-        $scope.loading = false;
       }
       return
     })
