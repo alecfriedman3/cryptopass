@@ -19,11 +19,30 @@
            <input class="password-auth-input" ng-model="master" type="password">
         </label>
       </form>
+
+      <form  ng-submit="setPassword(master1, master2, master3)" ng-show="firstLogin">
+        <label class="item item-input">
+           <span class="input-label">Set Password</span>
+           <input ng-model="master1" type="password"/>
+        </label>
+        <label class="item item-input">
+           <span class="input-label">Confirm Password</span>
+           <input ng-model="master2" type="password"/>
+        </label>
+        <label class="item item-input">
+           <span class="input-label">Confirm Again</span>
+           <input ng-model="master3" type="password"/>
+        </label>
+        <button type="submit" class="button button-full">Set Master Password</button>
+      </form>
+
       <div class="forgot-password-button-div">
         <button ng-show="showLostPasword" ng-controller="recoverController" ng-click="recoverBackup()" class="button button-full">Help I Forgot My Password!</button>
       </div>
-      <button ng-show="dropboxAuthButton" ng-click="linkDropbox()" class="button button-full button-positive"><span class="icon icon-dropbox"></span>Connect To Dropbox</button>
-
+      <div ng-show="dropboxAuthButton">
+      <button ng-click="linkDropbox()" class="button button-full button-positive"><span class="icon icon-dropbox"></span>Connect To Dropbox</button>
+      <input type="checkbox" ng-click="usedDb()"> <span> Check here if this is your first time using CryptoPass from your phone </span>
+      </div>
       <div ng-show="error">
         {{error}}
       </div>

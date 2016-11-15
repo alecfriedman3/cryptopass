@@ -8,7 +8,7 @@
 var app = angular.module('cryptoPass', ['ionic', 'ngCordova', 'ngCordovaOauth', 'ngStorage', 'ui.slider'])
 
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $state, $location, $rootScope, $timeout) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -21,10 +21,33 @@ var app = angular.module('cryptoPass', ['ionic', 'ngCordova', 'ngCordovaOauth', 
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+
   });
+
+    var date = date || new Date()
+
+    $ionicPlatform.on("pause", function() {
+       //code for action on pause
+       console.log('paused-----------------------------------------------------')
+       date = new Date();
+    }, false);
+
+    $ionicPlatform.on("resume", function() {
+     //code for action on resume
+      $timeout(function (){
+        if (new Date() - date > 300000 || !window.localStorage.getItem('dropboxAuth')){
+          globalMasterPass = null;
+          masterObj = null;
+          document.location.href = 'index.html'
+        }
+      })
+     // }
+    }, false);
 })
 
-.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+.config(function($stateProvider, $urlRouterProvider, $locationProvider, $ionicConfigProvider) {
+  $ionicConfigProvider.views.maxCache(0);
+
   $stateProvider
 
     .state('app', {

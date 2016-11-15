@@ -5,7 +5,8 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 	var utils = require('../angular/utilities/encrypt.utility.js');
 	var dropboxUtils = require('../angular/utilities/dropbox.utility.js');
   var compareAndUpdate = require('../angular/utilities/object.compare.js').compareAndUpdate;
-	// window.localStorage.clear()
+  var encryptUtil = require('../angular/utilities/encrypt.utility.js');
+  // window.localStorage.clear()
 	var token = window.localStorage.getItem('dropboxAuth');
 	var backupEnabled = window.localStorage.getItem('touchIdBackup');
 
@@ -14,21 +15,27 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 	$scope.loading = false;
 	$scope.dropboxAuthButton = false;
 	$scope.justLinked = false;
+  $scope.firstLogin = null;
   token ? null : noDropboxError();
-	// $state.go('app.creditCardAdd')
+  $scope.bool = null;
+
+  $scope.usedDb = function(){
+    $scope.bool = !$scope.bool;
+  }
 
 
 
 	$scope.checkMaster = function(master){
 
 		$scope.loading = true;
-		if($scope.justLinked){
+		if($scope.justLinked && $scope.bool){
 			var encryptedMasterObj = window.localStorage.getItem('masterObj');
 			console.log(encryptedMasterObj);
 			$scope.error = null;
 			var masterCorrect = utils.validate(master)
 			masterCorrect ? accessGranted(encryptedMasterObj, encryptedMasterObj, master) : accessDenied();
 		} else {
+      token = token || window.localStorage.getItem('dropboxAuth');
 			if(token){
 				var dropboxPathForCrypto;
 				getDropboxData()
@@ -46,6 +53,15 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 					var masterCorrect = utils.validate(master)
 					masterCorrect ? accessGranted(desktopEncrytped, mobileDataEncrypted, master) : accessDenied();
         })
+        .catch(function (err){
+          console.error(err);
+          if (err.message == 'Cannot Find CryptoPass'){
+            window.localStorage.clear()
+            noDropboxError()
+          } else{
+            accessDenied()
+          }
+        })
 			} else {
 				noDropboxError()
 			}
@@ -58,10 +74,11 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 		$scope.loading = true;
 		$cordovaOauth.dropbox('pg8nt8sn9h5yidb')
 		.then(function(res){
-			return window.localStorage.setItem('dropboxAuth', res.access_token)
+			window.localStorage.setItem('dropboxAuth', res.access_token)
+      return dropboxUtils.getAndSetAccessToken(res.access_token)
 		})
 		.then(function(){
-			return getDropboxData(true)
+			return getDropboxData($scope.bool)
 		})
 		.then(function(secret2){
 			window.localStorage.setItem('secret2', secret2);
@@ -73,10 +90,49 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 			$scope.$evalAsync()
 		})
     .catch(function (err){
-      $scope.error = "We can't find your CryptoPass folder.  Please make sure it's in your Dropbox Account"
+      console.error(err)
+      $scope.loading = false;
+      $scope.error = "Oops, we can't find your CryptoPass folder! If this is your first time using CryptoPass on any device, enter a new password. If you have used this app before on your computer, make sure your CryptoPass folder is backed up to your Dropbox account. If this is your first time using the application on your cell phone, make sure to check the checkbox above!"
+      if (err.message == 'Cannot Find CryptoPass'){
+        window.localStorage.setItem('dropboxPath', '/Apps/CryptoPass')
+        $scope.firstLogin = true;
+        $scope.dropboxAuthButton = false;
+      }
+      return
     })
 	}
 
+  $scope.setPassword = function(master1, master2, master3){
+    if (!window.localStorage.getItem('dropboxPath')) window.localStorage.setItem('dropboxPath', '/Apps/CryptoPass');
+
+    $scope.loading = true
+    if(master1.length < 8) return alert('Password must be 8 characters')
+    if(master1 === master2 && master1 === master2 && master2 === master3){
+      updateSecret2(master1)
+      .then(function (successObj){
+        masterObj = {login: [], creditCard: [], identity: [], note: []}
+        var encryptedData = encryptUtil.encrypt(JSON.stringify(masterObj), master1)
+        return Promise.all([encryptedData, dropboxUtils.fileUpload(encryptedData, '/mobileData.txt'), dropboxUtils.fileUpload(encryptedData, '/data.txt')])
+      })
+      .then(function (arr){
+        var encryptedData = arr[0];
+        globalMasterPass = master1
+        $scope.loading = false;
+        $state.go('app.home')
+      })
+    } else {
+      return alert('Passwords do not match')
+    }
+  }
+
+  // NEEDS TO GO IN A PASSWORD FACTORY
+  function updateSecret2(newPassword){
+    var secret1 = encryptUtil.secret1;
+    var secret2 = encryptUtil.encrypt(secret1, newPassword);
+    return dropboxUtils.fileUpload(secret2, '/secret2.txt')
+  }
+
+  // EVERYTHING FROM HERE DOWN MUST GO IN A DROPBOX FACTORY
 	function getDropboxData(bool){
 		return dropboxUtils.getDropboxFilePath()
 		.then(function(matches){
@@ -89,21 +145,26 @@ app.controller('authController', function($scope, $state, $cordovaOauth){
 				var ownDataFileExist = bool ? dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt') : dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/mobileData.txt')
 				return Promise.all([ownDataFileExist, dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/data.txt')])// eslint-disable-line
 			} else{
+        window.localStorage.setItem('dropboxPath', '/Apps/CryptoPass')
+        // window.localStorage.setItem('initializing', 'true')
 				console.log('we hit the else', matches);
-				throw new Error('Can\'t find CryptoPass')
+				// throw new Error('Can\'t find CryptoPass')
+        return Promise.all(['', '', true])
 			}
 		})
 		.then(function(arr){
 			console.log(arr);
+      if (arr[2]) return ''
       window.localStorage.setItem('desktopMasterObj', arr[1])
 			window.localStorage.setItem('masterObj', arr[0])
 			return dropboxUtils.getDataObjectFromDropbox(dropboxPathForCrypto, '/secret2.txt'); // eslint-disable-line
 		})
-		.catch(function(err){console.log(err);})
+		// .catch(function(err){console.log(err);})
 	}
 
 	function noDropboxError(){
 		$scope.error = "Please link your Dropbox Account To Use The Mobile App";
+    $scope.loading = false;
 		$scope.dropboxAuthButton = true;
 		$scope.displayPasswordField = false;
 		$scope.$evalAsync()
