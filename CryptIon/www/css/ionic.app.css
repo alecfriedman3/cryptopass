@@ -10075,3 +10075,12 @@ a.button {
   -webkit-transition: all ease 0.8s;
   -moz-transition: all ease 0.8s;
   transition: all ease 0.8s; }
+
+body {
+  /*-webkit-user-select: auto !important;*/
+  -webkit-user-select: text !important;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text; }
+  body .scroll {
+    -webkit-user-select: inherit; }
